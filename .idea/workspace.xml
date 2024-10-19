@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8ae9ab46-3c89-438b-8a11-b56d1823d023" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/IICE.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IICE/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IICE/asgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IICE/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IICE/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/IICE/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authentication/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/css/Login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/css/demo.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/avatars/1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/avatars/2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/avatars/3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/avatars/4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/avatars/5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/avatars/6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/avatars/7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/backgrounds/18.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/11.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/12.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/13.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/17.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/18.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/19.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/20.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/elements/7.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/favicon/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/asana.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/aws.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/behance.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/dribbble.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/facebook.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/github.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/google.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/instagram.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/mailchimp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/slack.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/brands/twitter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/misc/aviato.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/misc/bitbank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/misc/triangle-light.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/misc/zipcar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/payments/american-bank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/payments/citi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/payments/digital-ocean.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/payments/gumroad.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/payments/mastercard-2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/icons/payments/stripes.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/illustrations/404.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/illustrations/auth-basic-mask-light.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/illustrations/misc-mask-light.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/illustrations/misc-under-maintenance.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/illustrations/tree-3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/illustrations/tree.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/illustrations/trophy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/layouts/layout-container-light.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/layouts/layout-fluid-light.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/layouts/layout-without-menu-light.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/img/layouts/layout-without-navbar-light.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/dashboards-analytics.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/extended-ui-perfect-scrollbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/form-basic-inputs.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/main.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/pages-account-settings-account.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/ui-modals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/ui-popover.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/js/ui-toasts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/css/core.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/css/pages/page-account-settings.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/css/pages/page-auth.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/css/pages/page-icons.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/css/pages/page-misc.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/css/theme-default.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/fonts/remixicon/remixicon.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/fonts/remixicon/remixicon.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/fonts/remixicon/remixicon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/fonts/remixicon/remixicon.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/fonts/remixicon/remixicon.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/fonts/remixicon/remixicon.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/js/helpers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/js/menu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/apex-charts/apex-charts.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/apex-charts/apexcharts.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/highlight/highlight-github.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/highlight/highlight.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/highlight/highlight.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/jquery/jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/masonry/masonry.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/node-waves/node-waves.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/node-waves/node-waves.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/assets/vendor/libs/popper/popper.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Admin/Dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Authentication/Login.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2nUPCdsiiLrtq2tx1aMmhfKeihY" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Django Server.IICE.executor": "Run",
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "django.template.preview.state": "SHOW_EDITOR_AND_PREVIEW",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/Pycharm/Django Projects/IICE/static",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Pycharm\Django Projects\IICE\static" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Pycharm\Django Projects\IICE\static\assets\css" />
+      <recent name="D:\Pycharm\Django Projects\IICE\static\Images" />
+      <recent name="D:\Pycharm\Django Projects\IICE\static\assets" />
+      <recent name="D:\Pycharm\Django Projects\IICE\templates\Authentication" />
+      <recent name="D:\Pycharm\Django Projects\IICE\static" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="IICE" type="Python.DjangoServer" factoryName="Django server">
+      <module name="IICE" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="IICE.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="localhost" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-PY-242.22855.92" />
+        <option value="bundled-python-sdk-b068d85d1acf-399fe30bd8c1-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.22855.92" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8ae9ab46-3c89-438b-8a11-b56d1823d023" name="Changes" comment="" />
+      <created>1729024555277</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1729024555277</updated>
+      <workItem from="1729024561818" duration="40884000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
