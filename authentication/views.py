@@ -15,10 +15,11 @@ def Admin_Dashboard(request):
         return redirect('home')
     user_id = request.session.get('user_id')  # Get the logged-in user ID from the session
     user = User.objects.get(id=user_id)  # Fetch the user object
-
+    users = User.objects.all()
     context = {
         'title': 'Admin Dashboard',
-        'user': user,  # Pass the user object to the template
+        'user': user,
+        'users': users,
     }
     return render(request, 'Admin/Dashboard.html',context)
 
