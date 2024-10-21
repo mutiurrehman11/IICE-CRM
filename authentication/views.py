@@ -1,15 +1,49 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth.hashers import check_password
+from django.views.decorators.cache import cache_control
+
 from .models import User
 
-def Admin_Dashboard(request):
+def Logout(request):
+    request.session.flush()  # This clears all session data
 
-    return render(request, 'Admin/Dashboard.html')
+    # Redirect to login page after logout
+    return redirect('home')
+
+def Admin_Dashboard(request):
+    if 'user_id' not in request.session:
+        return redirect('home')
+    user_id = request.session.get('user_id')  # Get the logged-in user ID from the session
+    user = User.objects.get(id=user_id)  # Fetch the user object
+
+    context = {
+        'title': 'Admin Dashboard',
+        'user': user,  # Pass the user object to the template
+    }
+    return render(request, 'Admin/Dashboard.html',context)
+
 def Moderator_Dashboard(request):
-    return render(request, 'Admin/Dashboard.html')
+    if 'user_id' not in request.session:
+        return redirect('home')
+    user_id = request.session.get('user_id')  # Get the logged-in user ID from the session
+    user = User.objects.get(id=user_id)  # Fetch the user object
+
+    context = {
+        'title': 'Admin Dashboard',
+        'user': user,  # Pass the user object to the template
+    }
+    return render(request, 'Admin/Dashboard.html',context)
 def Teacher_Dashboard(request):
-    return render(request, 'Admin/Dashboard.html')
+    if 'user_id' not in request.session:
+        return redirect('home')
+    user_id = request.session.get('user_id')  # Get the logged-in user ID from the session
+    user = User.objects.get(id=user_id)  # Fetch the user object
+
+    context = {
+        'title': 'Admin Dashboard',
+        'user': user,  # Pass the user object to the template
+    }
+    return render(request, 'Admin/Dashboard.html',context)
 
 def Login_Page(request):
     if request.method == 'POST':

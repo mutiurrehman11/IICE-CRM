@@ -20,11 +20,12 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 # App Paths
-from authentication.views import Login_Page, Admin_Dashboard, Moderator_Dashboard, Teacher_Dashboard
+from authentication.views import Login_Page, Logout, Admin_Dashboard, Moderator_Dashboard, Teacher_Dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',Login_Page),
+    path('',Login_Page, name='home'),
+    path('logout/', Logout, name='logout'),
     path('admin-dashboard/', Admin_Dashboard, name='Admin_Dashboard'),
     path('moderator-dashboard/', Moderator_Dashboard, name='Moderator_Dashboard'),
     path('teacher-dashboard/', Teacher_Dashboard, name='Teacher_Dashboard'),
