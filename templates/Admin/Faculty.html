@@ -54,7 +54,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
             </a>
 
@@ -68,7 +68,7 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a href="" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
                 <div data-i18n="Basic">Dashboard</div>
@@ -76,15 +76,14 @@
             </li>
           <ul class="menu-inner py-1">
             <!-- User Pages -->
-            <li class="menu-item">
+            <li class="menu-item open">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="" class="menu-link">
+                <li class="menu-item active">
+                  <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
@@ -178,94 +177,69 @@
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
+            <!-- Content -->
+            
             <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="nav-align-top">
-                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
-                      <li class="nav-item">
-                        <a class="nav-link active"
-                          ><i class="ri-group-line me-1_5"></i>Account</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card mb-6">
-                    <!-- Account -->
-                    <div class="card-body">
-                      <div class="d-flex align-items-start align-items-sm-center gap-6">
-                        <img
-                          src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          alt="{{ user.first_name }} {{ user.last_name }}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
-                      </div>
+            <a class="btn btn-primary" href="{% url 'AddFaculty' %}">
+                <span class="tf-icons ri-add-circle-fill ri-16px me-1_5"></span>Add
+            </a>
+            <br>
+            <br>
+              <div class="row gy-lg-8">             
+
+                <div class="col-12">
+                    <div class="card overflow-hidden">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="text-truncate">User</th>
+                                        <th class="text-truncate">Email</th>
+                                        <th class="text-truncate">Role</th>
+                                        <th class="text-truncate">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'FacultyView' user.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                                <div class="avatar avatar-sm me-4">
+                                                    <img src="{{ user.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 text-truncate">{{ user.first_name }} {{ user.last_name }}</h6>
+                                                    <!-- Uncomment below if needed -->
+                                                    <!-- <small class="text-truncate">@{{ user.email }}</small> -->
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td class="text-truncate">{{ user.email }}</td>
+                                        <td class="text-truncate">
+                                            <div class="d-flex align-items-center">
+                                                {% if user.usertype == 1 %}
+                                                <i class="ri-vip-crown-line ri-22px text-primary me-2"></i>
+                                                <span>Admin</span>
+                                                {% elif user.usertype == 2 %}
+                                                <i class="ri-edit-box-line text-warning ri-22px me-2"></i>
+                                                <span>Moderator</span>
+                                                {% elif user.usertype == 3 %}
+                                                <i class="ri-user-3-line text-success me-2"></i>
+                                                <span>Teacher</span>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                        <td><span class="badge 
+                                            {% if user.status == 'Active' %} bg-label-success 
+                                            {% else %} bg-label-secondary 
+                                            {% endif %} rounded-pill">{{ user.status }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="card-body pt-0">
-                      <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
-                      {% csrf_token %}
-                      <div class="row mt-1 g-5">
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="firstName" name="first_name" value="{{ user.first_name }}" autofocus />
-                            <label for="firstName">First Name</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" name="last_name" id="last_name" value="{{ user.last_name }}" />
-                            <label for="last_name">Last Name</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="email" id="email" name="email" value="{{ user.email }}" />
-                            <label for="email">E-mail</label>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating form-floating-outline">
-                              <input type="text" class="form-control" id="password" name="password" value="{{ user.password }}" />
-                              <label for="password">Password</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-floating form-floating-outline">
-                                <input class="form-control" type="text" id="cnic" name="cnic" value="{{ user.cnic }}" />
-                                <label for="cnic">CNIC</label>
-                            </div>
-                        </div>  
-                        <div class="col-md-6">
-                          <div class="input-group input-group-merge">
-                            <div class="form-floating form-floating-outline">
-                              <input type="text" id="phoneNumber" name="mobile_no" class="form-control" value="{{ user.mobile_no }}" />
-                              <label for="phoneNumber">Phone Number</label>
-                            </div>
-                            <span class="input-group-text">PK (+92)</span>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input type="text" class="form-control" id="address" name="address" value="{{ user.address }}" />
-                            <label for="address">Address</label>
-                          </div>
-                        </div>
-                    
-                        <div class="col-md-6">
-                          <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
-                            <span class="d-none d-sm-block">Upload new photo</span>
-                            <input type="file" id="upload" name="profile_photo" class="account-file-input" hidden accept="image/png, image/jpeg" />
-                          </label>
-                        </div>
-                    
-                        <div class="mt-6">
-                          <button type="submit" class="btn btn-primary me-3">Save changes</button>
-                        </div>
-                      </div>
-                    </form>
-                    </div>
-                    <!-- /Account -->
-                  </div>
                 </div>
               </div>
             </div>

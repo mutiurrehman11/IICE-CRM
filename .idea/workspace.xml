@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ae9ab46-3c89-438b-8a11-b56d1823d023" name="Changes" comment="Profile Page" />
+    <list default="true" id="8ae9ab46-3c89-438b-8a11-b56d1823d023" name="Changes" comment="Profile Page">
+      <change afterPath="$PROJECT_DIR$/Admin/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Admin/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Admin/AddFaculty.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Admin/Faculty.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Admin/FacultyView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IICE/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/IICE/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IICE/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IICE/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/Pictures/Profile/huzaifa_imran_huzaifaimrangmailcom.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/Pictures/Profile/muti_ur-rehman_callmemutiurrehmangmailcom.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Profile.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,62 +39,62 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "mutiurrehman11"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mutiurrehman11&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/mutiurrehman11/IICE-CRM.git",
-    "accountId": "7edbaa18-3c14-4ae4-8535-5b221fc788a4"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/mutiurrehman11/IICE-CRM.git&quot;,
+    &quot;accountId&quot;: &quot;7edbaa18-3c14-4ae4-8535-5b221fc788a4&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2nUPCdsiiLrtq2tx1aMmhfKeihY" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django Server.IICE.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "D:/Pycharm/Django Projects/IICE/media/Pictures/Profile",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django Server.IICE.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Pycharm/Django Projects/IICE/media/Pictures/Profile&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Pycharm\Django Projects\IICE\media\Pictures\Profile" />
       <recent name="D:\Pycharm\Django Projects\IICE\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Pycharm\Django Projects\IICE\Admin" />
       <recent name="D:\Pycharm\Django Projects\IICE\static\Images" />
       <recent name="D:\Pycharm\Django Projects\IICE\static\assets\css" />
       <recent name="D:\Pycharm\Django Projects\IICE\static\assets" />
       <recent name="D:\Pycharm\Django Projects\IICE\templates\Authentication" />
-      <recent name="D:\Pycharm\Django Projects\IICE\static" />
     </key>
   </component>
   <component name="RunManager">
@@ -125,7 +140,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729024555277</updated>
-      <workItem from="1729024561818" duration="62507000" />
+      <workItem from="1729024561818" duration="97594000" />
+      <workItem from="1729836664848" duration="8380000" />
     </task>
     <task id="LOCAL-00001" summary="Profile Page">
       <option name="closed" value="true" />
@@ -143,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729517331432</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Profile Page">
+      <option name="closed" value="true" />
+      <created>1729523016461</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1729523016461</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

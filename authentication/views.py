@@ -1,27 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.decorators.cache import cache_control
 
 from .models import User
-
-def Logout(request):
-    request.session.flush()  # This clears all session data
-
-    # Redirect to login page after logout
-    return redirect('home')
-
-def Admin_Dashboard(request):
-    if 'user_id' not in request.session:
-        return redirect('home')
-    user_id = request.session.get('user_id')  # Get the logged-in user ID from the session
-    user = User.objects.get(id=user_id)  # Fetch the user object
-    users = User.objects.all()
-    context = {
-        'title': 'Admin Dashboard',
-        'user': user,
-        'users': users,
-    }
-    return render(request, 'Admin/Dashboard.html',context)
 
 def Moderator_Dashboard(request):
     if 'user_id' not in request.session:
@@ -30,7 +10,6 @@ def Moderator_Dashboard(request):
     user = User.objects.get(id=user_id)  # Fetch the user object
 
     context = {
-        'title': 'Admin Dashboard',
         'user': user,  # Pass the user object to the template
     }
     return render(request, 'Admin/Dashboard.html',context)
@@ -41,7 +20,6 @@ def Teacher_Dashboard(request):
     user = User.objects.get(id=user_id)  # Fetch the user object
 
     context = {
-        'title': 'Admin Dashboard',
         'user': user,  # Pass the user object to the template
     }
     return render(request, 'Admin/Dashboard.html',context)

@@ -20,15 +20,20 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 # App Paths
-from authentication.views import Login_Page, Logout, Admin_Dashboard, Moderator_Dashboard, Teacher_Dashboard
+from authentication import views
+from Admin import views as adminViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',Login_Page, name='home'),
-    path('logout/', Logout, name='logout'),
-    path('admin-dashboard/', Admin_Dashboard, name='Admin_Dashboard'),
-    path('moderator-dashboard/', Moderator_Dashboard, name='Moderator_Dashboard'),
-    path('teacher-dashboard/', Teacher_Dashboard, name='Teacher_Dashboard'),
+    path('',views.Login_Page, name='home'),
+    path('logout/', adminViews.Logout, name='logout'),
+    path('admin-dashboard/', adminViews.Admin_Dashboard, name='Admin_Dashboard'),
+    path('moderator-dashboard/', views.Moderator_Dashboard, name='Moderator_Dashboard'),
+    path('teacher-dashboard/', views.Teacher_Dashboard, name='Teacher_Dashboard'),
+    path('admin-dashboard/Profile', adminViews.Profile, name='Admin_Profile'),
+    path('admin-dashboard/Faculty', adminViews.Faculty, name='Faculty'),
+    path('Admin-Faculty/<int:userid>/', adminViews.FacultyView, name='FacultyView'),
+    path('Admin-Faculty/Add/', adminViews.AddFaculty, name='AddFaculty'),
 ]
 
 if settings.DEBUG:

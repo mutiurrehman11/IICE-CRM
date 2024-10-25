@@ -2,15 +2,9 @@ import os
 from django.db import models
 from django.utils.text import slugify
 
-
 def profile_photo_path(instance, filename):
-    # Get the file extension (e.g., '.jpg', '.png')
     extension = filename.split('.')[-1]
-
-    # Create a new file name using the user's first and last name, and append the extension
     filename = f"{slugify(instance.first_name)}_{slugify(instance.last_name)}_{slugify(instance.email)}.{extension}"
-
-    # Return the custom path where the image will be stored
     return os.path.join('Pictures/Profile', filename)
 
 
@@ -33,6 +27,12 @@ class User(models.Model):
     profile_photo = models.ImageField(upload_to=profile_photo_path, blank=True, null=True)
     usertype = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES, default=3)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
+    mobile_no = models.CharField(max_length=15, blank=True, null=True)  # New field for mobile number
+    cnic = models.CharField(max_length=15, blank=True, null=True)  # New field for mobile number
+    address = models.TextField(blank=True, null=True)  # New field for address
+    joining_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
