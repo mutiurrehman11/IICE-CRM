@@ -54,7 +54,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="{% url 'home' %}" class="app-brand-link">
+            <a href="" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
             </a>
 
@@ -68,67 +68,48 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-            <li class="menu-item active">
-              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
+            <li class="menu-item">
+              <a href="" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
                 <div data-i18n="Basic">Dashboard</div>
               </a>
             </li>
           <ul class="menu-inner py-1">
             <!-- User Pages -->
-            <li class="menu-item">
+            <li class="menu-item open">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item active">
                   <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{% url 'Students' %}" class="menu-link">
+                  <a href="" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
-                <li  class="menu-item">
-                  <a href="{% url 'ExStudents' %}" class="menu-link">
+                <li class="menu-item">
+                  <a href="" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
                   </a>
                 </li>
-              </ul>
-            </li>
-              <li class="menu-item">
-              <a href="" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-book-fill"></i>
-                <div data-i18n="Dashboards">Sessions</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-                <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{% url 'Sessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Current</div>
+                  <a href="" class="menu-link">
+                    <div data-i18n="CRM">Add Faculty</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Completed</div>
+                  <a href="" class="menu-link">
+                    <div data-i18n="CRM">Add Student</div>
                   </a>
                 </li>
               </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="{% url 'Leads' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-user-fill"></i>
-                <div data-i18n="Dashboards">Leads</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
             </li>
           </ul>
-
         </aside>
         <!-- / Menu -->
 
@@ -197,85 +178,11 @@
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
-
+            
             <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row gy-lg-8">
-
-                <!-- Four Cards -->
-                <div class="col-xl-12">
-                  <div class="row gy-6">
-                    <!-- Total Profit line chart -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header pb-0">
-                          <h4 class="mb-0">$86.4k</h4>
-                        </div>
-                        <div class="card-body">
-                          <div id="totalProfitLineChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Total Revenue</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Total Profit line chart -->
-                
-                    <!-- Total Profit Weekly Project -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                          <div class="avatar">
-                            <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
-                              <i class="ri-pie-chart-2-line ri-24px"></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h6 class="mb-1">Total Profit</h6>
-                          <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">$25.6k</h4>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Total Profit Weekly Project -->
-                
-                    <!-- New Yearly Project -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                          <div class="avatar">
-                            <div class="avatar-initial bg-primary rounded-circle shadow-xs">
-                              <i class="ri-file-word-2-line ri-24px"></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h6 class="mb-1">New Project</h6>
-                          <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">10</h4>
-                          </div>
-                          <small>Sessions</small>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ New Yearly Project -->
-                
-                    <!-- Sessions chart -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header pb-0">
-                          <h4 class="mb-0">2,856</h4>
-                        </div>
-                        <div class="card-body">
-                          <div id="sessionsColumnChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Students</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Sessions chart -->
-                  </div>
-                </div>
-                <!--/ Total Earning -->
-
+            <br>
+            <br>
+              <div class="row gy-lg-8">             
 
                 <div class="col-12">
                     <div class="card overflow-hidden">
@@ -283,45 +190,27 @@
                             <table class="table table-sm">
                                 <thead>
                                     <tr>
-                                        <th class="text-truncate">User</th>
-                                        <th class="text-truncate">Email</th>
-                                        <th class="text-truncate">Role</th>
-                                        <th class="text-truncate">Status</th>
+                                        <th class="text-truncate">Session</th>
+                                        <th class="text-truncate">Students</th>
+                                        <th class="text-truncate">Start Date</th>
+                                        <th class="text-truncate">End Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for user in users %}
+                                    {% for session in sessions %}
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-4">
-                                                    <img src="{{ user.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
-                                                </div>
+                                            <a href="{% url 'SessionView' session.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
                                                 <div>
-                                                    <h6 class="mb-0 text-truncate">{{ user.first_name }} {{ user.last_name }}</h6>
+                                                    <h6 class="mb-0 text-truncate">{{ session.session_name }}</h6>
+                                                    <!-- Uncomment below if needed -->
+                                                    <!-- <small class="text-truncate">@{{ user.email }}</small> -->
                                                 </div>
-                                            </div>
+                                            </a>
                                         </td>
-                                        <td class="text-truncate">{{ user.email }}</td>
-                                        <td class="text-truncate">
-                                            <div class="d-flex align-items-center">
-                                                {% if user.usertype == 1 %}
-                                                <i class="ri-vip-crown-line ri-22px text-primary me-2"></i>
-                                                <span>Admin</span>
-                                                {% elif user.usertype == 2 %}
-                                                <i class="ri-edit-box-line text-warning ri-22px me-2"></i>
-                                                <span>Moderator</span>
-                                                {% elif user.usertype == 3 %}
-                                                <i class="ri-user-3-line text-success me-2"></i>
-                                                <span>Teacher</span>
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                        <td><span class="badge 
-                                            {% if user.status == 'Active' %} bg-label-success 
-                                            {% else %} bg-label-secondary 
-                                            {% endif %} rounded-pill">{{ user.status }}</span>
-                                        </td>
+                                        <td class="text-truncate">5</td>
+                                        <td class="text-truncate">{{ session.start_date }}</td>
+                                        <td class="text-truncate">{{ session.end_date }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -358,7 +247,9 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-<!-- Core JS -->
+    
+
+  <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/static/assets/vendor/libs/popper/popper.js"></script>

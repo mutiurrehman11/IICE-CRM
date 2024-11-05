@@ -2,7 +2,7 @@
 
 <html
   lang="en"
-  class="light-style layout-menu-fixed layout-compact"
+  class="light-style layout-menu-fixed layout-compact">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -23,27 +23,27 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
       rel="stylesheet" />
 
-    <link rel="stylesheet" href="../../static/assets/vendor/fonts/remixicon/remixicon.css" />
+    <link rel="stylesheet" href="/static/assets/vendor/fonts/remixicon/remixicon.css" />
 
     <!-- Menu waves for no-customizer fix -->
-    <link rel="stylesheet" href="../../static/assets/vendor/libs/node-waves/node-waves.css" />
+    <link rel="stylesheet" href="/static/assets/vendor/libs/node-waves/node-waves.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="../../static/assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../../static/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="../../static/assets/css/demo.css" />
+    <link rel="stylesheet" href="/static/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/static/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/static/assets/css/demo.css" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="../../static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-    <link rel="stylesheet" href="../../static/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/static/assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="../../static/assets/vendor/js/helpers.js"></script>
+    <script src="/static/assets/vendor/js/helpers.js"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="../../static/assets/js/config.js"></script>
+    <script src="/static/assets/js/config.js"></script>
   </head>
 
   <body>
@@ -316,7 +316,7 @@
                         <h5 class="card-header">Delete Account</h5>
                         <div class="card-body">
                           <form id="formAccountDeactivation" onsubmit="return false">
-                            <a type="submit" class="btn btn-danger deactivate-account">
+                            <a href="{% url 'DeleteFaculty' userdata.id %}" type="submit" class="btn btn-danger deactivate-account">
                               Delete Account
                             </a>
                           </form>
@@ -353,25 +353,24 @@
     </div>
     <!-- / Layout wrapper -->
     
-
-    <!-- Core JS -->
+<!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="../../static/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../../static/assets/vendor/libs/popper/popper.js"></script>
-    <script src="../../static/assets/vendor/js/bootstrap.js"></script>
-    <script src="../../static/assets/vendor/libs/node-waves/node-waves.js"></script>
-    <script src="../../static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="../../static/assets/vendor/js/menu.js"></script>
+    <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/static/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/static/assets/vendor/js/bootstrap.js"></script>
+    <script src="/static/assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/static/assets/vendor/js/menu.js"></script>
 
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="../../static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="/static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
-    <script src="../../static/assets/js/main.js"></script>
+    <script src="/static/assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="../../static/assets/js/dashboards-analytics.js"></script>
+    <script src="/static/assets/js/dashboards-analytics.js"></script>
   </body>
 </html>

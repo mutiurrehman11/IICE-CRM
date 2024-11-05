@@ -54,7 +54,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="" class="app-brand-link">
+            <a href="index.html" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
             </a>
 
@@ -133,7 +133,8 @@
                     data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                         <!-- Check if the user has a profile photo, if not, show a default image -->
-                        <img src="/static/assets/img/avatars/1.png"
+                        <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
+                             alt="{{ user.first_name }} {{ user.last_name }}" 
                              class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
@@ -180,97 +181,157 @@
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <div class="col-md-12">
+                  <div class="nav-align-top">
+                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
+                      <li class="nav-item">
+                        <a href="{% url 'StudentView' userdata.id %}" class="nav-link active"
+                          ><i class="ri-group-line me-1_5"></i>Student</a
+                        >
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'StudentSession' userdata.id %}" class="nav-link"
+                          ><i class="ri-book-2-line me-1_5"></i>Session</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
                   <div class="card mb-6">
-                    <!-- Account -->
+                    <div class="card-body">
+                      <div class="d-flex align-items-start align-items-sm-center gap-6">
+                        <img
+                          src="{% if userdata.profile_photo %}{{ userdata.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
+                          alt="{{ userdata.student_name }}"
+                          class="d-block w-px-100 h-px-100 rounded"
+                          id="uploadedAvatar" />
+                      <img
+                          src="{% if userdata.cnic_photo %}{{ userdata.cnic_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
+                          alt="{{ userdata.student_name }}"
+                          class="d-block w-px-100 h-px-100 rounded"
+                          id="uploadedAvatar" />
+                      <img
+                          src="{% if userdata.degree_photo %}{{ userdata.degree_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
+                          alt="{{ userdata.student_name }}"
+                          class="d-block w-px-100 h-px-100 rounded"
+                          id="uploadedAvatar" />
+                      </div>
+                    
+                    </div>
                     <div class="card-body pt-0">
-                      <form id="formAddUser" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
+                      <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="row mt-1 g-5">
+                        
                         <div class="row mt-1 g-5">
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="firstName" name="first_name" required />
-                                    <label for="firstName">First Name</label>
+                                    <input class="form-control" type="text" id="student_name" name="student_name" value="{{ userdata.student_name }}" />
+                                    <label for="student_name">Student Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" name="last_name" id="last_name" required />
-                                    <label for="last_name">Last Name</label>
+                                    <input class="form-control" type="text" name="father_name" id="father_name" value="{{ userdata.father_name }}" />
+                                    <label for="father_name">Father Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="email" id="email" name="email" required />
+                                    <input class="form-control" type="email" id="email" name="email" value="{{ userdata.email }}" />
                                     <label for="email">E-mail</label>
+                                    {% if form.email.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.email.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="cnic" name="cnic" required />
+                                    <input class="form-control" type="text" id="cnic" name="cnic" value="{{ userdata.cnic }}" />
                                     <label for="cnic">CNIC</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
+                                    <input class="form-control" type="text" id="mobile_no" name="mobile_no" value="{{ userdata.mobile_no }}" />
                                     <label for="mobile_no">Mobile Number</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="address" name="address" required />
-                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control" id="Temp_address" name="Temp_address" value="{{ userdata.Temp_address }}" />
+                                    <label for="Temp_address"> Temporary Address</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" id="Perm_address" name="Perm_address" value="{{ userdata.Perm_address }}" />
+                                    <label for="Perm_address"> Permanent Address</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-floating form-floating-outline">
-                                <input type="password" class="form-control" id="password" name="password" required />
-                                <label for="password">Password</label>
+                                <input type="text" class="form-control" id="last_degree" name="last_degree" value="{{ userdata.last_degree }}" />
+                                <label for="last_degree">Last Degree</label>
                               </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input type="date" class="form-control" id="joiningDate" name="joining_date" required />
-                                    <label for="joiningDate">Joining Date</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <select class="form-select" id="usertype" name="usertype">
-                                        <option value="1">Admin</option>
-                                        <option value="2">Moderator</option>
-                                        <option value="3" selected>Teacher</option>
-                                    </select>
-                                    <label for="usertype">User Type</label>
+                                    <input type="text" class="form-control" id="last_institution" name="last_institution" value="{{ userdata.last_institution }}" />
+                                    <label for="last_institution">Last Institution</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
                                     <select class="form-select" id="status" name="status">
-                                        <option value="Active" selected>Active</option>
-                                        <option value="Inactive">Inactive</option>
+                                        <option value="Active" {% if userdata.status == "Active" %} selected {% endif %}>Active</option>
+                                        <option value="Inactive" {% if userdata.status == "Inactive" %} selected {% endif %}>Inactive</option>
                                     </select>
                                     <label for="status">Status</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Photo</span>
-                                    <input type="file" id="upload" name="profile_photo" class="account-file-input" hidden accept="image/png, image/jpeg" />
+                                <label for="profile_upload" class="btn btn-sm btn-primary me-3 mb-4">
+                                    <span class="d-none d-sm-block">Upload Profile Photo</span>
+                                    <input type="file" id="profile_upload" name="profile_photo" class="account-file-input" hidden/>
                                 </label>
                             </div>
+                            <div class="col-md-6">
+                                <label for="cnic_upload" class="btn btn-sm btn-primary me-3 mb-4">
+                                    <span class="d-none d-sm-block">Upload CNIC Photo</span>
+                                    <input type="file" id="cnic_upload" name="cnic_photo" class="account-file-input" hidden/>
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="degree_upload" class="btn btn-sm btn-primary me-3 mb-4">
+                                    <span class="d-none d-sm-block">Upload Degree Photo</span>
+                                    <input type="file" id="degree_upload" name="degree_photo" class="account-file-input" hidden/>
+                                </label>
+                            </div>
+
                     
                             <div class="mt-6">
-                                <button type="submit" class="btn btn-primary me-3">Add User</button>
+                                <button type="submit" class="btn btn-primary me-3">Save Changes</button>
                             </div>
                         </div>
                     </form>
 
 
-
                     </div>
                     <!-- /Account -->
                   </div>
+                    <div class="card">
+                        <h5 class="card-header">Delete Session</h5>
+                        <div class="card-body">
+                          <form id="formAccountDeactivation" onsubmit="return false">
+                            <a href="{% url 'DeleteStudent' userdata.id %}" type="submit" class="btn btn-danger deactivate-account">
+                              Delete Student
+                            </a>
+                          </form>
+                        </div>
+                      </div>
                 </div>
               </div>
             </div>
@@ -303,7 +364,7 @@
     <!-- / Layout wrapper -->
     
 
-    <!-- Core JS -->
+<!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/static/assets/vendor/libs/popper/popper.js"></script>
@@ -324,3 +385,4 @@
     <script src="/static/assets/js/dashboards-analytics.js"></script>
   </body>
 </html>
+

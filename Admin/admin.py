@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Sessions,Student,Lead, StudentSession
+
+admin.site.register(Sessions)
+admin.site.register(Student)
+admin.site.register(Lead)
+admin.site.register(StudentSession)

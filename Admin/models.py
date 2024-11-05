@@ -4,8 +4,13 @@ from django.utils.text import slugify
 
 def student_profile_photo_path(instance, filename):
     extension = filename.split('.')[-1]
-    filename = f"{slugify(instance.first_name)}_{slugify(instance.last_name)}_{slugify(instance.email)}.{extension}"
+    filename = f"{slugify(instance.student_name)}_{slugify(instance.email)}.{extension}"
     return os.path.join('Pictures/Student', filename)
+
+def session_photo_path(instance, filename):
+    extension = filename.split('.')[-1]
+    filename = f"{slugify(instance.session_name)}.{extension}"
+    return os.path.join('Pictures/Session', filename)
 
 
 class Student(models.Model):
@@ -13,19 +18,22 @@ class Student(models.Model):
         ('Active', 'Active'),
         ('Inactive', 'Inactive'),
     ]
-    student_name = models.CharField(max_length=50)
-    father_name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
-    cnic = models.CharField(max_length=15)
+    student_name = models.CharField(max_length=50,blank=True, null=True)
+    father_name = models.CharField(max_length=50,blank=True, null=True)
+    email = models.EmailField(unique=True,blank=True, null=True)
+    cnic = models.CharField(max_length=15,blank=True, null=True)
     profile_photo = models.ImageField(upload_to=student_profile_photo_path, blank=True, null=True)
     cnic_photo = models.ImageField(upload_to=student_profile_photo_path, blank=True, null=True)
     degree_photo = models.ImageField(upload_to=student_profile_photo_path, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
     mobile_no = models.CharField(max_length=15, blank=True, null=True)  # New field for mobile number
-    last_degree = models.CharField(max_length=50)
-    last_institution = models.CharField(max_length=50)
-    Temp_address = models.TextField(blank=True, null=True)  # New field for address
-    Perm_address = models.TextField(blank=True, null=True)  # New field for address
+    last_degree = models.CharField(max_length=50,blank=True, null=True)
+    last_institution = models.CharField(max_length=50,blank=True, null=True)
+    Temp_address = models.TextField(blank=True, null=True)
+    Perm_address = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.student_name}"
 
 
 class Sessions(models.Model):
@@ -36,6 +44,41 @@ class Sessions(models.Model):
     session_name = models.CharField(max_length=50)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+    session_photo = models.ImageField(upload_to=session_photo_path, blank=True, null=True)
     registration_fee = models.IntegerField()
     fee = models.IntegerField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
+
+    def __str__(self):
+        return f"{self.session_name}"
+
+
+class StudentSession(models.Model):
+    STATUS_CHOICES = [
+        ('Active', 'Active'),
+        ('Inactive', 'Inactive'),
+    ]
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_sessions')
+    session = models.ForeignKey(Sessions, on_delete=models.CASCADE, related_name='session_students')
+    registration_date = models.DateField(null=True, blank=True)
+    registration_fee = models.IntegerField(null=True, blank=True)
+    fee = models.IntegerField(null=True, blank=True)
+    registration_fee_paid = models.IntegerField(null=True, blank=True)
+    fee_paid = models.IntegerField(null=True, blank=True)
+    due_date = models.DateField(null=True, blank=True)
+    fee_full = models.IntegerField(null=True, blank=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
+    notes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.student} - {self.session}"
+
+
+class Lead(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField(unique=True, blank=True, null=True)
+    mobile_no = models.CharField(max_length=15, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name}"

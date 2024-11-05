@@ -54,7 +54,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="{% url 'home' %}" class="app-brand-link">
+            <a href="" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
             </a>
 
@@ -69,7 +69,7 @@
               <span class="menu-header-text">Main DashBoard</span>
             </li>
             <li class="menu-item active">
-              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
+              <a href="" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
                 <div data-i18n="Basic">Dashboard</div>
               </a>
@@ -84,51 +84,33 @@
               </a>
                 <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{% url 'Faculty' %}" class="menu-link">
+                  <a href="" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{% url 'Students' %}" class="menu-link">
+                  <a href="" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
-                <li  class="menu-item">
-                  <a href="{% url 'ExStudents' %}" class="menu-link">
+                <li class="menu-item">
+                  <a href="" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
                   </a>
                 </li>
-              </ul>
-            </li>
-              <li class="menu-item">
-              <a href="" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-book-fill"></i>
-                <div data-i18n="Dashboards">Sessions</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-                <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{% url 'Sessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Current</div>
+                  <a href="" class="menu-link">
+                    <div data-i18n="CRM">Add Faculty</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Completed</div>
+                  <a href="" class="menu-link">
+                    <div data-i18n="CRM">Add Student</div>
                   </a>
                 </li>
               </ul>
-            </li>
-
-            <li class="menu-item">
-              <a href="{% url 'Leads' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-user-fill"></i>
-                <div data-i18n="Dashboards">Leads</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
             </li>
           </ul>
-
         </aside>
         <!-- / Menu -->
 
@@ -196,138 +178,123 @@
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
-            <!-- Content -->
-
             <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row gy-lg-8">
-
-                <!-- Four Cards -->
-                <div class="col-xl-12">
-                  <div class="row gy-6">
-                    <!-- Total Profit line chart -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header pb-0">
-                          <h4 class="mb-0">$86.4k</h4>
-                        </div>
-                        <div class="card-body">
-                          <div id="totalProfitLineChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Total Revenue</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Total Profit line chart -->
-                
-                    <!-- Total Profit Weekly Project -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                          <div class="avatar">
-                            <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
-                              <i class="ri-pie-chart-2-line ri-24px"></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h6 class="mb-1">Total Profit</h6>
-                          <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">$25.6k</h4>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Total Profit Weekly Project -->
-                
-                    <!-- New Yearly Project -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                          <div class="avatar">
-                            <div class="avatar-initial bg-primary rounded-circle shadow-xs">
-                              <i class="ri-file-word-2-line ri-24px"></i>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="card-body">
-                          <h6 class="mb-1">New Project</h6>
-                          <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">10</h4>
-                          </div>
-                          <small>Sessions</small>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ New Yearly Project -->
-                
-                    <!-- Sessions chart -->
-                    <div class="col-lg-3">
-                      <div class="card h-100">
-                        <div class="card-header pb-0">
-                          <h4 class="mb-0">2,856</h4>
-                        </div>
-                        <div class="card-body">
-                          <div id="sessionsColumnChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Students</h6>
-                        </div>
-                      </div>
-                    </div>
-                    <!--/ Sessions chart -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="nav-align-top">
+                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link active"
+                          ><i class="ri-group-line me-1_5"></i>Account</a
+                        >
+                      </li>
+                    </ul>
                   </div>
-                </div>
-                <!--/ Total Earning -->
-
-
-                <div class="col-12">
-                    <div class="card overflow-hidden">
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th class="text-truncate">User</th>
-                                        <th class="text-truncate">Email</th>
-                                        <th class="text-truncate">Role</th>
-                                        <th class="text-truncate">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for user in users %}
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-4">
-                                                    <img src="{{ user.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
-                                                </div>
-                                                <div>
-                                                    <h6 class="mb-0 text-truncate">{{ user.first_name }} {{ user.last_name }}</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-truncate">{{ user.email }}</td>
-                                        <td class="text-truncate">
-                                            <div class="d-flex align-items-center">
-                                                {% if user.usertype == 1 %}
-                                                <i class="ri-vip-crown-line ri-22px text-primary me-2"></i>
-                                                <span>Admin</span>
-                                                {% elif user.usertype == 2 %}
-                                                <i class="ri-edit-box-line text-warning ri-22px me-2"></i>
-                                                <span>Moderator</span>
-                                                {% elif user.usertype == 3 %}
-                                                <i class="ri-user-3-line text-success me-2"></i>
-                                                <span>Teacher</span>
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                        <td><span class="badge 
-                                            {% if user.status == 'Active' %} bg-label-success 
-                                            {% else %} bg-label-secondary 
-                                            {% endif %} rounded-pill">{{ user.status }}</span>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                  <div class="card mb-6">
+                    <div class="card-body pt-0">
+                      <form id="formAddUser" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row mt-1 g-5">
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="text" id="student_name" name="student_name" required />
+                                    <label for="student_name">Student Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="text" name="father_name" id="father_name" required />
+                                    <label for="father_name">Father Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="email" id="email" name="email" required />
+                                    <label for="email">E-mail</label>
+                                    {% if form.email.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.email.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="text" id="cnic" name="cnic" required />
+                                    <label for="cnic">CNIC</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
+                                    <label for="mobile_no">Mobile Number</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" id="Temp_address" name="Temp_address" required />
+                                    <label for="Temp_address"> Temporary Address</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" id="Perm_address" name="Perm_address" required />
+                                    <label for="Perm_address"> Permanent Address</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-floating form-floating-outline">
+                                <input type="text" class="form-control" id="last_degree" name="last_degree" required />
+                                <label for="last_degree">Last Degree</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" id="last_institution" name="last_institution" required />
+                                    <label for="last_institution">Last Institution</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="Active" selected>Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                    <label for="status">Status</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
+                                    <span class="d-none d-sm-block">Upload Profile Photo</span>
+                                    <input type="file" id="upload" name="profile_photo" class="account-file-input" hidden/>
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
+                                    <span class="d-none d-sm-block">Upload CNIC Photo</span>
+                                    <input type="file" id="upload1" name="cnic_photo" class="account-file-input" hidden/>
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
+                                    <span class="d-none d-sm-block">Upload Degree Photo</span>
+                                    <input type="file" id="upload2" name="degree_photo" class="account-file-input" hidden/>
+                                </label>
+                            </div>
+                    
+                            <div class="mt-6">
+                                <button type="submit" class="btn btn-primary me-3">Add Student</button>
+                            </div>
                         </div>
+                    </form>
+
+
+
                     </div>
+                    <!-- /Account -->
+                  </div>
                 </div>
               </div>
             </div>
@@ -358,7 +325,9 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-<!-- Core JS -->
+    
+
+    <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/static/assets/vendor/libs/popper/popper.js"></script>
