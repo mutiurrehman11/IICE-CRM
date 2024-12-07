@@ -54,7 +54,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="" class="app-brand-link">
+            <a href="index.html" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
             </a>
 
@@ -192,103 +192,105 @@
                   </div>
                   <div class="card mb-6">
                     <div class="card-body pt-0">
-                      <form id="formAddUser" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="row mt-1 g-5">
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="student_name" name="student_name" required />
-                                    <label for="student_name">Student Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" name="father_name" id="father_name" required />
-                                    <label for="father_name">Father Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="email" id="email" name="email" required />
-                                    <label for="email">E-mail</label>
-                                    {% if form.email.errors %}
-                                        <div class="text-danger">
-                                            {% for error in form.email.errors %}
-                                                <p>{{ error }}</p>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="cnic" name="cnic" required />
-                                    <label for="cnic">CNIC</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
-                                    <label for="mobile_no">Mobile Number</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="Temp_address" name="Temp_address" required />
-                                    <label for="Temp_address"> Temporary Address</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="Perm_address" name="Perm_address" required />
-                                    <label for="Perm_address"> Permanent Address</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-floating form-floating-outline">
-                                <input type="text" class="form-control" id="last_degree" name="last_degree" required />
-                                <label for="last_degree">Last Degree</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="last_institution" name="last_institution" required />
-                                    <label for="last_institution">Last Institution</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="Active" selected>Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
-                                    <label for="status">Status</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="profile_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Profile Photo</span>
-                                    <input type="file" id="profile_photo" name="profile_photo" class="account-file-input" hidden/>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="cnic_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload CNIC Photo</span>
-                                    <input type="file" id="cnic_photo" name="cnic_photo" class="account-file-input" hidden/>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="degree_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Degree Photo</span>
-                                    <input type="file" id="degree_photo" name="degree_photo" class="account-file-input" hidden/>
-                                </label>
-                            </div>
-                    
-                            <div class="mt-6">
-                                <button type="submit" class="btn btn-primary me-3">Add Student</button>
-                            </div>
-                        </div>
-                    </form>
+                      <form id="formAccountSettings" method="POST">
+    {% csrf_token %}
+    <div class="row mt-1 g-5">
+        
+        <!-- Student Name (read-only) -->
+        <div class="col-md-6">
+            <div class="form-floating form-floating-outline">
+                <input class="form-control" type="text" id="student_name" name="student_name" value="{{ student.student_name }}" readonly />
+                <label for="student_name">Student</label>
+            </div>
+        </div>
+
+        <!-- Session Name (dropdown) -->
+        <div class="col-md-6">
+            <div class="form-floating form-floating-outline">
+                <select class="form-select" id="sessionName" name="session_id" onchange="updateFees()">
+                    <option value="">Select a session</option>
+                    {% for session in active_sessions %}
+                        <option value="{{ session.id }}" data-registration-fee="{{ session.registration_fee }}" data-fee="{{ session.fee }}">
+                            {{ session.session_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <label for="sessionName">Session</label>
+            </div>
+        </div>
+
+        <!-- Registration Fee (auto-filled based on session selection) -->
+        <div class="col-md-6">
+            <div class="form-floating form-floating-outline">
+                <input class="form-control" type="number" id="registrationFee" name="registration_fee" readonly />
+                <label for="registrationFee">Registration Fee</label>
+            </div>
+        </div>
+
+        <!-- Fee (auto-filled based on session selection) -->
+        <div class="col-md-6">
+            <div class="form-floating form-floating-outline">
+                <input class="form-control" type="number" id="fee" name="fee" readonly />
+                <label for="fee">Fee</label>
+            </div>
+        </div>
+
+        <!-- Due Date -->
+        <div class="col-md-6">
+            <div class="form-floating form-floating-outline">
+                <input class="form-control" type="date" id="due_date" name="due_date" />
+                <label for="due_date">Due Date</label>
+            </div>
+        </div>
+
+        <!-- Discount (editable) -->
+        <div class="col-md-6">
+            <div class="form-floating form-floating-outline">
+                <input class="form-control" type="number" id="discount" name="discount" />
+                <label for="discount">Discount</label>
+            </div>
+        </div>
+    
+        <!-- Registration Fee Paid (editable) -->
+        <div class="col-md-6">
+            <div class="form-floating form-floating-outline">
+                <input class="form-control" type="date" id="registration_date" name="registration_date" />
+                <label for="registration_date">Registration Date</label>
+            </div>
+        </div>
+
+        <!-- Notes (editable) -->
+        <div class="col-md-12">
+            <div class="form-floating form-floating-outline">
+                <textarea class="form-control" id="notes" name="notes">{{ userdata.notes }}</textarea>
+                <label for="notes">Notes</label>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="col-md-12 mt-4">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+
+    </div>
+</form>
+
+<script>
+function updateFees() {
+    // Get the selected session option
+    const sessionSelect = document.getElementById('sessionName');
+    const selectedOption = sessionSelect.options[sessionSelect.selectedIndex];
+    
+    // Fetch data attributes for registration fee and fee
+    const registrationFee = selectedOption.getAttribute('data-registration-fee');
+    const fee = selectedOption.getAttribute('data-fee');
+    
+    // Update the input fields
+    document.getElementById('registrationFee').value = registrationFee;
+    document.getElementById('fee').value = fee;
+}
+</script>
+
 
 
 
@@ -326,8 +328,7 @@
     </div>
     <!-- / Layout wrapper -->
     
-
-    <!-- Core JS -->
+<!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/static/assets/vendor/libs/popper/popper.js"></script>

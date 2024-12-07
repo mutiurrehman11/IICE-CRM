@@ -232,50 +232,50 @@
                 <div class="col-12">
                     <div class="card overflow-hidden">
                         <!-- Enhanced DataTable with Bootstrap styling -->
-<div class="table-responsive my-4">
-    <table id="user-table" class="table table-sm table-hover table-striped align-middle mb-0">
-        <thead class="table-primary">
-            <tr>
-                <th>User</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>
-                    <a href="{% url 'FacultyView' user.id %}" class="d-flex align-items-center text-decoration-none text-dark">
-                        <div class="avatar avatar-sm me-2">
-                            <img src="{{ user.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
-                        </div>
-                        <div>
-                            <strong>{{ user.first_name }} {{ user.last_name }}</strong>
-                        </div>
-                    </a>
-                </td>
-                <td>{{ user.email }}</td>
-                <td>
-                    {% if user.usertype == 1 %}
-                        <span class="badge bg-primary">Admin</span>
-                    {% elif user.usertype == 2 %}
-                        <span class="badge bg-warning">Moderator</span>
-                    {% elif user.usertype == 3 %}
-                        <span class="badge bg-success">Teacher</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <span class="badge 
-                        {% if user.status == 'Active' %} bg-success 
-                        {% else %} bg-secondary 
-                        {% endif %}">{{ user.status }}</span>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+                    <div class="table-responsive my-4">
+                        <table id="user-table" class="table table-sm table-hover table-striped align-middle mb-0">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>User</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'FacultyView' user.id %}" class="d-flex align-items-center text-decoration-none text-dark">
+                                            <div class="avatar avatar-sm me-2">
+                                                <img src="{{ user.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
+                                            </div>
+                                            <div>
+                                                <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        {% if user.usertype == 1 %}
+                                            <span class="badge bg-primary">Admin</span>
+                                        {% elif user.usertype == 2 %}
+                                            <span class="badge bg-warning">Moderator</span>
+                                        {% elif user.usertype == 3 %}
+                                            <span class="badge bg-success">Teacher</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if user.status == 'Active' %} bg-success 
+                                            {% else %} bg-secondary 
+                                            {% endif %}">{{ user.status }}</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
 
                     </div>
                 </div>

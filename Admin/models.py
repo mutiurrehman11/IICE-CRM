@@ -1,16 +1,28 @@
 import os
 from django.db import models
 from django.utils.text import slugify
+from authentication.models import User
 
 def student_profile_photo_path(instance, filename):
     extension = filename.split('.')[-1]
     filename = f"{slugify(instance.student_name)}_{slugify(instance.email)}.{extension}"
-    return os.path.join('Pictures/Student', filename)
+    return filename
+
+def student_cnic_photo_path(instance, filename):
+    extension = filename.split('.')[-1]
+    filename = f"{slugify(instance.student_name)}_{slugify(instance.email)}.{extension}"
+    return filename
+
+def student_degree_photo_path(instance, filename):
+    extension = filename.split('.')[-1]
+    filename = f"{slugify(instance.student_name)}_{slugify(instance.email)}.{extension}"
+    return filename
+
 
 def session_photo_path(instance, filename):
     extension = filename.split('.')[-1]
     filename = f"{slugify(instance.session_name)}.{extension}"
-    return os.path.join('Pictures/Session', filename)
+    return filename
 
 
 class Student(models.Model):
@@ -23,8 +35,8 @@ class Student(models.Model):
     email = models.EmailField(unique=True,blank=True, null=True)
     cnic = models.CharField(max_length=15,blank=True, null=True)
     profile_photo = models.ImageField(upload_to=student_profile_photo_path, blank=True, null=True)
-    cnic_photo = models.ImageField(upload_to=student_profile_photo_path, blank=True, null=True)
-    degree_photo = models.ImageField(upload_to=student_profile_photo_path, blank=True, null=True)
+    cnic_photo = models.ImageField(upload_to=student_cnic_photo_path, blank=True, null=True)
+    degree_photo = models.ImageField(upload_to=student_degree_photo_path, blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
     mobile_no = models.CharField(max_length=15, blank=True, null=True)  # New field for mobile number
     last_degree = models.CharField(max_length=50,blank=True, null=True)
@@ -68,6 +80,7 @@ class StudentSession(models.Model):
     fee_paid = models.IntegerField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
     fee_full = models.IntegerField(null=True, blank=True)
+    discount = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
     notes = models.TextField(blank=True, null=True)
 
@@ -82,3 +95,10 @@ class Lead(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+class Payments(models.Model):
+    studentsession = models.ForeignKey(StudentSession, on_delete=models.CASCADE, related_name='student_payments')
+    user = models.ForeignKey(User,on_delete=models.CASCADE ,related_name='payments')
+    amount = models.IntegerField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    time = models.TimeField(blank=True, null=True)

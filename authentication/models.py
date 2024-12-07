@@ -5,7 +5,7 @@ from django.utils.text import slugify
 def profile_photo_path(instance, filename):
     extension = filename.split('.')[-1]
     filename = f"{slugify(instance.first_name)}_{slugify(instance.last_name)}_{slugify(instance.email)}.{extension}"
-    return os.path.join('Pictures/Profile', filename)
+    return filename
 
 
 class User(models.Model):

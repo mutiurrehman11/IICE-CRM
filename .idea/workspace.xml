@@ -5,31 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ae9ab46-3c89-438b-8a11-b56d1823d023" name="Changes" comment="Profile Page">
-      <change afterPath="$PROJECT_DIR$/templates/Admin/AddLead.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/AddSession.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/AddStudent.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/CompletedSessions.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/ExStudents.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/LeadView.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/Leads.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/SessionView.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/Sessions.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/StudentSession.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/StudentSessionView.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/StudentView.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/Students.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/IICE.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/IICE.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Admin/AddStudentSession.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Admin/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Admin/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Admin/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Admin/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Admin/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Admin/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Admin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Admin/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IICE/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IICE/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Admin/AddFaculty.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/AddFaculty.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Admin/Dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/AddStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/AddStudent.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/Admin/Faculty.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Faculty.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Admin/FacultyView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/FacultyView.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Admin/Profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/StudentSession.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/StudentSession.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/StudentSessionView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/StudentSessionView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/StudentView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/StudentView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Authentication/Login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Authentication/Login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +66,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Pycharm/Django Projects/Cosmetics-AI&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Pycharm/Django Projects/IICE&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -101,11 +88,11 @@
       <recent name="D:\Pycharm\Django Projects\IICE\static" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Pycharm\Django Projects\IICE\media" />
       <recent name="D:\Pycharm\Django Projects\IICE\Admin" />
       <recent name="D:\Pycharm\Django Projects\IICE\static\Images" />
       <recent name="D:\Pycharm\Django Projects\IICE\static\assets\css" />
       <recent name="D:\Pycharm\Django Projects\IICE\static\assets" />
-      <recent name="D:\Pycharm\Django Projects\IICE\templates\Authentication" />
     </key>
   </component>
   <component name="RunManager">
@@ -155,7 +142,11 @@
       <workItem from="1729836664848" duration="46976000" />
       <workItem from="1730226207719" duration="8726000" />
       <workItem from="1730375841125" duration="19061000" />
-      <workItem from="1730826337442" duration="3364000" />
+      <workItem from="1730826337442" duration="7730000" />
+      <workItem from="1731246498136" duration="18512000" />
+      <workItem from="1733004048711" duration="398000" />
+      <workItem from="1733004535708" duration="1664000" />
+      <workItem from="1733156503056" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="Profile Page">
       <option name="closed" value="true" />
@@ -189,7 +180,23 @@
       <option name="project" value="LOCAL" />
       <updated>1729865118605</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Profile Page">
+      <option name="closed" value="true" />
+      <created>1730833461973</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1730833461973</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Profile Page">
+      <option name="closed" value="true" />
+      <created>1730833495935</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1730833495935</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

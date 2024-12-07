@@ -196,11 +196,15 @@
                     </div>
                   </div>
                 </div>
-                
+                <a class="btn btn-primary" href="{% url 'AddStudentSession' userdata.id %}">
+                <span class="tf-icons ri-add-circle-fill ri-16px me-1_5"></span>Add
+            </a>
+              <br>
+              <br>
                 <!-- Cards Grid -->
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                   {% for session in sessions %}
-                    <a>
+                    <a href="{% url 'StudentSessionView' session.id %}">
                     <div class="col d-flex">
                       <div class="card h-100">
                         <img class="card-img-top" src="{{ session.session.session_photo.url }}" alt="Session image" />

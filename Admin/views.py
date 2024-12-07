@@ -1,13 +1,88 @@
 import os
-
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.decorators.cache import cache_control
-
 from authentication.models import User
 from Admin import models as admin_models
 from .forms import UserForm, SessionForm, StudentForm, LeadForm
 
+def DeleteStudentSession(request, studentsessionid):
+    if 'user_id' not in request.session:
+        return redirect('home')
+    studentsession = admin_models.StudentSession.objects.get(id=studentsessionid)
+    studentid = studentsession.student.id
+    studentsession.delete()
+    return redirect('StudentSession', studentid=studentid)
+
+def StudentSessionView(request, studentsessionid):
+    if 'user_id' not in request.session:
+        return redirect('home')
+
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)  # Logged-in user
+    userdata = admin_models.StudentSession.objects.get(id=studentsessionid)  # The user you are trying to update
+
+    context = {
+        'user': user,
+        'userdata': userdata,
+    }
+
+    if request.method == 'POST':
+        userdata.status = request.POST.get('status')
+        userdata.notes = request.POST.get('notes')
+        userdata.due_date = request.POST.get('due_date')
+        userdata.save()
+
+    return render(request, 'Admin/StudentSessionView.html', context)
+def AddStudentSession(request, studentid):
+    if 'user_id' not in request.session:
+        return redirect('home')
+    # Get the student object
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    student =  admin_models.Student.objects.get(id=studentid)
+    active_sessions = admin_models.Sessions.objects.filter(status='Active')  # Fetch active sessions
+
+    if request.method == 'POST':
+        # Get form data
+        session_id = request.POST.get('session_id')
+        registration_fee = request.POST.get('registration_fee')
+        fee = request.POST.get('fee')
+        due_date = request.POST.get('due_date')
+        discount = request.POST.get('discount', 0)  # Default to 0 if no discount is provided
+        notes = request.POST.get('notes', '')
+
+        # Fetch the selected session object
+        session = admin_models.Sessions.objects.get(id=session_id)
+
+        # Create a new StudentSession instance
+        student_session = admin_models.StudentSession(
+            student=student,
+            session=session,
+            registration_date=request.POST.get('registration_date'),  # Set registration date if needed
+            registration_fee=registration_fee,
+            fee=fee,
+            due_date=due_date,
+            discount=discount,
+            registration_fee_paid=registration_fee,
+            fee_paid=0,
+            status='Active',  # Set initial status as Active
+            notes=notes,
+        )
+
+        # Save to the database
+        student_session.save()
+
+        # Optionally, add a success message
+        messages.success(request, 'Student session created successfully.')
+
+        # Redirect to the desired page (e.g., student session view)
+        return redirect('StudentSession', studentid=studentid)
+
+    # Render the form with student and active sessions
+    return render(request, 'Admin/AddStudentSession.html', {
+        'student': student,
+        'active_sessions': active_sessions,
+    })
 def StudentSession(request, studentid):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -21,6 +96,7 @@ def StudentSession(request, studentid):
         'user': user,
         'userdata': userdata,
         'sessions': sessions,
+        'studentid': studentid
     }
     return render(request, 'Admin/StudentSession.html', context)
 def LeadView(request, leadid):
@@ -98,7 +174,20 @@ def Leads(request):
 def DeleteStudent(request, studentid):
     if 'user_id' not in request.session:
         return redirect('home')
-    admin_models.Student.objects.get(id=studentid).delete()
+    student = admin_models.Student.objects.get(id=studentid)
+    if student.profile_photo:
+        if os.path.exists(student.profile_photo.path):
+            os.remove(student.profile_photo.path)
+    if student.cnic_photo:
+        if os.path.exists(student.cnic_photo.path):
+            os.remove(student.cnic_photo.path)
+    if student.degree_photo:
+        if os.path.exists(student.degree_photo.path):
+            os.remove(student.degree_photo.path)
+    student.delete()
+    from_page = request.GET.get('from')
+    if from_page == 'exstudents':
+        return redirect('ExStudents')  # Replace 'ExStudents' with the actual name of the ex-students page URL
     return redirect('Students')
 def StudentView(request, studentid):
     if 'user_id' not in request.session:
@@ -163,6 +252,7 @@ def ExStudents(request):
     context = {
         'user': user,
         'students': students,
+        'redirection': 2
     }
     return render(request, 'Admin/ExStudents.html', context)
 def AddStudent(request):
@@ -211,12 +301,17 @@ def Students(request):
     context = {
         'user': user,
         'students': students,
+        'redirection': 1
     }
     return render(request, 'Admin/Students.html', context)
 def DeleteSession(request, sessionid):
     if 'user_id' not in request.session:
         return redirect('home')
-    admin_models.Sessions.objects.get(id=sessionid).delete()
+    session = admin_models.Sessions.objects.get(id=sessionid)
+    if session.session_photo:
+        if os.path.exists(session.session_photo.path):
+            os.remove(session.session_photo.path)
+    session.delete()
     return redirect('Sessions')
 def CompletedSessions(request):
     if 'user_id' not in request.session:
@@ -276,6 +371,11 @@ def SessionView(request, sessionid):
         form = SessionForm(request.POST, request.FILES, instance=sessiondata)  # Form for 'userdata'
 
         if form.is_valid():
+            if 'session_photo' in request.FILES:
+                if sessiondata.session_photo:
+                    print(f"Old profile photo path: {sessiondata.session_photo.path}")
+                    if os.path.exists(sessiondata.session_photo.path):
+                        os.remove(sessiondata.session_photo.path)
             form.save()
             return redirect('SessionView', sessionid=sessionid)  # Redirect to avoid resubmission
         else:
@@ -303,7 +403,11 @@ def Sessions(request):
 def DeleteFaculty(request, userid):
     if 'user_id' not in request.session:
         return redirect('home')
-    User.objects.get(id=userid).delete()
+    faculty = User.objects.get(id=userid)
+    if faculty.profile_photo:
+        if os.path.exists(faculty.profile_photo.path):
+            os.remove(faculty.profile_photo.path)
+    faculty.delete()
     return redirect('Faculty')
 def AddFaculty(request):
     if 'user_id' not in request.session:

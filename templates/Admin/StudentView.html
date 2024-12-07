@@ -326,8 +326,11 @@
                         <h5 class="card-header">Delete Session</h5>
                         <div class="card-body">
                           <form id="formAccountDeactivation" onsubmit="return false">
-                            <a href="{% url 'DeleteStudent' userdata.id %}" type="submit" class="btn btn-danger deactivate-account">
-                              Delete Student
+                              {% if redirection == 1 %}
+                                    <a href="{% url 'DeleteStudent' userdata.id %}?from=students" class="btn btn-danger deactivate-account">Delete Student</a>
+                              {% else %}
+                                    <a href="{% url 'DeleteStudent' userdata.id %}?from=exstudents" class="btn btn-danger deactivate-account">Delete Student</a>
+                              {% endif %}
                             </a>
                           </form>
                         </div>
