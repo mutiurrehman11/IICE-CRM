@@ -37,6 +37,7 @@ urlpatterns = [
     path('Admin-Faculty/Delete/<int:userid>/', adminViews.DeleteFaculty, name='DeleteFaculty'),
     path('Admin-Sessions/', adminViews.Sessions, name='Sessions'),
     path('Admin-Sessions/<int:sessionid>/', adminViews.SessionView, name='SessionView'),
+    path('Admin-Sessions/Students/<int:sessionid>/', adminViews.SessionStudentView, name='SessionStudentView'),
     path('Admin-Sessions/Add/', adminViews.AddSession, name='AddSession'),
     path('Admin-CompletedSessions/', adminViews.CompletedSessions, name='CompletedSessions'),
     path('Admin-Sessions/Delete/<int:sessionid>/', adminViews.DeleteSession, name='DeleteSession'),
@@ -53,7 +54,8 @@ urlpatterns = [
     path('Admin-Leads/Add/', adminViews.AddLead, name='AddLead'),
     path('Admin-Leads/<int:leadid>/', adminViews.LeadView, name='LeadView'),
     path('Admin-Leads/Delete/<int:leadid>/', adminViews.DeleteLead, name='DeleteLead'),
-
+    path('Admin-Attendance/', adminViews.select_course, name='select_course'),
+    path('Admin-Attendance/Mark/<int:course_id>/', adminViews.mark_attendance, name='mark_attendance'),
 ]
 
 if settings.DEBUG:

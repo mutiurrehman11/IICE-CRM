@@ -5,6 +5,29 @@ from authentication.models import User
 from Admin import models as admin_models
 from .forms import UserForm, SessionForm, StudentForm, LeadForm
 
+
+def select_course(request):
+    courses = admin_models.Sessions.objects.all()
+    print(courses)
+    return render(request, 'Admin/Attendance.html', {'courses': courses})
+def mark_attendance(request, course_id):
+    course = admin_models.Sessions.objects.get(id=course_id)
+    students = admin_models.StudentSession.objects.filter(session=course)
+
+    if request.method == 'POST':
+        date = request.POST.get('date')
+        for student in students:
+            status = request.POST.get(f'status_{student.student.id}')
+            admin_models.Attendance.objects.update_or_create(
+                course=course,
+                student=student.student,
+                date=date,
+                defaults={'status': status}
+            )
+        messages.success(request, 'Attendance marked successfully!')
+        return redirect('select_course')
+
+    return render(request, 'Admin/Mark_Attendance.html', {'course': course, 'students': students})
 def DeleteStudentSession(request, studentsessionid):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -12,7 +35,6 @@ def DeleteStudentSession(request, studentsessionid):
     studentid = studentsession.student.id
     studentsession.delete()
     return redirect('StudentSession', studentid=studentid)
-
 def StudentSessionView(request, studentsessionid):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -351,6 +373,19 @@ def AddSession(request):
         'form': form,
     }
     return render(request, 'Admin/AddSession.html', context)
+def SessionStudentView(request, sessionid):
+    if 'user_id' not in request.session:
+        return redirect('home')
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)  # Logged-in user
+    sessiondata = admin_models.Sessions.objects.get(id=sessionid)
+    students = admin_models.StudentSession.objects.filter(session=sessiondata)
+    context = {
+        'user': user,
+        'sessiondata': sessiondata,
+        'students': students,
+    }
+    return render(request, 'Admin/SessionStudentView.html', context)
 def SessionView(request, sessionid):
     if 'user_id' not in request.session:
         return redirect('home')

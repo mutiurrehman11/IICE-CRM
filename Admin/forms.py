@@ -1,6 +1,6 @@
 from django import forms
 from authentication.models import User  # Import your User model
-from Admin.models import Sessions, Student, Lead
+from Admin.models import Sessions, Student, Lead, Attendance
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -21,3 +21,9 @@ class LeadForm(forms.ModelForm):
     class Meta:
         model = Lead
         fields = '__all__'
+
+
+class AttendanceForm(forms.ModelForm):
+    class Meta:
+        model = Attendance
+        fields = ['course', 'student', 'date', 'status']

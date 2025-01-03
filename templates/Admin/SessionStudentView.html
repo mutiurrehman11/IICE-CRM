@@ -44,6 +44,13 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/static/assets/js/config.js"></script>
+     <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
   </head>
 
   <body>
@@ -184,113 +191,62 @@
                   <div class="nav-align-top">
                     <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
                       <li class="nav-item">
-                        <a href="{% url 'SessionView' sessiondata.id %}" class="nav-link active"
+                        <a href="{% url 'SessionView' sessiondata.id %}" class="nav-link"
                           ><i class="ri-book-2-line me-1_5"></i>Session</a
                         >
                       </li>
                       <li class="nav-item">
-                        <a href="{% url 'SessionStudentView' sessiondata.id %}" class="nav-link"
+                        <a href="{% url 'SessionStudentView' sessiondata.id %}" class="nav-link active"
                           ><i class="ri-group-line me-1_5"></i>Students</a
                         >
                       </li>
                     </ul>
                   </div>
-                  <div class="card mb-6">
-                    <div class="card-body">
-                      <div class="d-flex align-items-start align-items-sm-center gap-6">
-                        <img
-                          src="{% if sessiondata.session_photo %}{{ sessiondata.session_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
-                      </div>
-                      <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
-                      {% csrf_token %}
-                      <div class="row mt-1 g-5">
-                        
-                        <!-- First Name -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="session_name" name="session_name" value="{{ sessiondata.session_name }}" autofocus />
-                            <label for="session_name">Session Name</label>
-                          </div>
-                        </div>
-                      
-                        <!-- Registration fee -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="registration_fee" name="registration_fee" value="{{ sessiondata.registration_fee }}" />
-                            <label for="registration_fee">Registration Fee</label>
-                          </div>
-                        </div>
-                      
-                      <!-- Tuition fee -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="fee" name="fee" value="{{ sessiondata.fee }}" />
-                            <label for="fee">Tuition Fee</label>
-                          </div>
-                        </div>
-                      
-                      <!-- Start Date -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ sessiondata.start_date|date:'Y-m-d' }}" />
-                            <label for="start_date">Start Date</label>
-                          </div>
-                        </div>
-                      
-                      <!-- End Date -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ sessiondata.end_date|date:'Y-m-d' }}" />
-                            <label for="end_date">End Date</label>
-                          </div>
-                        </div>
-                      
-                      <!-- Status -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <select class="form-select" id="status" name="status">
-                              <option value="Active" {% if sessiondata.status == "Active" %} selected {% endif %}>Active</option>
-                              <option value="Inactive" {% if sessiondata.status == "Inactive" %} selected {% endif %}>Inactive</option>
-                            </select>
-                            <label for="status">Status</label>
-                          </div>
-                        </div>
-                      <!-- Profile Photo -->
-                        <div class="col-md-6">
-                          <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
-                            <span class="d-none d-sm-block">Upload new photo</span>
-                            <input type="file" id="upload" name="session_photo" class="account-file-input" hidden />
-                          </label>
-                        </div>
-                    
-                        <!-- Save Button -->
-                        <div class="mt-6">
-                          <button type="submit" class="btn btn-primary me-3">Save changes</button>
-                        </div>
-                    
-                      </div>
-                    </form>
-
-
+                  <div class="card">
+                  <div class="card-body">
+                    <!-- DataTable for Students -->
+                    <div class="table-responsive">
+                      <table id="studentsTable" class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Registration Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for student in students %}
+                          <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ student.student.student_name }}</td>
+                            <td>{{ student.student.email }}</td>
+                            <td>{{ student.student.mobile_no }}</td>
+                            <td>{{ student.registration_date|date:"Y-m-d" }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        $('#studentsTable').DataTable({
+                            paging: true,
+                            searching: true
+                        });
+                    });
+                </script>
                     <!-- /Account -->
                   </div>
-                    <div class="card">
-                        <h5 class="card-header">Delete Session</h5>
-                        <div class="card-body">
-                          <form id="formAccountDeactivation" onsubmit="return false">
-                            <a href="{% url 'DeleteSession' sessiondata.id %}" type="submit" class="btn btn-danger deactivate-account">
-                              Delete Session
-                            </a>
-                          </form>
-                        </div>
-                      </div>
                 </div>
               </div>
             </div>
             <!-- / Content -->
+        
+         <!-- Include jQuery -->
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">

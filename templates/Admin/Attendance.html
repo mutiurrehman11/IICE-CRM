@@ -54,7 +54,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="{% url 'home' %}" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
             </a>
 
@@ -69,7 +69,7 @@
               <span class="menu-header-text">Main DashBoard</span>
             </li>
             <li class="menu-item active">
-              <a href="" class="menu-link">
+              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
                 <div data-i18n="Basic">Dashboard</div>
               </a>
@@ -84,33 +84,58 @@
               </a>
                 <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
+                <li  class="menu-item">
+                  <a href="{% url 'ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="CRM">Add Faculty</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="CRM">Add Student</div>
                   </a>
                 </li>
               </ul>
             </li>
+              <li class="menu-item">
+              <a href="" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-book-fill"></i>
+                <div data-i18n="Dashboards">Sessions</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+                <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{% url 'Sessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Current</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Completed</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="{% url 'Leads' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">Leads</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'select_course' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">Attendance</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
           </ul>
+
         </aside>
         <!-- / Menu -->
 
@@ -178,116 +203,18 @@
 
           <!-- Content wrapper -->
           <div class="content-wrapper">
+            <!-- Content -->
+
             <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="nav-align-top">
-                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
-                      <li class="nav-item">
-                        <a href="{% url 'SessionView' sessiondata.id %}" class="nav-link active"
-                          ><i class="ri-book-2-line me-1_5"></i>Session</a
-                        >
-                      </li>
-                      <li class="nav-item">
-                        <a href="{% url 'SessionStudentView' sessiondata.id %}" class="nav-link"
-                          ><i class="ri-group-line me-1_5"></i>Students</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card mb-6">
-                    <div class="card-body">
-                      <div class="d-flex align-items-start align-items-sm-center gap-6">
-                        <img
-                          src="{% if sessiondata.session_photo %}{{ sessiondata.session_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
-                      </div>
-                      <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
-                      {% csrf_token %}
-                      <div class="row mt-1 g-5">
-                        
-                        <!-- First Name -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="session_name" name="session_name" value="{{ sessiondata.session_name }}" autofocus />
-                            <label for="session_name">Session Name</label>
-                          </div>
-                        </div>
-                      
-                        <!-- Registration fee -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="registration_fee" name="registration_fee" value="{{ sessiondata.registration_fee }}" />
-                            <label for="registration_fee">Registration Fee</label>
-                          </div>
-                        </div>
-                      
-                      <!-- Tuition fee -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="fee" name="fee" value="{{ sessiondata.fee }}" />
-                            <label for="fee">Tuition Fee</label>
-                          </div>
-                        </div>
-                      
-                      <!-- Start Date -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ sessiondata.start_date|date:'Y-m-d' }}" />
-                            <label for="start_date">Start Date</label>
-                          </div>
-                        </div>
-                      
-                      <!-- End Date -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ sessiondata.end_date|date:'Y-m-d' }}" />
-                            <label for="end_date">End Date</label>
-                          </div>
-                        </div>
-                      
-                      <!-- Status -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <select class="form-select" id="status" name="status">
-                              <option value="Active" {% if sessiondata.status == "Active" %} selected {% endif %}>Active</option>
-                              <option value="Inactive" {% if sessiondata.status == "Inactive" %} selected {% endif %}>Inactive</option>
-                            </select>
-                            <label for="status">Status</label>
-                          </div>
-                        </div>
-                      <!-- Profile Photo -->
-                        <div class="col-md-6">
-                          <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
-                            <span class="d-none d-sm-block">Upload new photo</span>
-                            <input type="file" id="upload" name="session_photo" class="account-file-input" hidden />
-                          </label>
-                        </div>
-                    
-                        <!-- Save Button -->
-                        <div class="mt-6">
-                          <button type="submit" class="btn btn-primary me-3">Save changes</button>
-                        </div>
-                    
-                      </div>
-                    </form>
-
-
-                    </div>
-                    <!-- /Account -->
-                  </div>
-                    <div class="card">
-                        <h5 class="card-header">Delete Session</h5>
-                        <div class="card-body">
-                          <form id="formAccountDeactivation" onsubmit="return false">
-                            <a href="{% url 'DeleteSession' sessiondata.id %}" type="submit" class="btn btn-danger deactivate-account">
-                              Delete Session
-                            </a>
-                          </form>
-                        </div>
-                      </div>
-                </div>
+              <div class="row gy-lg-8">
+                <h1>Select Course</h1>
+                <ul>
+                  {% for course in courses %}
+                    <li>
+                      <a href="{% url 'mark_attendance' course.id %}">{{ course.session_name }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
               </div>
             </div>
             <!-- / Content -->
@@ -317,8 +244,6 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-    
-
 <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
@@ -340,4 +265,3 @@
     <script src="/static/assets/js/dashboards-analytics.js"></script>
   </body>
 </html>
-

@@ -102,3 +102,14 @@ class Payments(models.Model):
     amount = models.IntegerField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
     time = models.TimeField(blank=True, null=True)
+
+class Attendance(models.Model):
+    STATUS_CHOICES = [
+        ('Present', 'Present'),
+        ('Absent', 'Absent'),
+    ]
+
+    course = models.ForeignKey(Sessions, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    date = models.DateField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
