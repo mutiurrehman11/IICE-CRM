@@ -49,6 +49,7 @@ urlpatterns = [
     path('Admin-Students/<int:studentid>/Session/Add/', adminViews.AddStudentSession, name='AddStudentSession'),
     path('Admin-Students/StudentSession/View/<int:studentsessionid>', adminViews.StudentSessionView, name='StudentSessionView'),
     path('Admin-Students/StudentSession/Delete/<int:studentsessionid>', adminViews.DeleteStudentSession, name='DeleteStudentSession'),
+    path("add_fee_payment/<int:session_id>/", adminViews.add_fee_payment, name="add_fee_payment"),
     path('Admin-Students/Delete/<int:studentid>/', adminViews.DeleteStudent, name='DeleteStudent'),
     path('Admin-Leads/', adminViews.Leads, name='Leads'),
     path('Admin-Leads/Add/', adminViews.AddLead, name='AddLead'),
@@ -56,6 +57,11 @@ urlpatterns = [
     path('Admin-Leads/Delete/<int:leadid>/', adminViews.DeleteLead, name='DeleteLead'),
     path('Admin-Attendance/', adminViews.select_course, name='select_course'),
     path('Admin-Attendance/Mark/<int:course_id>/', adminViews.mark_attendance, name='mark_attendance'),
+    path('Admin-Notification/', adminViews.Notification, name='notification'),
+    path('Admin-Payments/', adminViews.Payment, name='payment'),
+    path('print_attendance_report/<int:course_id>/', adminViews.print_attendance_report, name='print_attendance_report'),
+    path('Admin-EmailService/', adminViews.EmailService, name='EmailService'),
+    path('notify-late-fee-students/', adminViews.notify_late_fee_students, name='notify_late_fee_students'),
 ]
 
 if settings.DEBUG:

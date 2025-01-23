@@ -30,6 +30,7 @@ class Student(models.Model):
         ('Active', 'Active'),
         ('Inactive', 'Inactive'),
     ]
+    rollno = models.CharField(max_length=100, blank=True, null=True)
     student_name = models.CharField(max_length=50,blank=True, null=True)
     father_name = models.CharField(max_length=50,blank=True, null=True)
     email = models.EmailField(unique=True,blank=True, null=True)
@@ -76,10 +77,8 @@ class StudentSession(models.Model):
     registration_date = models.DateField(null=True, blank=True)
     registration_fee = models.IntegerField(null=True, blank=True)
     fee = models.IntegerField(null=True, blank=True)
-    registration_fee_paid = models.IntegerField(null=True, blank=True)
     fee_paid = models.IntegerField(null=True, blank=True)
     due_date = models.DateField(null=True, blank=True)
-    fee_full = models.IntegerField(null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Active')
     notes = models.TextField(blank=True, null=True)
@@ -101,7 +100,6 @@ class Payments(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE ,related_name='payments')
     amount = models.IntegerField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
-    time = models.TimeField(blank=True, null=True)
 
 class Attendance(models.Model):
     STATUS_CHOICES = [
@@ -113,3 +111,17 @@ class Attendance(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     date = models.DateField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+
+class Notification(models.Model):
+    CATEGORIES = [
+        ('General', 'General'),
+        ('Late Fee', 'Late fee'),
+        ('New Entry', 'New Entry'),
+        ('Deletion', 'Deletion'),
+        ('New Fee', 'New Fee'),
+        ('Updation', 'Updation'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    date = models.DateField()
+    category = models.CharField(max_length=10, choices=CATEGORIES)
+    content = models.TextField(max_length=200, blank=True, null=True)

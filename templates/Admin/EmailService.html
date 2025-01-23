@@ -148,6 +148,13 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            <li class="menu-item">
+              <a href="{% url 'notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
+                <div data-i18n="Dashboards">Email Service</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
           </ul>
 
         </aside>
@@ -221,64 +228,57 @@
 
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row gy-lg-8">
-                <div class="col-12">
-                  <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                      <h3 class="mb-0">Mark Attendance for {{ course.session_name }}</h3>
+                <div class="text-center">
+                  <form method="POST" action="{% url 'notify_late_fee_students' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Notify Late Fee Students</button>
+                    </form>
+                </div>
+                <div id="notificationMessage" class="text-center mt-3"></div>
+                <div id="responseMessage" class="text-center mt-4"></div>
+                <form method="POST" id="emailForm">
+                {% csrf_token %}  
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Email Content</h4>
                     </div>
                     <div class="card-body">
-                      <form method="POST">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                          <label for="date" class="form-label fw-semibold">Date</label>
-                          <input
-                            type="date"
-                            id="date"
-                            name="date"
-                            class="form-control"
-                            required
-                          />
-                        </div>
-                        <div class="table-responsive">
-                          <table class="table table-hover table-bordered align-middle">
-                            <thead class="table-light">
-                              <tr>
-                                <th class="text-center">#</th>
-                                <th>Student Name</th>
-                                <th class="text-center">Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {% for student in students %}
-                              <tr>
-                                <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ student.student.student_name }}</td>
-                                <td class="text-center">
-                                  <select
-                                    name="status_{{ student.student.id }}"
-                                    class="form-select"
-                                  >
-                                    <option value="Present">Present</option>
-                                    <option value="Absent">Absent</option>
-                                  </select>
-                                </td>
-                              </tr>
-                              {% endfor %}
-                            </tbody>
-                          </table>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                          <button type="submit" class="btn btn-primary mt-4 px-4">
-                            Save Attendance
-                          </button>
-                        </div>
-                      </form>
+                        <textarea class="form-control" id="email_subject" name="email_subject" rows="5" placeholder="Write your email Subject here..."></textarea>
                     </div>
-                  </div>
+                    <div class="card-body">
+                        <textarea class="form-control" id="email_content" name="email_content" rows="5" placeholder="Write your email content here..."></textarea>
+                    </div>
+                </div>
+        
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Individuals</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <input type="checkbox" name="faculty_checkbox" id="faculty_checkbox" class="form-check-input me-2">
+                                <label for="user1">Faculty</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input type="checkbox" name="student_checkbox" id="student_checkbox" class="form-check-input me-2">
+                                <label for="user2">Students</label>
+                            </li>
+                            <li class="list-group-item">
+                                <input type="checkbox" name="lead_checkbox" id="lead_checkbox" class="form-check-input me-2">
+                                <label for="user3">Leads</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <div class="text-center">
+                    <button class="btn btn-primary">Send</button>
+                </div>
+                </form>
                 </div>
               </div>
             </div>
-
             <!-- / Content -->
 
             <!-- Footer -->
@@ -299,7 +299,7 @@
           <!-- Content wrapper -->
         </div>
         <!-- / Layout page -->
-
+          
       </div>
 
       <!-- Overlay -->
@@ -314,7 +314,33 @@
     <script src="/static/assets/vendor/libs/node-waves/node-waves.js"></script>
     <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="/static/assets/vendor/js/menu.js"></script>
+    <script>
+        // AJAX form submission
+        document.getElementById('emailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
+            const formData = new FormData(this);
+            fetch("{% url 'EmailService' %}", {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseMessage = document.getElementById('responseMessage');
+                if (data.status === 'success') {
+                    responseMessage.innerHTML = `<p style="color:green;">${data.message}</p>`;
+                } else {
+                    responseMessage.innerHTML = `<p style="color:red;">${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->

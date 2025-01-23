@@ -122,7 +122,7 @@
 
             <li class="menu-item">
               <a href="{% url 'Leads' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
@@ -131,6 +131,27 @@
               <a href="{% url 'select_course' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">Attendance</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'payment' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
+                <div data-i18n="Dashboards">Payments</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'EmailService' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
+                <div data-i18n="Dashboards">Email Service</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
@@ -215,11 +236,11 @@
                     <div class="col-lg-3">
                       <div class="card h-100">
                         <div class="card-header pb-0">
-                          <h4 class="mb-0">$86.4k</h4>
+                          <h4 class="mb-0">{{ total_users }}</h4>
                         </div>
                         <div class="card-body">
-                          <div id="totalProfitLineChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Total Revenue</h6>
+                          <div id="sessionsColumnChart" class="mb-3"></div>
+                          <h6 class="text-center mb-0">Faculty</h6>
                         </div>
                       </div>
                     </div>
@@ -230,16 +251,17 @@
                       <div class="card h-100">
                         <div class="card-header d-flex align-items-center justify-content-between">
                           <div class="avatar">
-                            <div class="avatar-initial bg-secondary rounded-circle shadow-xs">
-                              <i class="ri-pie-chart-2-line ri-24px"></i>
+                            <div class="avatar-initial bg-primary rounded-circle shadow-xs">
+                              <i class="ri-file-word-2-line ri-24px"></i>
                             </div>
                           </div>
                         </div>
                         <div class="card-body">
-                          <h6 class="mb-1">Total Profit</h6>
+                          <h6 class="mb-1">Total Leads</h6>
                           <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">$25.6k</h4>
+                            <h4 class="mb-0 me-2">{{ total_leads }}</h4>
                           </div>
+                          <small>Leads</small>
                         </div>
                       </div>
                     </div>
@@ -256,9 +278,9 @@
                           </div>
                         </div>
                         <div class="card-body">
-                          <h6 class="mb-1">New Project</h6>
+                          <h6 class="mb-1">Total Sessions</h6>
                           <div class="d-flex flex-wrap mb-1 align-items-center">
-                            <h4 class="mb-0 me-2">10</h4>
+                            <h4 class="mb-0 me-2">{{ total_sessions }}</h4>
                           </div>
                           <small>Sessions</small>
                         </div>
@@ -269,12 +291,19 @@
                     <!-- Sessions chart -->
                     <div class="col-lg-3">
                       <div class="card h-100">
-                        <div class="card-header pb-0">
-                          <h4 class="mb-0">2,856</h4>
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                          <div class="avatar">
+                            <div class="avatar-initial bg-primary rounded-circle shadow-xs">
+                              <i class="ri-file-word-2-line ri-24px"></i>
+                            </div>
+                          </div>
                         </div>
                         <div class="card-body">
-                          <div id="sessionsColumnChart" class="mb-3"></div>
-                          <h6 class="text-center mb-0">Students</h6>
+                          <h6 class="mb-1">Total Students</h6>
+                          <div class="d-flex flex-wrap mb-1 align-items-center">
+                            <h4 class="mb-0 me-2">{{ total_students }}</h4>
+                          </div>
+                          <small>Students</small>
                         </div>
                       </div>
                     </div>

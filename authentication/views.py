@@ -3,6 +3,7 @@ from django.contrib import messages
 
 from .models import User
 
+
 def Moderator_Dashboard(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -23,7 +24,6 @@ def Teacher_Dashboard(request):
         'user': user,  # Pass the user object to the template
     }
     return render(request, 'Admin/Dashboard.html',context)
-
 def Login_Page(request):
     if request.method == 'POST':
         email = request.POST['email']

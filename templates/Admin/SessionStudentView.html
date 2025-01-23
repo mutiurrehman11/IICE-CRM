@@ -61,7 +61,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="{% url 'home' %}" class="app-brand-link">
               <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
             </a>
 
@@ -76,7 +76,7 @@
               <span class="menu-header-text">Main DashBoard</span>
             </li>
             <li class="menu-item active">
-              <a href="" class="menu-link">
+              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
                 <div data-i18n="Basic">Dashboard</div>
               </a>
@@ -91,33 +91,72 @@
               </a>
                 <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
                 <li class="menu-item">
-                  <a href="" class="menu-link">
+                  <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
+                <li  class="menu-item">
+                  <a href="{% url 'ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="CRM">Add Faculty</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="" class="menu-link">
-                    <div data-i18n="CRM">Add Student</div>
                   </a>
                 </li>
               </ul>
             </li>
+              <li class="menu-item">
+              <a href="" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-book-fill"></i>
+                <div data-i18n="Dashboards">Sessions</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+                <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{% url 'Sessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Current</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Completed</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="{% url 'Leads' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-group-line"></i>
+                <div data-i18n="Dashboards">Leads</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'select_course' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">Attendance</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'payment' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
+                <div data-i18n="Dashboards">Payments</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
           </ul>
+
         </aside>
         <!-- / Menu -->
 

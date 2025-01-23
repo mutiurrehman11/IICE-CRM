@@ -5,18 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ae9ab46-3c89-438b-8a11-b56d1823d023" name="Changes" comment="Profile Page">
-      <change afterPath="$PROJECT_DIR$/templates/Admin/Attendance.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/Mark_Attendance.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/SessionStudentView.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/Admin/Update_Attendance.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Admin/Notifications.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/Admin/Payments.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Admin/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Admin/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Admin/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Admin/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Admin/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Admin/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/IICE/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/IICE/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/IICE/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/IICE/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/authentication/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/AddFaculty.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/AddFaculty.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/AddLead.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/AddLead.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/Admin/AddSession.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/AddSession.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/AddStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/AddStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/AddStudentSession.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/AddStudentSession.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Attendance.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Attendance.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/CompletedSessions.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/CompletedSessions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/Admin/Dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/ExStudents.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/ExStudents.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Faculty.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Faculty.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/FacultyView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/FacultyView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/LeadView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/LeadView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Leads.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Leads.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Mark_Attendance.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Mark_Attendance.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/SessionStudentView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/SessionStudentView.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/Admin/SessionView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/SessionView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Sessions.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Sessions.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/StudentSession.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/StudentSession.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/StudentSessionView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/StudentSessionView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/StudentView.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/StudentView.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Students.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/Students.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/Admin/Update_Attendance.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Admin/EmailService.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +84,7 @@
     &quot;Django Server.IICE.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
     &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Pycharm/Django Projects/IICE&quot;,
@@ -151,7 +172,11 @@
       <workItem from="1733658388204" duration="1941000" />
       <workItem from="1734347850870" duration="5816000" />
       <workItem from="1734768419684" duration="2825000" />
-      <workItem from="1735822086149" duration="10561000" />
+      <workItem from="1735822086149" duration="39340000" />
+      <workItem from="1737220123382" duration="6109000" />
+      <workItem from="1737397747331" duration="779000" />
+      <workItem from="1737482926944" duration="72000" />
+      <workItem from="1737624611514" duration="2650000" />
     </task>
     <task id="LOCAL-00001" summary="Profile Page">
       <option name="closed" value="true" />
@@ -209,7 +234,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733587885862</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Profile Page">
+      <option name="closed" value="true" />
+      <created>1735924921049</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1735924921050</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
