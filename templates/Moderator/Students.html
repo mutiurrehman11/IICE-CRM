@@ -8,8 +8,18 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!doctype html>
 
-    <title>Admin Dashboard</title>
+<html
+  lang="en"
+  class="light-style layout-menu-fixed layout-compact">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Moderator Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -44,48 +54,8 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/static/assets/js/config.js"></script>
-    <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
       
-    <style>
-    /* Bold font for header and table text */
-    #user-table th,
-    #user-table td {
-        font-weight: bold;
-    }
-
-    /* Custom button hover style */
-    .btn-custom:hover {
-        background-color: #8bd8ff !important; /* Change to your preferred hover color */
-        color: white !important;
-    }
-
-    /* Styling the search bar to add some padding */
-    .dataTables_filter {
-        margin-bottom: 15px;
-        margin-right: 10px;
-        border-radius: 50px;
-    }
-
-    /* Styling for pagination buttons */
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin: 2px;
-        color: #333;
-        font-weight: bold;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background-color: #6c63ff; /* Hover color */
-        color: white;
-    }
-
-    /* Center-align table and add padding */
-    .dataTables_wrapper {
-        padding: 20px;
-    }
-</style>
   </head>
 
   <body>
@@ -110,83 +80,38 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-            <li class="menu-item">
-              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Basic">Dashboard</div>
-              </a>
-            </li>
           <ul class="menu-inner py-1">
             <!-- User Pages -->
-            <li class="menu-item">
+              <li class="menu-item">
+              <a href="{% url 'mod_notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item open">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'Faculty' %}" class="menu-link">
-                    <div data-i18n="CRM">Faculty</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{% url 'Students' %}" class="menu-link">
+                <li class="menu-item active">
+                  <a href="{% url 'mod_Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
                 <li  class="menu-item">
-                  <a href="{% url 'ExStudents' %}" class="menu-link">
+                  <a href="{% url 'mod_ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-              <li class="menu-item">
-              <a href="" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-book-fill"></i>
-                <div data-i18n="Dashboards">Sessions</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-                <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'Sessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Current</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Completed</div>
                   </a>
                 </li>
               </ul>
             </li>
 
             <li class="menu-item">
-              <a href="{% url 'Leads' %}" class="menu-link">
+              <a href="{% url 'mod_Leads' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'select_course' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-user-fill"></i>
-                <div data-i18n="Dashboards">Attendance</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'payment' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
-                <div data-i18n="Dashboards">Payments</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item active">
-              <a href="{% url 'notification' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-fill"></i>
-                <div data-i18n="Dashboards">Notifications</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
@@ -221,7 +146,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                     <li>
-                      <a class="dropdown-item" href="{% url 'Admin_Profile' %}">
+                      <a class="dropdown-item" href="{% url 'Moderator_Profile' %}">
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
@@ -231,7 +156,7 @@
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
                             <small class="text-muted">
-                                    Admin
+                                    Moderator
                             </small>
                           </div>
                         </div>
@@ -262,52 +187,49 @@
             <!-- Content -->
             
             <div class="container-xxl flex-grow-1 container-p-y">
-  <a class="btn btn-primary mb-3" href="{% url 'Recheck' %}">
-    <span class="tf-icons ri-notification-3-line me-1_5"></span>Recheck
-  </a>
-  
-  <div class="row gy-lg-8">
-    <div class="col-12">
-      <div class="card overflow-hidden">
-        <!-- Notifications DataTable -->
-        <div class="table-responsive my-4">
-          <table id="notification-table" class="table table-sm table-hover table-striped align-middle mb-0">
-            <thead class="table-primary">
-              <tr>
-                <th>User</th>
-                <th>Date</th>
-                <th>Category</th>
-                <th>Content</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for notification in notifications %}
-              <tr>
-                <td>{{ notification.user.first_name }} {{ notification.user.last_name }}</td>
-                <td>{{ notification.date }}</td>
-                <td>
-                  <span class="badge 
-                    {% if notification.category == 'General' %} bg-secondary 
-                    {% elif notification.category == 'Late fee' %} bg-danger
-                    {% elif notification.category == 'New Entry' %} bg-info 
-                    {% elif notification.category == 'Deletion' %} bg-warning 
-                    {% elif notification.category == 'New Fee' %} bg-success 
-                    {% elif notification.category == 'Updation' %} bg-primary 
-                    {% endif %}">
-                    {{ notification.category }}
-                  </span>
-                </td>
-                <td>{{ notification.content }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            <a class="btn btn-primary" href="{% url 'AddStudent' %}">
+                <span class="tf-icons ri-add-circle-fill ri-16px me-1_5"></span>Add
+            </a>
+            <br>
+            <br>
+              <div class="row gy-lg-8">             
 
+                <div class="col-12">
+                    <div class="card overflow-hidden">
+                        <div class="table-responsive">
+                            <table id="user-table" class="table table-sm table-hover table-striped align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-truncate">User</th>
+                                        <th class="text-truncate">Email</th>
+                                        <th class="text-truncate">Phone</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for student in students %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'mod_StudentView' student.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                                <div class="avatar avatar-sm me-4">
+                                                    <img src="{{ student.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-0 text-truncate">{{ student.student_name }}</h6>
+                                                </div>
+                                            </a>
+                                        </td>
+                                        <td class="text-truncate">{{ student.email }}</td>
+                                        <td class="text-truncate">{{ student.mobile_no }}</td>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
             <!-- / Content -->
 
             <!-- Footer -->
@@ -337,7 +259,7 @@
     <!-- / Layout wrapper -->
     
 
-    <!-- Core JS -->
+<!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/static/assets/vendor/libs/popper/popper.js"></script>
@@ -348,29 +270,27 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <!-- DataTable Initialization Script -->
-<script>
-  $(document).ready(function() {
-      $('#notification-table').DataTable({
-          "paging": true,
-          "searching": true,
-          "ordering": true,
-          "pageLength": 40,
-          "lengthChange": false,
-          "language": {
-              "info": "Showing _START_ to _END_ of _TOTAL_ notifications",
-              "paginate": {
-                  "previous": "&laquo;", 
-                  "next": "&raquo;"       
-              }
-          },
-          "dom": '<"top"f>rt<"bottom"p><"clear">' 
-      });
-  });
-</script>
 
     <!-- endbuild -->
-
+<script>
+    $(document).ready(function() {
+        $('#user-table').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "pageLength": 5,
+            "lengthChange": false,
+            "language": {
+                "info": "Showing _START_ to _END_ of _TOTAL_ users",
+                "paginate": {
+                    "previous": "&laquo;", 
+                    "next": "&raquo;"       
+                }
+            },
+            "dom": '<"top"f>rt<"bottom"p><"clear">' 
+        });
+    });
+</script>
     <!-- Vendors JS -->
     <script src="/static/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
@@ -381,4 +301,3 @@
     <script src="/static/assets/js/dashboards-analytics.js"></script>
   </body>
 </html>
-

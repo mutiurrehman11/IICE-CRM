@@ -200,7 +200,8 @@ def add_fee_payment(request, session_id):
             return JsonResponse({"success": False, "error": str(e)})
 
     return JsonResponse({"success": False, "error": "Invalid request method."})
-def Notification(request):
+
+def MakeNotification(request):
     if 'user_id' not in request.session:
         return redirect('home')
     user_id = request.session.get('user_id')
@@ -211,6 +212,18 @@ def Notification(request):
             message = "Due Date passed for " + session.student.student_name + " in " + session.session.session_name + " session"
             admin_models.Notification.objects.create(user=user, date=date.today(), category='Late fee',
                                                      content=message)
+
+    notifications = admin_models.Notification.objects.all().order_by('-date')
+    context = {
+        'user': user,
+        'notifications': notifications
+    }
+    return render(request, 'Admin/Notifications.html', context)
+def Notification(request):
+    if 'user_id' not in request.session:
+        return redirect('home')
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)  # Logged-in user
     notifications = admin_models.Notification.objects.all().order_by('-date')
     context = {
         'user': user,

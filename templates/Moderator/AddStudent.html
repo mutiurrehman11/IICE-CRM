@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin Dashboard</title>
+    <title>Moderator Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -68,90 +68,38 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-            <li class="menu-item">
-              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Basic">Dashboard</div>
-              </a>
-            </li>
           <ul class="menu-inner py-1">
             <!-- User Pages -->
-            <li class="menu-item">
+              <li class="menu-item">
+              <a href="{% url 'mod_notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item open">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'Faculty' %}" class="menu-link">
-                    <div data-i18n="CRM">Faculty</div>
-                  </a>
-                </li>
                 <li class="menu-item active">
-                  <a href="{% url 'Students' %}" class="menu-link">
+                  <a href="{% url 'mod_Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
                 <li  class="menu-item">
-                  <a href="{% url 'ExStudents' %}" class="menu-link">
+                  <a href="{% url 'mod_ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-              <li class="menu-item">
-              <a href="" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-book-fill"></i>
-                <div data-i18n="Dashboards">Sessions</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-                <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'Sessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Current</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Completed</div>
                   </a>
                 </li>
               </ul>
             </li>
 
             <li class="menu-item">
-              <a href="{% url 'Leads' %}" class="menu-link">
+              <a href="{% url 'mod_Leads' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'select_course' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-user-fill"></i>
-                <div data-i18n="Dashboards">Attendance</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'payment' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
-                <div data-i18n="Dashboards">Payments</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'notification' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-fill"></i>
-                <div data-i18n="Dashboards">Notifications</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-              <li class="menu-item">
-              <a href="{% url 'EmailService' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
-                <div data-i18n="Dashboards">Email Service</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
@@ -186,7 +134,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                     <li>
-                      <a class="dropdown-item" href="{% url 'Admin_Profile' %}">
+                      <a class="dropdown-item" href="{% url 'Moderator_Profile' %}">
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
@@ -196,7 +144,7 @@
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
                             <small class="text-muted">
-                                    Admin
+                                    Moderator
                             </small>
                           </div>
                         </div>
@@ -219,7 +167,6 @@
               </ul>
             </div>
           </nav>
-        
 
           <!-- / Navbar -->
 

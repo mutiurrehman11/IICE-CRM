@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin Dashboard</title>
+    <title>Moderator Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -68,90 +68,38 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-            <li class="menu-item">
-              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Basic">Dashboard</div>
-              </a>
-            </li>
           <ul class="menu-inner py-1">
             <!-- User Pages -->
+              <li class="menu-item">
+              <a href="{% url 'mod_notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
             <li class="menu-item">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
-                <ul class="menu-sub open">
-                <li class="menu-item active">
-                  <a href="{% url 'Faculty' %}" class="menu-link">
-                    <div data-i18n="CRM">Faculty</div>
-                  </a>
-                </li>
+                <ul class="menu-sub">
                 <li class="menu-item">
-                  <a href="{% url 'Students' %}" class="menu-link">
+                  <a href="{% url 'mod_Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
                 <li  class="menu-item">
-                  <a href="{% url 'ExStudents' %}" class="menu-link">
+                  <a href="{% url 'mod_ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-              <li class="menu-item">
-              <a href="" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-book-fill"></i>
-                <div data-i18n="Dashboards">Sessions</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-                <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'Sessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Current</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Completed</div>
                   </a>
                 </li>
               </ul>
             </li>
 
             <li class="menu-item">
-              <a href="{% url 'Leads' %}" class="menu-link">
+              <a href="{% url 'mod_Leads' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'select_course' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-user-fill"></i>
-                <div data-i18n="Dashboards">Attendance</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'payment' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
-                <div data-i18n="Dashboards">Payments</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'notification' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-fill"></i>
-                <div data-i18n="Dashboards">Notifications</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-              <li class="menu-item">
-              <a href="{% url 'EmailService' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
-                <div data-i18n="Dashboards">Email Service</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
@@ -186,7 +134,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                     <li>
-                      <a class="dropdown-item" href="{% url 'Admin_Profile' %}">
+                      <a class="dropdown-item" href="{% url 'Moderator_Profile' %}">
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
@@ -196,7 +144,7 @@
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
                             <small class="text-muted">
-                                    Admin
+                                    Moderator
                             </small>
                           </div>
                         </div>
@@ -241,8 +189,8 @@
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-6">
                         <img
-                          src="{% if userdata.profile_photo %}{{ userdata.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          alt="{{ userdata.first_name }} {{ userdata.last_name }}"
+                          src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
+                          alt="{{ user.first_name }} {{ user.last_name }}"
                           class="d-block w-px-100 h-px-100 rounded"
                           id="uploadedAvatar" />
                       </div>
@@ -251,94 +199,52 @@
                       <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                       <div class="row mt-1 g-5">
-                        
-                        <!-- First Name -->
                         <div class="col-md-6">
                           <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="firstName" name="first_name" value="{{ userdata.first_name }}" autofocus />
+                            <input class="form-control" type="text" id="firstName" name="first_name" value="{{ user.first_name }}" autofocus />
                             <label for="firstName">First Name</label>
                           </div>
                         </div>
-                    
-                        <!-- Last Name -->
                         <div class="col-md-6">
                           <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" name="last_name" id="lastName" value="{{ userdata.last_name }}" />
-                            <label for="lastName">Last Name</label>
+                            <input class="form-control" type="text" name="last_name" id="last_name" value="{{ user.last_name }}" />
+                            <label for="last_name">Last Name</label>
                           </div>
                         </div>
-                    
-                        <!-- Email -->
                         <div class="col-md-6">
                           <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="email" id="email" name="email" value="{{ userdata.email }}" />
+                            <input class="form-control" type="email" id="email" name="email" value="{{ user.email }}" />
                             <label for="email">E-mail</label>
                           </div>
                         </div>
-                        <!-- Email -->
                         <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="password" name="password" value="{{ userdata.password }}" />
-                            <label for="email">Password</label>
-                          </div>
+                            <div class="form-floating form-floating-outline">
+                              <input type="text" class="form-control" id="password" name="password" value="{{ user.password }}" />
+                              <label for="password">Password</label>
+                            </div>
                         </div>
-                        <!-- CNIC -->
                         <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="cnic" name="cnic" value="{{ userdata.cnic }}" />
-                            <label for="cnic">CNIC</label>
-                          </div>
-                        </div>
-                    
-                        <!-- Phone Number -->
+                            <div class="form-floating form-floating-outline">
+                                <input class="form-control" type="text" id="cnic" name="cnic" value="{{ user.cnic }}" />
+                                <label for="cnic">CNIC</label>
+                            </div>
+                        </div>  
                         <div class="col-md-6">
                           <div class="input-group input-group-merge">
                             <div class="form-floating form-floating-outline">
-                              <input type="text" id="phoneNumber" name="mobile_no" class="form-control" value="{{ userdata.mobile_no }}" />
+                              <input type="text" id="phoneNumber" name="mobile_no" class="form-control" value="{{ user.mobile_no }}" />
                               <label for="phoneNumber">Phone Number</label>
                             </div>
                             <span class="input-group-text">PK (+92)</span>
                           </div>
                         </div>
-                    
-                        <!-- Address -->
                         <div class="col-md-6">
                           <div class="form-floating form-floating-outline">
-                            <input type="text" class="form-control" id="address" name="address" value="{{ userdata.address }}" />
+                            <input type="text" class="form-control" id="address" name="address" value="{{ user.address }}" />
                             <label for="address">Address</label>
                           </div>
                         </div>
-                      <!-- Status -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <select class="form-select" id="status" name="status">
-                              <option value="Active" {% if userdata.status == "Active" %} selected {% endif %}>Active</option>
-                              <option value="Inactive" {% if userdata.status == "Inactive" %} selected {% endif %}>Inactive</option>
-                            </select>
-                            <label for="status">Status</label>
-                          </div>
-                        </div>
                     
-                        <!-- Joining Date -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <input type="date" class="form-control" id="joiningDate" name="joining_date" value="{{ userdata.joining_date|date:'Y-m-d' }}" />
-                            <label for="joiningDate">Joining Date</label>
-                          </div>
-                        </div>
-
-                        <!-- User Type -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <select class="form-control" name="usertype" id="usertype">
-                              <option value="1" {% if userdata.usertype == 1 %} selected {% endif %}>Admin</option>
-                              <option value="2" {% if userdata.usertype == 2 %} selected {% endif %}>Moderator</option>
-                              <option value="3" {% if userdata.usertype == 3 %} selected {% endif %}>Teacher</option>
-                            </select>
-                            <label for="usertype">User Type</label>
-                          </div>
-                        </div>    
-                        <!-- Profile Photo -->
                         <div class="col-md-6">
                           <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
                             <span class="d-none d-sm-block">Upload new photo</span>
@@ -346,28 +252,14 @@
                           </label>
                         </div>
                     
-                        <!-- Save Button -->
                         <div class="mt-6">
                           <button type="submit" class="btn btn-primary me-3">Save changes</button>
                         </div>
-                    
                       </div>
                     </form>
-
-
                     </div>
                     <!-- /Account -->
                   </div>
-                    <div class="card">
-                        <h5 class="card-header">Delete Account</h5>
-                        <div class="card-body">
-                          <form id="formAccountDeactivation" onsubmit="return false">
-                            <a href="{% url 'DeleteFaculty' userdata.id %}" type="submit" class="btn btn-danger deactivate-account">
-                              Delete Account
-                            </a>
-                          </form>
-                        </div>
-                      </div>
                 </div>
               </div>
             </div>
@@ -399,6 +291,7 @@
     </div>
     <!-- / Layout wrapper -->
     
+
 <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>

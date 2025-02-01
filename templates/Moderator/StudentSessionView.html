@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin Dashboard</title>
+    <title>Moderator Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -68,90 +68,38 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-            <li class="menu-item">
-              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div data-i18n="Basic">Dashboard</div>
-              </a>
-            </li>
           <ul class="menu-inner py-1">
             <!-- User Pages -->
-            <li class="menu-item">
+              <li class="menu-item">
+              <a href="{% url 'mod_notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item open">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'Faculty' %}" class="menu-link">
-                    <div data-i18n="CRM">Faculty</div>
-                  </a>
-                </li>
                 <li class="menu-item active">
-                  <a href="{% url 'Students' %}" class="menu-link">
+                  <a href="{% url 'mod_Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
                 <li  class="menu-item">
-                  <a href="{% url 'ExStudents' %}" class="menu-link">
+                  <a href="{% url 'mod_ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-              <li class="menu-item">
-              <a href="" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ri-book-fill"></i>
-                <div data-i18n="Dashboards">Sessions</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-                <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="{% url 'Sessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Current</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
-                    <div data-i18n="CRM">Completed</div>
                   </a>
                 </li>
               </ul>
             </li>
 
             <li class="menu-item">
-              <a href="{% url 'Leads' %}" class="menu-link">
+              <a href="{% url 'mod_Leads' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'select_course' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-user-fill"></i>
-                <div data-i18n="Dashboards">Attendance</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'payment' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
-                <div data-i18n="Dashboards">Payments</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="{% url 'notification' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-fill"></i>
-                <div data-i18n="Dashboards">Notifications</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
-              </a>
-            </li>
-              <li class="menu-item">
-              <a href="{% url 'EmailService' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
-                <div data-i18n="Dashboards">Email Service</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
@@ -186,7 +134,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                     <li>
-                      <a class="dropdown-item" href="{% url 'Admin_Profile' %}">
+                      <a class="dropdown-item" href="{% url 'Moderator_Profile' %}">
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
@@ -196,7 +144,7 @@
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
                             <small class="text-muted">
-                                    Admin
+                                    Moderator
                             </small>
                           </div>
                         </div>
@@ -219,7 +167,6 @@
               </ul>
             </div>
           </nav>
-        
 
           <!-- / Navbar -->
 
@@ -239,109 +186,138 @@
                   </div>
                   <div class="card mb-6">
                     <div class="card-body pt-0">
-                      <form id="formAddUser" method="POST" enctype="multipart/form-data">
+                      <form id="formAccountSettings" method="POST">
                         {% csrf_token %}
                         <div class="row mt-1 g-5">
+                    
+                            <!-- Student Name (read-only) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="student_name" name="student_name" required />
-                                    <label for="student_name">Student Name</label>
+                                    <input class="form-control" type="text" id="studentName" name="student_name" value="{{ userdata.student.student_name }}" readonly />
+                                    <label for="studentName">Student</label>
                                 </div>
                             </div>
+                    
+                            <!-- Session Name (read-only) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" name="father_name" id="father_name" required />
-                                    <label for="father_name">Father Name</label>
+                                    <input class="form-control" type="text" id="sessionName" name="session_name" value="{{ userdata.session.session_name }}" readonly />
+                                    <label for="sessionName">Session</label>
                                 </div>
                             </div>
+                    
+                            <!-- Registration Date (read-only) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="email" id="email" name="email" required />
-                                    <label for="email">E-mail</label>
-                                    {% if form.email.errors %}
-                                        <div class="text-danger">
-                                            {% for error in form.email.errors %}
-                                                <p>{{ error }}</p>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
+                                    <input class="form-control" type="date" id="registrationDate" name="registration_date" value="{{ userdata.registration_date }}" readonly />
+                                    <label for="registrationDate">Registration Date</label>
                                 </div>
                             </div>
+                    
+                            <!-- Registration Fee (read-only) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="cnic" name="cnic" required />
-                                    <label for="cnic">CNIC</label>
+                                    <input class="form-control" type="number" id="registrationFee" name="registration_fee" value="{{ userdata.registration_fee }}" readonly />
+                                    <label for="registrationFee">Registration Fee</label>
                                 </div>
                             </div>
+                    
+                            <!-- Fee (read-only) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
-                                    <label for="mobile_no">Mobile Number</label>
+                                    <input class="form-control" type="number" id="fee" name="fee" value="{{ userdata.fee }}" readonly />
+                                    <label for="fee">Fee</label>
                                 </div>
                             </div>
+                    
+                            <!-- Fee Paid (read-only) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="Temp_address" name="Temp_address" required />
-                                    <label for="Temp_address"> Temporary Address</label>
+                                    <input class="form-control" type="number" id="feePaid" name="fee_paid" value="{{ userdata.fee_paid }}" readonly />
+                                    <label for="feePaid">Fee Paid</label>
                                 </div>
                             </div>
+                    
+                            <!-- Due Date (read-only) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="Perm_address" name="Perm_address" required />
-                                    <label for="Perm_address"> Permanent Address</label>
+                                    <input class="form-control" type="date" id="due_date" name="due_date" value="{{ userdata.due_date|date:'Y-m-d' }}" />
+                                    <label for="due_date">Due Date</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                              <div class="form-floating form-floating-outline">
-                                <input type="text" class="form-control" id="last_degree" name="last_degree" required />
-                                <label for="last_degree">Last Degree</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="last_institution" name="last_institution" required />
-                                    <label for="last_institution">Last Institution</label>
-                                </div>
-                            </div>
+                    
+                            <!-- Status (editable) -->
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
                                     <select class="form-select" id="status" name="status">
-                                        <option value="Active" selected>Active</option>
-                                        <option value="Inactive">Inactive</option>
+                                        <option value="Active" {% if userdata.status == "Active" %} selected {% endif %}>Active</option>
+                                        <option value="Inactive" {% if userdata.status == "Inactive" %} selected {% endif %}>Inactive</option>
                                     </select>
                                     <label for="status">Status</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="profile_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Profile Photo</span>
-                                    <input type="file" id="profile_photo" name="profile_photo" class="account-file-input" hidden/>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="cnic_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload CNIC Photo</span>
-                                    <input type="file" id="cnic_photo" name="cnic_photo" class="account-file-input" hidden/>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="degree_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Degree Photo</span>
-                                    <input type="file" id="degree_photo" name="degree_photo" class="account-file-input" hidden/>
-                                </label>
+                    
+                            <!-- Notes (editable) -->
+                            <div class="col-md-12">
+                                <div class="form-floating form-floating-outline">
+                                    <textarea class="form-control" id="notes" name="notes">{{ userdata.notes }}</textarea>
+                                    <label for="notes">Notes</label>
+                                </div>
                             </div>
                     
-                            <div class="mt-6">
-                                <button type="submit" class="btn btn-primary me-3">Add Student</button>
+                            <!-- Save Button -->
+                            <div class="col-md-12 mt-4">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
                             </div>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feeInputModal">
+                                <i class="ri-add-circle-fill me-1"></i>Fee Input
+                            </button>
+                    
                         </div>
                     </form>
 
-
+<!-- Fee Input Modal -->
+<div class="modal fade" id="feeInputModal" tabindex="-1" aria-labelledby="feeInputModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="feeInputForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feeInputModalLabel">Add Fee Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required />
+                        <div class="invalid-feedback">Amount must be positive and within the remaining balance.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dueDate" class="form-label">Next Due Date</label>
+                        <input type="date" class="form-control" id="dueDate" name="due_date" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
                     </div>
                     <!-- /Account -->
                   </div>
+                    <div class="card">
+                        <h5 class="card-header">Delete Record</h5>
+                        <div class="card-body">
+                          <form id="formAccountDeactivation" onsubmit="return false">
+                            <a href="{% url 'mod_DeleteStudentSession' userdata.id %}" type="submit" class="btn btn-danger deactivate-account">
+                              Delete Record
+                            </a>
+                          </form>
+                        </div>
+                      </div>
                 </div>
               </div>
             </div>
@@ -373,8 +349,41 @@
     </div>
     <!-- / Layout wrapper -->
     
+    <script>
+    document.getElementById("feeInputForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const amount = parseInt(formData.get("amount"));
 
-    <!-- Core JS -->
+        // Validate amount
+        const remainingFee = {{ userdata.fee }} - {{ userdata.fee_paid }} - {{ userdata.discount }};
+        if (amount <= 0 || amount > remainingFee) {
+            const amountField = document.getElementById("amount");
+            amountField.classList.add("is-invalid");
+            return;
+        }
+
+        // Submit the data via AJAX
+        fetch("{% url 'add_fee_payment' userdata.id %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // Reload page to reflect changes
+            } else {
+                alert(data.error || "An error occurred.");
+            }
+        });
+    });
+</script>
+    
+<!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/static/assets/vendor/libs/popper/popper.js"></script>
