@@ -44,6 +44,28 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/static/assets/js/config.js"></script>
+
+    <style>
+        .avatar img {
+            width: 40px !important;
+            height: 40px !important;
+            object-fit: cover !important;
+            border-radius: 50% !important;
+            border: 2px solid #fff !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+        }
+        
+        .profile-preview img {
+            width: 150px !important;
+            height: 150px !important;
+            object-fit: cover !important;
+            border-radius: 50% !important;
+            margin: 0 auto;
+            display: block;
+            border: 3px solid #fff !important;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1) !important;
+        }
+    </style>
   </head>
 
   <body>
@@ -102,8 +124,7 @@
                     <div class="avatar avatar-online">
                         <!-- Check if the user has a profile photo, if not, show a default image -->
                         <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
-                             alt="{{ user.first_name }} {{ user.last_name }}" 
-                             class="w-px-40 h-auto rounded-circle" />
+                             alt="{{ user.first_name }} {{ user.last_name }}" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
@@ -113,7 +134,7 @@
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
                              alt="{{ user.first_name }} {{ user.last_name }}" 
-                             class="w-px-40 h-auto rounded-circle" />
+                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;" />
                           </div>
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
@@ -158,18 +179,19 @@
                       </li>
                     </ul>
                   </div>
-                  <div class="card mb-6">
-                    <!-- Account -->
+                  <div class="card mb-4">
+                    <h5 class="card-header">Profile Details</h5>
                     <div class="card-body">
-                      <div class="d-flex align-items-start align-items-sm-center gap-6">
-                        <img
-                          src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          alt="{{ user.first_name }} {{ user.last_name }}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
+                      <div class="row mb-4">
+                        <div class="col-12 text-center">
+                          <div class="image-preview mb-2 profile-preview">
+                            <img id="profilePreview" 
+                                 src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
+                                 alt="Profile Photo" />
+                          </div>
+                          <small class="text-muted">Profile Photo</small>
+                        </div>
                       </div>
-                    </div>
-                    <div class="card-body pt-0">
                       <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
                       <div class="row mt-1 g-5">
@@ -232,7 +254,6 @@
                       </div>
                     </form>
                     </div>
-                    <!-- /Account -->
                   </div>
                 </div>
               </div>

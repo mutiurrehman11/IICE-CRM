@@ -61,6 +61,20 @@
     background: #007bff;
     color: #fff;
   }
+  
+  .avatar img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    border: 2px solid #fff !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+  }
+  
+  .dropdown-menu .flex-shrink-0 img {
+    border: 2px solid #fff !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
+  }
 </style>
 
   </head>
@@ -122,7 +136,7 @@
                         <!-- Check if the user has a profile photo, if not, show a default image -->
                         <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
                              alt="{{ user.first_name }} {{ user.last_name }}" 
-                             class="w-px-40 h-auto rounded-circle" />
+                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
@@ -132,7 +146,7 @@
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
                              alt="{{ user.first_name }} {{ user.last_name }}" 
-                             class="w-px-40 h-auto rounded-circle" />
+                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;" />
                           </div>
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
@@ -188,11 +202,39 @@
               <a href="{% url 'tec_mark_attendance' course.id %}" class="btn btn-success btn-sm me-2">
                 Mark Attendance
               </a>
-              <a href="{% url 'print_attendance_report' course.id %}" class="btn btn-outline-primary btn-sm">
+              <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#dateRangeModal{{ course.id }}">
                 Print Attendance Report
-              </a>
+              </button>
             </div>
           </li>
+
+          <!-- Date Range Modal -->
+          <div class="modal fade" id="dateRangeModal{{ course.id }}" tabindex="-1" aria-labelledby="dateRangeModalLabel{{ course.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form method="get" action="{% url 'print_attendance_report' course.id %}" target="_blank">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="dateRangeModalLabel{{ course.id }}">Select Date Range</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="mb-3">
+                      <label for="start_date{{ course.id }}" class="form-label">Start Date</label>
+                      <input type="date" class="form-control" id="start_date{{ course.id }}" name="start_date" required />
+                    </div>
+                    <div class="mb-3">
+                      <label for="end_date{{ course.id }}" class="form-label">End Date</label>
+                      <input type="date" class="form-control" id="end_date{{ course.id }}" name="end_date" required />
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         {% endfor %}
       </ul>
     </div>

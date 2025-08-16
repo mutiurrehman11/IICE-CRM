@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin Dashboard</title>
+    <title>Session Management - Admin Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -37,7 +37,316 @@
     <link rel="stylesheet" href="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/static/assets/vendor/libs/apex-charts/apex-charts.css" />
 
-    <!-- Page CSS -->
+    <!-- Enhanced UI Styles -->
+    <style>
+      /* Enhanced Animations and Transitions */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Enhanced Card Styling */
+      .enhanced-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        overflow: hidden;
+        position: relative;
+      }
+      
+      .enhanced-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      }
+      
+      .enhanced-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      }
+      
+      /* Enhanced Form Controls */
+      .enhanced-form-control {
+        border: 2px solid #e3e6f0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+      }
+      
+      .enhanced-form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        transform: scale(1.02);
+        background: rgba(255, 255, 255, 0.95);
+      }
+      
+      /* Enhanced Buttons */
+      .enhanced-btn {
+        border-radius: 12px;
+        padding: 12px 24px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .enhanced-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+      
+      .enhanced-btn:hover::before {
+        left: 100%;
+      }
+      
+      .enhanced-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      }
+      
+      .btn-primary.enhanced-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+      }
+      
+      .btn-danger.enhanced-btn {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        border: none;
+      }
+      
+      /* Enhanced Navigation */
+      .enhanced-nav {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 12px;
+        padding: 8px;
+        margin-bottom: 2rem;
+      }
+      
+      .enhanced-nav .nav-link {
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+      }
+      
+      .enhanced-nav .nav-link.active {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        backdrop-filter: blur(10px);
+      }
+      
+      .enhanced-nav .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        transform: translateY(-1px);
+      }
+      
+      /* Enhanced Image Container */
+      .enhanced-image-container {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .enhanced-image-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+      
+      .enhanced-image-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      .enhanced-image-container:hover::after {
+        opacity: 1;
+      }
+      
+      /* Enhanced Status Badge */
+      .status-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+      }
+      
+      .status-active {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
+      }
+      
+      .status-inactive {
+        background: linear-gradient(135deg, #f44336, #d32f2f);
+        color: white;
+        box-shadow: 0 2px 10px rgba(244, 67, 54, 0.3);
+      }
+      
+      /* Enhanced Section Headers */
+      .section-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 12px 12px 0 0;
+        margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .section-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+        opacity: 0.1;
+      }
+      
+      .section-header h5 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.25rem;
+        position: relative;
+        z-index: 1;
+      }
+      
+      /* Enhanced Form Floating Labels */
+      .form-floating-outline {
+        position: relative;
+      }
+      
+      .form-floating-outline .form-control,
+      .form-floating-outline .form-select {
+        border: 2px solid #e3e6f0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+      }
+      
+      .form-floating-outline .form-control:focus,
+      .form-floating-outline .form-select:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        background: rgba(255, 255, 255, 0.95);
+      }
+      
+      /* Enhanced Upload Button */
+      .upload-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 12px;
+        padding: 12px 24px;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .upload-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        color: white;
+      }
+      
+      /* Enhanced Delete Section */
+      .delete-section {
+        background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+        border: 2px solid #feb2b2;
+        border-radius: 16px;
+        transition: all 0.3s ease;
+      }
+      
+      .delete-section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(254, 178, 178, 0.4);
+      }
+      
+      .delete-section .card-header {
+        background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+        border: none;
+        font-weight: 600;
+      }
+      
+      /* Pulse Animation for Important Elements */
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+      
+      .pulse-on-hover:hover {
+        animation: pulse 0.6s ease-in-out;
+      }
+      
+      /* Fade In Animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+      }
+      
+      /* Enhanced Responsive Design */
+      @media (max-width: 768px) {
+        .enhanced-card {
+          margin: 0 -0.5rem;
+          border-radius: 12px;
+        }
+        
+        .section-header {
+          margin: -1rem -1rem 1rem -1rem;
+          padding: 15px;
+        }
+      }
+    </style>
 
     <!-- Helpers -->
     <script src="/static/assets/vendor/js/helpers.js"></script>
@@ -55,7 +364,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -167,6 +476,13 @@
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
+            
+            <!-- Mobile menu toggle -->
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-24px"></i>
+              </a>
+            </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
@@ -227,112 +543,204 @@
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <div class="col-md-12">
-                  <div class="nav-align-top">
-                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
+                  <div class="nav-align-top animate-on-scroll">
+                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0 enhanced-nav">
                       <li class="nav-item">
                         <a href="{% url 'SessionView' sessiondata.id %}" class="nav-link active"
-                          ><i class="ri-book-2-line me-1_5"></i>Session</a
+                          ><i class="ri-book-2-line me-1_5"></i>Session Details</a
                         >
                       </li>
                       <li class="nav-item">
                         <a href="{% url 'SessionStudentView' sessiondata.id %}" class="nav-link"
-                          ><i class="ri-group-line me-1_5"></i>Students</a
+                          ><i class="ri-group-line me-1_5"></i>Enrolled Students</a
                         >
                       </li>
                     </ul>
                   </div>
-                  <div class="card mb-6">
+                  
+                  <!-- Main Session Card -->
+                  <div class="card mb-6 enhanced-card animate-on-scroll fade-in-up">
+                    <div class="section-header">
+                      <h5 class="mb-0">
+                        <i class="ri-settings-3-line me-2"></i>
+                        Session Configuration
+                      </h5>
+                    </div>
                     <div class="card-body">
-                      <div class="d-flex align-items-start align-items-sm-center gap-6">
-                        <img
-                          src="{% if sessiondata.session_photo %}{{ sessiondata.session_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
+                      <div class="d-flex align-items-start align-items-sm-center gap-6 mb-4">
+                        <div class="enhanced-image-container">
+                          <img
+                            src="{% if sessiondata.session_photo %}{{ sessiondata.session_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
+                            class="d-block w-px-120 h-px-120 rounded"
+                            id="uploadedAvatar" 
+                            style="object-fit: cover;" />
+                        </div>
+                        <div class="flex-grow-1">
+                          <h4 class="mb-2 text-primary fw-bold">{{ sessiondata.session_name }}</h4>
+                          <div class="d-flex align-items-center gap-3">
+                            <span class="status-badge {% if sessiondata.status == 'Active' %}status-active{% else %}status-inactive{% endif %}">
+                              <i class="ri-{% if sessiondata.status == 'Active' %}check{% else %}close{% endif %}-circle-line me-1"></i>
+                              {{ sessiondata.status }}
+                            </span>
+                            <span class="badge bg-info">
+                              <i class="ri-calendar-line me-1"></i>
+                              {{ sessiondata.session_type|title }} Session
+                            </span>
+                          </div>
+                        </div>
                       </div>
+                      
                       <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
-                      <div class="row mt-1 g-5">
+                      <div class="row mt-4 g-4">
                         
-                        <!-- First Name -->
-                        <div class="col-md-6">
+                        <!-- Session Name -->
+                        <div class="col-md-6 animate-on-scroll">
                           <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="session_name" name="session_name" value="{{ sessiondata.session_name }}" autofocus />
-                            <label for="session_name">Session Name</label>
+                            <input class="form-control enhanced-form-control" type="text" id="session_name" name="session_name" value="{{ sessiondata.session_name }}" autofocus />
+                            <label for="session_name">
+                              <i class="ri-book-line me-1"></i>
+                              Session Name
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <!-- Session Type -->
+                        <div class="col-md-6 animate-on-scroll">
+                          <div class="form-floating form-floating-outline">
+                            <select class="form-select enhanced-form-control" id="session_type" name="session_type" onchange="toggleFeeFields()" required>
+                              <option value="time_period" {% if sessiondata.session_type == 'time_period' %}selected{% endif %}>Time Period Session</option>
+                              <option value="monthly" {% if sessiondata.session_type == 'monthly' %}selected{% endif %}>Monthly Session</option>
+                            </select>
+                            <label for="session_type">
+                              <i class="ri-time-line me-1"></i>
+                              Session Type
+                            </label>
                           </div>
                         </div>
                       
                         <!-- Registration fee -->
-                        <div class="col-md-6">
+                        <div class="col-md-6 animate-on-scroll">
                           <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="registration_fee" name="registration_fee" value="{{ sessiondata.registration_fee }}" />
-                            <label for="registration_fee">Registration Fee</label>
+                            <input class="form-control enhanced-form-control" type="number" id="registration_fee" name="registration_fee" value="{{ sessiondata.registration_fee }}" />
+                            <label for="registration_fee">
+                              <i class="ri-money-dollar-circle-line me-1"></i>
+                              Registration Fee
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <!-- Tuition Fee -->
+                        <div class="col-md-6 animate-on-scroll" id="fee_field">
+                          <div class="form-floating form-floating-outline">
+                            <input class="form-control enhanced-form-control" type="number" id="fee" name="fee" value="{{ sessiondata.fee|default:'' }}" required />
+                            <label for="fee">
+                              <i class="ri-wallet-line me-1"></i>
+                              Tuition Fee
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <!-- Remove the monthly_fee field entirely -->
+                        <!-- Monthly fee field has been removed as it no longer exists in the model -->
+                      
+                        <!-- Start Date -->
+                        <div class="col-md-6 animate-on-scroll">
+                          <div class="form-floating form-floating-outline">
+                            <input type="date" class="form-control enhanced-form-control" id="start_date" name="start_date" value="{{ sessiondata.start_date|date:'Y-m-d' }}" />
+                            <label for="start_date">
+                              <i class="ri-calendar-event-line me-1"></i>
+                              Start Date
+                            </label>
                           </div>
                         </div>
                       
-                      <!-- Tuition fee -->
-                        <div class="col-md-6">
+                        <!-- End Date -->
+                        <div class="col-md-6 animate-on-scroll" id="end_date_field">
                           <div class="form-floating form-floating-outline">
-                            <input class="form-control" type="text" id="fee" name="fee" value="{{ sessiondata.fee }}" />
-                            <label for="fee">Tuition Fee</label>
+                            <input type="date" class="form-control enhanced-form-control" id="end_date" name="end_date" value="{{ sessiondata.end_date|date:'Y-m-d' }}" />
+                            <label for="end_date">
+                              <i class="ri-calendar-check-line me-1"></i>
+                              End Date
+                            </label>
                           </div>
                         </div>
                       
-                      <!-- Start Date -->
-                        <div class="col-md-6">
+                        <!-- Continuous indicator for monthly sessions -->
+                        <div class="col-md-6 animate-on-scroll" id="continuous_field" style="display: none;">
                           <div class="form-floating form-floating-outline">
-                            <input type="date" class="form-control" id="start_date" name="start_date" value="{{ sessiondata.start_date|date:'Y-m-d' }}" />
-                            <label for="start_date">Start Date</label>
+                            <input type="text" class="form-control enhanced-form-control" value="Continuous" readonly style="background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);" />
+                            <label>
+                              <i class="ri-infinity-line me-1"></i>
+                              Session Duration
+                            </label>
                           </div>
                         </div>
-                      
-                      <!-- End Date -->
-                        <div class="col-md-6">
+                        
+                        <!-- Status -->
+                        <div class="col-md-6 animate-on-scroll">
                           <div class="form-floating form-floating-outline">
-                            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ sessiondata.end_date|date:'Y-m-d' }}" />
-                            <label for="end_date">End Date</label>
-                          </div>
-                        </div>
-                      
-                      <!-- Status -->
-                        <div class="col-md-6">
-                          <div class="form-floating form-floating-outline">
-                            <select class="form-select" id="status" name="status">
+                            <select class="form-select enhanced-form-control" id="status" name="status">
                               <option value="Active" {% if sessiondata.status == "Active" %} selected {% endif %}>Active</option>
                               <option value="Inactive" {% if sessiondata.status == "Inactive" %} selected {% endif %}>Inactive</option>
                             </select>
-                            <label for="status">Status</label>
+                            <label for="status">
+                              <i class="ri-toggle-line me-1"></i>
+                              Status
+                            </label>
                           </div>
                         </div>
-                      <!-- Profile Photo -->
-                        <div class="col-md-6">
-                          <label for="upload" class="btn btn-sm btn-primary me-3 mb-4">
-                            <span class="d-none d-sm-block">Upload new photo</span>
+                        
+                        <!-- Profile Photo -->
+                        <div class="col-md-6 animate-on-scroll">
+                          <label for="upload" class="btn upload-btn enhanced-btn pulse-on-hover">
+                            <i class="ri-upload-cloud-line me-2"></i>
+                            <span class="d-none d-sm-inline">Upload Session Photo</span>
+                            <span class="d-sm-none">Upload Photo</span>
                             <input type="file" id="upload" name="session_photo" class="account-file-input" hidden />
                           </label>
                         </div>
                     
                         <!-- Save Button -->
-                        <div class="mt-6">
-                          <button type="submit" class="btn btn-primary me-3">Save changes</button>
+                        <div class="col-12 mt-6 animate-on-scroll">
+                          <button type="submit" class="btn btn-primary enhanced-btn pulse-on-hover">
+                            <i class="ri-save-line me-2"></i>
+                            Save Changes
+                          </button>
                         </div>
                     
                       </div>
                     </form>
 
-
                     </div>
                     <!-- /Account -->
                   </div>
-                    <div class="card">
-                        <h5 class="card-header">Delete Session</h5>
-                        <div class="card-body">
+                  
+                  <!-- Delete Session Card -->
+                  <div class="card delete-section animate-on-scroll">
+                    <div class="card-header">
+                      <h5 class="mb-0">
+                        <i class="ri-delete-bin-line me-2"></i>
+                        Danger Zone
+                      </h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="row align-items-center">
+                        <div class="col-md-8">
+                          <h6 class="text-danger mb-2">Delete Session</h6>
+                          <p class="text-muted mb-0">Once you delete this session, there is no going back. Please be certain.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end">
                           <form id="formAccountDeactivation" onsubmit="return false">
-                            <a href="{% url 'DeleteSession' sessiondata.id %}" type="submit" class="btn btn-danger deactivate-account">
+                            <a href="{% url 'DeleteSession' sessiondata.id %}" class="btn btn-danger enhanced-btn pulse-on-hover">
+                              <i class="ri-delete-bin-line me-2"></i>
                               Delete Session
                             </a>
                           </form>
                         </div>
                       </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -384,6 +792,129 @@
 
     <!-- Page JS -->
     <script src="/static/assets/js/dashboards-analytics.js"></script>
+    
+    <!-- Enhanced UI JavaScript -->
+    <script>
+    // Enhanced Animation Observer
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+    
+    // Observe all elements with animate-on-scroll class
+    document.addEventListener('DOMContentLoaded', function() {
+      const animatedElements = document.querySelectorAll('.animate-on-scroll');
+      animatedElements.forEach(el => {
+        observer.observe(el);
+      });
+      
+      // Initialize form field toggles
+      toggleFeeFields();
+      
+      // Add stagger animation to form fields
+      const formFields = document.querySelectorAll('.col-md-6');
+      formFields.forEach((field, index) => {
+        field.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+    
+    // Enhanced Form Field Toggle Function
+    function toggleFeeFields() {
+        const sessionType = document.getElementById('session_type').value;
+        const feeField = document.getElementById('fee_field');
+        const endDateField = document.getElementById('end_date_field');
+        const continuousField = document.getElementById('continuous_field');
+        const feeInput = document.getElementById('fee');
+        const endDateInput = document.getElementById('end_date');
+        
+        // Add smooth transition effects
+        const fields = [feeField, endDateField, continuousField];
+        fields.forEach(field => {
+            if (field) {
+                field.style.transition = 'all 0.3s ease';
+            }
+        });
+        
+        if (sessionType === 'monthly') {
+            // For monthly sessions, show continuous field instead of end date
+            if (endDateField) {
+                endDateField.style.opacity = '0';
+                setTimeout(() => {
+                    endDateField.style.display = 'none';
+                    continuousField.style.display = 'block';
+                    setTimeout(() => {
+                        continuousField.style.opacity = '1';
+                    }, 50);
+                }, 150);
+            }
+            endDateInput.required = false;
+            
+        } else {
+            // For time period sessions, show end date field
+            if (continuousField) {
+                continuousField.style.opacity = '0';
+                setTimeout(() => {
+                    continuousField.style.display = 'none';
+                    endDateField.style.display = 'block';
+                    setTimeout(() => {
+                        endDateField.style.opacity = '1';
+                    }, 50);
+                }, 150);
+            }
+            endDateInput.required = true;
+        }
+        
+        // Always show the fee field as it's used for both session types
+        if (feeField) {
+            feeField.style.display = 'block';
+            feeField.style.opacity = '1';
+        }
+        feeInput.required = true;
+    }
+    
+    // Enhanced File Upload Preview
+    document.getElementById('upload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('uploadedAvatar');
+                img.style.transform = 'scale(0.8)';
+                img.style.opacity = '0.5';
+                
+                setTimeout(() => {
+                    img.src = e.target.result;
+                    img.style.transform = 'scale(1)';
+                    img.style.opacity = '1';
+                }, 200);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    // Enhanced Form Validation with Visual Feedback
+    document.getElementById('formAccountSettings').addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        
+        submitBtn.innerHTML = '<i class="ri-loader-4-line me-2 spinner-border spinner-border-sm"></i>Saving...';
+        submitBtn.disabled = true;
+        
+        // Re-enable button after form submission (in case of validation errors)
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 3000);
+    });
+    </script>
   </body>
 </html>
 

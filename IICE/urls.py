@@ -48,6 +48,7 @@ urlpatterns = [
     path('Admin-ExStudents/', adminViews.ExStudents, name='ExStudents'),
     path('Moderator-ExStudents/', modViews.ExStudents, name='mod_ExStudents'),
     path('Admin-Students/Add/', adminViews.AddStudent, name='AddStudent'),
+    path('Admin-Students/Add/<int:id>/', adminViews.AddStudent, name='AddStudent_with_id'),
     path('Moderator-Students/Add/', modViews.AddStudent, name='mod_AddStudent'),
     path('Admin-Students/<int:studentid>/', adminViews.StudentView, name='StudentView'),
     path('Moderator-Students/<int:studentid>/', modViews.StudentView, name='mod_StudentView'),
@@ -64,8 +65,8 @@ urlpatterns = [
     path('Moderator-Students/Delete/<int:studentid>/', modViews.DeleteStudent, name='mod_DeleteStudent'),
     path('Admin-Leads/', adminViews.Leads, name='Leads'),
     path('Moderator-Leads/', modViews.Leads, name='mod_Leads'),
-    path('Admin-Leads/Add/', adminViews.AddLead, name='AddLead'),
-    path('Moderator-Leads/Add/', modViews.AddLead, name='mod_AddLead'),
+    path('Admin-AddLead/', adminViews.AddLead, name='AddLead'),
+    path('Moderator-AddLead/', modViews.AddLead, name='mod_AddLead'),
     path('Admin-Leads/<int:leadid>/', adminViews.LeadView, name='LeadView'),
     path('Moderator-Leads/<int:leadid>/', modViews.LeadView, name='mod_LeadView'),
     path('Admin-Leads/Delete/<int:leadid>/', adminViews.DeleteLead, name='DeleteLead'),
@@ -82,6 +83,9 @@ urlpatterns = [
     path('print_attendance_report/<int:course_id>/', adminViews.print_attendance_report, name='print_attendance_report'),
     path('Admin-EmailService/', adminViews.EmailService, name='EmailService'),
     path('notify-late-fee-students/', adminViews.notify_late_fee_students, name='notify_late_fee_students'),
+    path('send-fee-reminder/', adminViews.send_fee_reminder, name='send_fee_reminder'),
+    path('mark-all-notifications-read/', adminViews.mark_all_notifications_read, name='mark_all_notifications_read'),
+    path('Admin-Students/<int:studentid>/mark-installment-paid/', adminViews.mark_installment_paid, name='mark_installment_paid'),
 ]
 
 if settings.DEBUG:

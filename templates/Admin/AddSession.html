@@ -55,7 +55,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -168,6 +168,13 @@
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
 
+            <!-- Mobile menu toggle button -->
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-24px"></i>
+              </a>
+            </div>
+
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -253,7 +260,7 @@
                       <form id="formAddUser" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row mt-1 g-5">
-                            <!-- First Name -->
+                            <!-- Session Name -->
                             <div class="col-md-6">
                               <div class="form-floating form-floating-outline">
                                 <input class="form-control" type="text" id="session_name" name="session_name" required />
@@ -261,23 +268,42 @@
                               </div>
                             </div>
                           
+                            <!-- Session Type -->
+                            <div class="col-md-6">
+                              <div class="form-floating form-floating-outline">
+                                <select class="form-select" id="session_type" name="session_type" onchange="toggleFeeFields()" required>
+                                  <option value="time_period" selected>Time Period Session</option>
+                                  <option value="monthly">Monthly Session</option>
+                                </select>
+                                <label for="session_type">Session Type</label>
+                              </div>
+                            </div>
+                          
                             <!-- Registration fee -->
                             <div class="col-md-6">
                               <div class="form-floating form-floating-outline">
-                                <input class="form-control" type="text" id="registration_fee" name="registration_fee" required />
+                                <input class="form-control" type="number" id="registration_fee" name="registration_fee" required />
                                 <label for="registration_fee">Registration Fee</label>
                               </div>
                             </div>
                           
-                          <!-- Tuition fee -->
-                            <div class="col-md-6">
+                            <!-- One-time fee (for time period sessions) -->
+                            <div class="col-md-6" id="fee_field">
                               <div class="form-floating form-floating-outline">
-                                <input class="form-control" type="text" id="fee" name="fee" required />
-                                <label for="fee">Tuition Fee</label>
+                                <input class="form-control" type="number" id="fee" name="fee" />
+                                <label for="fee">One-time Fee</label>
                               </div>
                             </div>
                           
-                          <!-- Start Date -->
+                            <!-- Monthly fee (for monthly sessions) -->
+                            <div class="col-md-6" id="monthly_fee_field" style="display: none;">
+                              <div class="form-floating form-floating-outline">
+                                <input class="form-control" type="number" id="monthly_fee" name="monthly_fee" />
+                                <label for="monthly_fee">Monthly Fee</label>
+                              </div>
+                            </div>
+                          
+                            <!-- Start Date -->
                             <div class="col-md-6">
                               <div class="form-floating form-floating-outline">
                                 <input type="date" class="form-control" id="start_date" name="start_date" required />
@@ -285,15 +311,23 @@
                               </div>
                             </div>
                           
-                          <!-- End Date -->
-                            <div class="col-md-6">
+                            <!-- End Date -->
+                            <div class="col-md-6" id="end_date_field">
                               <div class="form-floating form-floating-outline">
                                 <input type="date" class="form-control" id="end_date" name="end_date" required />
                                 <label for="end_date">End Date</label>
                               </div>
                             </div>
+
+                            <!-- Continuous indicator for monthly sessions -->
+                            <div class="col-md-6" id="continuous_field" style="display: none;">
+                              <div class="form-floating form-floating-outline">
+                                <input type="text" class="form-control" value="Continuous" readonly style="background-color: #f8f9fa;" />
+                                <label>Session Duration</label>
+                              </div>
+                            </div>
                           
-                          <!-- Status -->
+                            <!-- Status -->
                             <div class="col-md-6">
                               <div class="form-floating form-floating-outline">
                                 <select class="form-select" id="status" name="status">
@@ -305,9 +339,10 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="session_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Session Photo</span>
+                                    <span class="d-none d-sm-block">Upload Session Photo (Optional)</span>
                                     <input type="file" id="session_photo" name="session_photo" class="account-file-input" hidden/>
                                 </label>
+                                <small class="text-muted d-block mt-2">A photo is not required for the session.</small>
                             </div>
                     
                             <div class="mt-6">
@@ -374,3 +409,58 @@
     <script src="/static/assets/js/dashboards-analytics.js"></script>
   </body>
 </html>
+
+<script>
+function toggleFeeFields() {
+    const sessionType = document.getElementById('session_type').value;
+    const feeField = document.getElementById('fee_field');
+    const monthlyFeeField = document.getElementById('monthly_fee_field');
+    const endDateField = document.getElementById('end_date_field');
+    const continuousField = document.getElementById('continuous_field');
+    const feeInput = document.getElementById('fee');
+    const monthlyFeeInput = document.getElementById('monthly_fee');
+    const startDateInput = document.getElementById('start_date');
+    const endDateInput = document.getElementById('end_date');
+    
+    if (sessionType === 'monthly') {
+        // Hide one-time fee, show monthly fee
+        feeField.style.display = 'none';
+        monthlyFeeField.style.display = 'block';
+        feeInput.required = false;
+        monthlyFeeInput.required = true;
+        
+        // Hide end date field, show continuous indicator
+        endDateField.style.display = 'none';
+        continuousField.style.display = 'block';
+        endDateInput.required = false;
+        endDateInput.value = '';
+        
+        // Set start date to current date
+        const today = new Date();
+        const formattedDate = today.getFullYear() + '-' + 
+                             String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                             String(today.getDate()).padStart(2, '0');
+        startDateInput.value = formattedDate;
+        
+    } else {
+        // Show one-time fee, hide monthly fee
+        feeField.style.display = 'block';
+        monthlyFeeField.style.display = 'none';
+        feeInput.required = true;
+        monthlyFeeInput.required = false;
+        
+        // Show end date field, hide continuous indicator
+        endDateField.style.display = 'block';
+        continuousField.style.display = 'none';
+        endDateInput.required = true;
+        
+        // Clear start date so user can set it manually
+        startDateInput.value = '';
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    toggleFeeFields();
+});
+</script>

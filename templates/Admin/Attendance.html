@@ -74,7 +74,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -187,6 +187,13 @@
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
 
+            <!-- Mobile menu toggle button -->
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-24px"></i>
+              </a>
+            </div>
+
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -258,19 +265,57 @@
       <ul class="list-group list-group-flush">
         {% for course in courses %}
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <!-- Session Name -->
-            <span class="fs-5 fw-semibold">{{ course.session_name }}</span>
+            <!-- Session Name and Student Count -->
+            <div>
+              <span class="fs-5 fw-semibold">{{ course.session_name }}</span>
+              <br>
+              <small class="text-muted">Students enrolled: {{ course.student_count }}</small>
+            </div>
             
             <!-- Buttons -->
             <div>
               <a href="{% url 'mark_attendance' course.id %}" class="btn btn-success btn-sm me-2">
                 Mark Attendance
               </a>
-              <a href="{% url 'print_attendance_report' course.id %}" class="btn btn-outline-primary btn-sm">
+              <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#dateRangeModal{{ course.id }}">
                 Print Attendance Report
-              </a>
+              </button>
             </div>
           </li>
+
+          <!-- Date Range Modal -->
+          <div class="modal fade" id="dateRangeModal{{ course.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Select Date Range for {{ course.session_name }}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'print_attendance_report' course.id %}" method="GET">
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-floating form-floating-outline mb-4">
+                          <input type="date" class="form-control" id="start_date" name="start_date" required />
+                          <label for="start_date">Start Date</label>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-floating form-floating-outline mb-4">
+                          <input type="date" class="form-control" id="end_date" name="end_date" required />
+                          <label for="end_date">End Date</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         {% endfor %}
       </ul>
     </div>

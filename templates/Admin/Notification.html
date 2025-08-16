@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en" class="light-style layout-menu-fixed layout-compact">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Notifications - Admin Dashboard</title>
+    <meta name="description" content="" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../static/Logos/L1.jpg" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/assets/vendor/fonts/remixicon/remixicon.css" />
+    
+    <!-- Menu waves for no-customizer fix -->
+    <link rel="stylesheet" href="/static/assets/vendor/libs/node-waves/node-waves.css" />
+    
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/static/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/static/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/static/assets/css/demo.css" />
+    
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/static/assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css" />
+    
+    <!-- Custom Styles -->
+    <style>
+        .notification-card {
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        .notification-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .notification-date {
+            font-size: 0.85rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        .notification-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .category-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+        }
+        .payment-status-overdue {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            color: white;
+        }
+        .payment-status-due-soon {
+            background: linear-gradient(45deg, #ffc107, #e0a800);
+            color: #212529;
+        }
+        .payment-status-upcoming {
+            background: linear-gradient(45deg, #17a2b8, #138496);
+            color: white;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .nav-pills .nav-link {
+            border-radius: 0.5rem;
+            margin-right: 0.5rem;
+            font-weight: 500;
+        }
+        .nav-pills .nav-link.active {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+        .btn-remind {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-remind:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+        }
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+        .icon-new-fee { background: linear-gradient(45deg, #28a745, #20c997); }
+        .icon-late-fee { background: linear-gradient(45deg, #dc3545, #c82333); }
+        .icon-updation { background: linear-gradient(45deg, #17a2b8, #138496); }
+        .icon-deletion { background: linear-gradient(45deg, #6c757d, #5a6268); }
+        .icon-default { background: linear-gradient(45deg, #007bff, #0056b3); }
+    </style>
+    
+    <!-- Helpers -->
+    <script src="/static/assets/vendor/js/helpers.js"></script>
+    <script src="/static/assets/js/config.js"></script>
+</head>
+
+<body>
+    {% csrf_token %}
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="{% url 'home' %}" class="app-brand-link">
+                        <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
+                    </a>
+                    <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
+                        <i class="menu-toggle-icon d-xl-block align-middle"></i>
+                    </a>
+                </div>
+                
+                <div class="menu-inner-shadow"></div>
+                
+                <li class="menu-header mt-7">
+                    <span class="menu-header-text">Main DashBoard</span>
+                </li>
+                <li class="menu-item">
+                    <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
+                        <i class="menu-icon tf-icons ri-home-smile-line"></i>
+                        <div data-i18n="Basic">Dashboard</div>
+                    </a>
+                </li>
+                
+                <ul class="menu-inner py-1">
+                    <!-- User Pages -->
+                    <li class="menu-item">
+                        <a href="" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons ri-user-fill"></i>
+                            <div data-i18n="Dashboards">User Info</div>
+                        </a>
+                        <ul class="menu-sub">
+                            {% if user.usertype != 2 %}
+                            <li class="menu-item">
+                                <a href="{% url 'Faculty' %}" class="menu-link">
+                                    <div data-i18n="CRM">Faculty</div>
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li class="menu-item">
+                                <a href="{% url 'Students' %}" class="menu-link">
+                                    <div data-i18n="CRM">Students</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{% url 'ExStudents' %}" class="menu-link">
+                                    <div data-i18n="CRM">Ex-Students</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li class="menu-item">
+                        <a href="" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons ri-book-fill"></i>
+                            <div data-i18n="Dashboards">Sessions</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{% url 'Sessions' %}" class="menu-link">
+                                    <div data-i18n="CRM">Current</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="{% url 'CompletedSessions' %}" class="menu-link">
+                                    <div data-i18n="CRM">Completed</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <li class="menu-item">
+                        <a href="{% url 'Leads' %}" class="menu-link">
+                            <i class="menu-icon tf-icons ri-group-line"></i>
+                            <div data-i18n="Dashboards">Leads</div>
+                        </a>
+                    </li>
+                    
+                    <li class="menu-item">
+                        <a href="{% url 'select_course' %}" class="menu-link">
+                            <i class="menu-icon tf-icons ri-user-fill"></i>
+                            <div data-i18n="Dashboards">Attendance</div>
+                        </a>
+                    </li>
+                    
+                    {% if user.usertype != 2 %}
+                    <li class="menu-item">
+                        <a href="{% url 'payment' %}" class="menu-link">
+                            <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
+                            <div data-i18n="Dashboards">Payments</div>
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="menu-item active">
+                        <a href="{% url 'notification' %}" class="menu-link">
+                            <i class="menu-icon tf-icons ri-mail-fill"></i>
+                            <div data-i18n="Dashboards">Notifications</div>
+                        </a>
+                    </li>
+                    
+                    <li class="menu-item">
+                        <a href="{% url 'EmailService' %}" class="menu-link">
+                            <i class="menu-icon tf-icons ri-mail-send-fill"></i>
+                            <div data-i18n="Dashboards">Email Service</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            <!-- / Menu -->
+            
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Navbar -->
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+                    
+                    <!-- Mobile menu toggle -->
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+                      <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                        <i class="ri-menu-fill ri-24px"></i>
+                      </a>
+                    </div>
+
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <!-- User -->
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
+                                             alt="{{ user.first_name }} {{ user.last_name }}" 
+                                             class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'Admin_Profile' %}">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 me-2">
+                                                    <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
+                                                         alt="{{ user.first_name }} {{ user.last_name }}" 
+                                                         class="w-px-40 h-auto rounded-circle" />
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li><div class="dropdown-divider"></div></li>
+                                    <li>
+                                        <div class="d-grid px-4 pt-2 pb-1">
+                                            <a class="btn btn-danger d-flex" href="{% url 'logout' %}">
+                                                <small class="align-middle">Logout</small>
+                                                <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <!-- / Navbar -->
+                
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="mb-0">Notifications & Payments</h4>
+                            <div>
+                                <button id="markAllReadBtn" class="btn btn-success me-2">
+                                    <i class="fas fa-check-double"></i> Mark All Read
+                                </button>
+                                <button onclick="location.reload()" class="btn btn-primary">
+                                    <i class="fas fa-sync-alt"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Statistics Cards -->
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="stats-card text-center">
+                                    <i class="ri-notification-line ri-2x mb-2"></i>
+                                    <h3 class="mb-1">{{ notifications.count }}</h3>
+                                    <p class="mb-0">Total Notifications</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card text-center" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                    <i class="ri-alarm-warning-line ri-2x mb-2"></i>
+                                    <h3 class="mb-1">{{ due_fees_count }}</h3>
+                                    <p class="mb-0">Due Payments</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card text-center" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                                    <i class="ri-calendar-check-line ri-2x mb-2"></i>
+                                    <h3 class="mb-1">{{ today_date|date:"d" }}</h3>
+                                    <p class="mb-0">{{ today_date|date:"M Y" }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stats-card text-center" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                                    <i class="ri-user-check-line ri-2x mb-2"></i>
+                                    <h3 class="mb-1">{{ user.first_name }}</h3>
+                                    <p class="mb-0">Logged In</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabbed Interface -->
+                        <div class="card">
+                            <div class="card-header">
+                                <ul class="nav nav-pills" id="notificationTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="notifications-tab" data-bs-toggle="pill" data-bs-target="#notifications" type="button" role="tab">
+                                            <i class="ri-notification-line me-2"></i>System Notifications
+                                            <span class="badge bg-primary ms-2">{{ notifications.count }}</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="payments-tab" data-bs-toggle="pill" data-bs-target="#payments" type="button" role="tab">
+                                            <i class="ri-money-dollar-circle-line me-2"></i>Due Payments
+                                            <span class="badge bg-warning ms-2">{{ due_fees_count }}</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="tab-content" id="notificationTabsContent">
+                                    <!-- Notifications Tab -->
+                                    <div class="tab-pane fade show active" id="notifications" role="tabpanel">
+                                        {% if notifications %}
+                                            {% for notification in notifications %}
+                                            <div class="notification-card card mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-flex align-items-start">
+                                                        <div class="notification-icon {% if notification.category == 'New Fee' %}icon-new-fee{% elif notification.category == 'Late fee' %}icon-late-fee{% elif notification.category == 'Updation' %}icon-updation{% elif notification.category == 'Deletion' %}icon-deletion{% else %}icon-default{% endif %}">
+                                                            {% if notification.category == 'New Fee' %}
+                                                                <i class="ri-money-dollar-circle-line text-white"></i>
+                                                            {% elif notification.category == 'Late fee' %}
+                                                                <i class="ri-alarm-warning-line text-white"></i>
+                                                            {% elif notification.category == 'Updation' %}
+                                                                <i class="ri-edit-line text-white"></i>
+                                                            {% elif notification.category == 'Deletion' %}
+                                                                <i class="ri-delete-bin-line text-white"></i>
+                                                            {% else %}
+                                                                <i class="ri-notification-line text-white"></i>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                                <div>
+                                                                    <h6 class="mb-1">{{ notification.user.first_name }} {{ notification.user.last_name }}</h6>
+                                                                    <span class="category-badge badge {% if notification.category == 'New Fee' %}bg-success{% elif notification.category == 'Late fee' %}bg-danger{% elif notification.category == 'Updation' %}bg-info{% elif notification.category == 'Deletion' %}bg-secondary{% else %}bg-primary{% endif %}">{{ notification.category }}</span>
+                                                                </div>
+                                                                <div class="notification-date">
+                                                                    <i class="ri-time-line me-1"></i>
+                                                                    {% if notification.date %}
+                                                                        {{ notification.date|date:"M d, Y" }}
+                                                                    {% elif notification.created_at %}
+                                                                        {{ notification.created_at|date:"M d, Y H:i" }}
+                                                                    {% else %}
+                                                                        {{ notification.date|date:"M d, Y" }}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <p class="notification-content mb-0">{{ notification.content }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="text-center py-5">
+                                                <i class="ri-notification-off-line ri-3x text-muted mb-3"></i>
+                                                <h5 class="text-muted">No notifications found</h5>
+                                                <p class="text-muted">You're all caught up!</p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <!-- Payments Tab -->
+                                    <div class="tab-pane fade" id="payments" role="tabpanel">
+                                        {% if due_fee_sessions %}
+                                            <div class="table-responsive">
+                                                <table id="fee-due-table" class="table table-hover">
+                                                    <thead class="table-dark">
+                                                        <tr>
+                                                            <th><i class="ri-hashtag me-1"></i>Roll No</th>
+                                                            <th><i class="ri-user-line me-1"></i>Student Name</th>
+                                                            <th><i class="ri-book-line me-1"></i>Session</th>
+                                                            <th><i class="ri-calendar-line me-1"></i>Due Date</th>
+                                                            <th><i class="ri-time-line me-1"></i>Status</th>
+                                                            <th><i class="ri-money-dollar-circle-line me-1"></i>Fee Amount</th>
+                                                            <th><i class="ri-wallet-line me-1"></i>Paid Amount</th>
+                                                            <th><i class="ri-calculator-line me-1"></i>Balance</th>
+                                                            <th><i class="ri-settings-line me-1"></i>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for student_session in due_fee_sessions %}
+                                                        <tr>
+                                                            <td><strong>{{ student_session.student.rollno }}</strong></td>
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="avatar avatar-sm me-2">
+                                                                        <span class="avatar-initial rounded-circle bg-label-primary">{{ student_session.student.student_name|first }}</span>
+                                                                    </div>
+                                                                    <a href="{% url 'StudentView' student_session.student.id %}" class="text-decoration-none">
+                                                                        {{ student_session.student.student_name }}
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>{{ student_session.session.session_name }}{% if student_session.is_installment %} (Installment #{{ student_session.installment_number }}){% endif %}</td>
+                                                            <td>
+                                                                <span class="fw-medium">{{ student_session.due_date|date:"M d, Y" }}</span>
+                                                            </td>
+                                                            <td>
+                                                                {% if student_session.days_overdue > 0 %}
+                                                                    <span class="badge payment-status-overdue">
+                                                                        <i class="ri-alarm-warning-line me-1"></i>{{ student_session.days_overdue }} days overdue
+                                                                    </span>
+                                                                {% elif student_session.days_until_due <= 3 %}
+                                                                    <span class="badge payment-status-due-soon">
+                                                                        <i class="ri-time-line me-1"></i>Due in {{ student_session.days_until_due }} days
+                                                                    </span>
+                                                                {% else %}
+                                                                    <span class="badge payment-status-upcoming">
+                                                                        <i class="ri-calendar-check-line me-1"></i>Due in {{ student_session.days_until_due }} days
+                                                                    </span>
+                                                                {% endif %}
+                                                            </td>
+                                                            <td><strong>Rs. {% if student_session.is_installment %}{{ student_session.fee_amount|floatformat:0 }}{% else %}{{ student_session.session.fee|floatformat:0 }}{% endif %}</strong></td>
+                                                            <td>Rs. {{ student_session.fee_paid|default:0|floatformat:0 }}</td>
+                                                            <td><strong class="text-danger">Rs. {{ student_session.balance|floatformat:0 }}</strong></td>
+                                                            <td>
+                                                                <button class="btn btn-sm btn-remind text-white" onclick="sendReminder('{{ student_session.student.id }}', '{{ student_session.session.id }}')">
+                                                                    <i class="ri-mail-send-line me-1"></i>Send Reminder
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        {% else %}
+                                            <div class="text-center py-5">
+                                                <i class="ri-money-dollar-circle-line ri-3x text-success mb-3"></i>
+                                                <h5 class="text-muted">No due payments</h5>
+                                                <p class="text-muted">All payments are up to date!</p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / Content -->
+                </div>
+                <!-- / Content wrapper -->
+            </div>
+            <!-- / Layout container -->
+        </div>
+    </div>
+    
+    <!-- Core JS -->
+    <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/static/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/static/assets/vendor/js/bootstrap.js"></script>
+    <script src="/static/assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/static/assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="/static/assets/vendor/js/menu.js"></script>
+    
+    <!-- DataTables -->
+    <script src="/static/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+    
+    <!-- Main JS -->
+    <script src="/static/assets/js/main.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Mark All Read functionality
+            $('#markAllReadBtn').click(function() {
+                if (confirm('Are you sure you want to mark all notifications as read?')) {
+                    $.ajax({
+                        url: '{% url "mark_all_notifications_read" %}',
+                        type: 'POST',
+                        data: {
+                            'csrfmiddlewaretoken': $('[name=csrfmiddlewaretoken]').val()
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                alert('All notifications marked as read!');
+                                location.reload();
+                            }
+                        },
+                        error: function() {
+                            alert('Error marking notifications as read. Please try again.');
+                        }
+                    });
+                }
+            });
+        });
+        
+        function sendReminder(studentId, sessionId) {
+            const button = event.target.closest('button');
+            const originalText = button.innerHTML;
+            
+            // Show loading state
+            button.innerHTML = '<i class="ri-loader-4-line ri-spin me-1"></i>Sending...';
+            button.disabled = true;
+            
+            $.ajax({
+                url: '{% url "send_fee_reminder" %}',
+                type: 'POST',
+                data: {
+                    'student_id': studentId,
+                    'session_id': sessionId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        showToast('Reminder sent successfully!', 'success');
+                        button.innerHTML = '<i class="ri-check-line me-1"></i>Sent';
+                        button.classList.remove('btn-remind');
+                        button.classList.add('btn-success');
+                    } else {
+                        showToast('Failed to send reminder: ' + response.error, 'error');
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }
+                },
+                error: function() {
+                    showToast('Error sending reminder. Please try again.', 'error');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }
+            });
+        }
+        
+        function refreshData() {
+            location.reload();
+        }
+        
+        function markAllAsRead() {
+            // This would require a backend endpoint to mark notifications as read
+            showToast('Feature coming soon!', 'info');
+        }
+        
+        function showToast(message, type) {
+            const toastContainer = document.getElementById('toast-container') || createToastContainer();
+            const toast = document.createElement('div');
+            toast.className = `toast align-items-center text-white bg-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} border-0`;
+            toast.setAttribute('role', 'alert');
+            toast.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${message}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            `;
+            toastContainer.appendChild(toast);
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+            
+            // Remove toast after it's hidden
+            toast.addEventListener('hidden.bs.toast', () => {
+                toast.remove();
+            });
+        }
+        
+        function createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'toast-container position-fixed top-0 end-0 p-3';
+            container.style.zIndex = '9999';
+            document.body.appendChild(container);
+            return container;
+        }
+    </script>
+</body>
+</html>

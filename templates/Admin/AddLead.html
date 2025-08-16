@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Admin Dashboard</title>
+    <title>Add Lead - Iqra Academy</title>
 
     <meta name="description" content="" />
 
@@ -55,7 +55,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -83,11 +83,13 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
+                {% if user.usertype != 2 %}
                 <li class="menu-item">
                   <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
+                {% endif %}
                 <li class="menu-item">
                   <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
@@ -134,6 +136,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% if user.usertype != 2 %}
             <li class="menu-item">
               <a href="{% url 'payment' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
@@ -141,6 +144,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% endif %}
             <li class="menu-item">
               <a href="{% url 'notification' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-mail-fill"></i>
@@ -168,6 +172,13 @@
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
 
+            <!-- Add this hamburger button for mobile -->
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-24px"></i>
+              </a>
+            </div>
+            
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -229,53 +240,74 @@
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <div class="col-md-12">
-                  <div class="nav-align-top">
-                    <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
-                      <li class="nav-item">
-                        <a class="nav-link active"
-                          ><i class="ri-group-line me-1_5"></i>Lead</a
-                        >
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="card mb-6">
-                    <!-- Account -->
-                    <div class="card-body pt-0">
-                      <form id="formAddUser" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="row mt-1 g-5">
-                            <!-- First Name -->
-                            <div class="col-md-6">
-                              <div class="form-floating form-floating-outline">
-                                <input class="form-control" type="text" id="name" name="name" required />
-                                <label for="name">Lead Name</label>
-                              </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                              <div class="form-floating form-floating-outline">
-                                <input class="form-control" type="email" id="email" name="email" required />
-                                <label for="email">Email</label>
-                              </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                              <div class="form-floating form-floating-outline">
-                                <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
-                                <label for="mobile_no">Mobile No</label>
-                              </div>
-                            </div>
-                            
-                            <div class="mt-6">
-                                <button type="submit" class="btn btn-primary me-3">Add Lead</button>
-                            </div>
-                        </div>
-                    </form>
-
-
-
+                  <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">Add New Lead</h5>
+                      <a href="{% url 'Leads' %}" class="btn btn-secondary">
+                        <i class="ri-arrow-left-line me-1"></i>Back to Leads
+                      </a>
                     </div>
-                    <!-- /Account -->
+                    <div class="card-body">
+                      <form id="formAddLead" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                          <!-- Name -->
+                          <div class="col-md-6 mb-3">
+                            <div class="form-floating form-floating-outline">
+                              <input class="form-control" type="text" id="name" name="name" required />
+                              <label for="name">Lead Name</label>
+                            </div>
+                          </div>
+                          
+                          <!-- Email -->
+                          <div class="col-md-6 mb-3">
+                            <div class="form-floating form-floating-outline">
+                              <input class="form-control" type="email" id="email" name="email" required />
+                              <label for="email">Email</label>
+                            </div>
+                          </div>
+                          
+                          <!-- Phone Number -->
+                          <div class="col-md-6 mb-3">
+                            <div class="form-floating form-floating-outline">
+                              <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
+                              <label for="mobile_no">Phone Number</label>
+                            </div>
+                          </div>
+                          
+                          
+                          
+                          <!-- Session -->
+                          <div class="col-md-6 mb-3">
+                            <div class="form-floating form-floating-outline">
+                              <select class="form-select" id="session" name="session">
+                                <option value="">Select a session</option>
+                                {% for session in active_sessions %}
+                                  <option value="{{ session.id }}">{{ session.session_name }}</option>
+                                {% endfor %}
+                              </select>
+                              <label for="session">Session</label>
+                            </div>
+                          </div>
+                          
+                          <!-- Form of Inquiry -->
+                          <div class="col-md-6 mb-3">
+                            <div class="form-floating form-floating-outline">
+                              <select class="form-select" id="form_of_inquiry" name="form_of_inquiry" required>
+                                <option value="Call">Call</option>
+                                <option value="Message">Message</option>
+                                <option value="Physical Visit">Physical Visit</option>
+                              </select>
+                              <label for="form_of_inquiry">Form of Inquiry</label>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                          <button type="submit" class="btn btn-primary">Add Lead</button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>

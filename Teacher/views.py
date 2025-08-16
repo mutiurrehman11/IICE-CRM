@@ -39,7 +39,7 @@ def mark_attendance(request, course_id):
             )
             sessions = admin_models.StudentSession.objects.filter(student=student.student)
             for session in sessions:
-                if session.due_date < date.today():
+                if session.due_date and session.due_date < date.today():
                     message = "Due Date passed for " + student.student.student_name + " in " + session.session.session_name + " session"
                     admin_models.Notification.objects.create(user=user, date=date.today(), category='Late fee',
                                                              content=message)

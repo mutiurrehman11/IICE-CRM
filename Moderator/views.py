@@ -328,8 +328,81 @@ def AddStudent(request):
                 newuser.cnic_photo = request.FILES['cnic_photo']
             if 'degree_photo' in request.FILES:
                 newuser.degree_photo = request.FILES['degree_photo']
+                
+            # Set the moderator as the one who added this student
+            newuser.added_by = user
 
             newuser.save()  # Save the new user
+
+            # Handle multiple session selections (if present)
+            selected_sessions = request.POST.getlist('sessions') if 'sessions' in request.POST else []
+            total_fee = 0
+            registration_fee = 0
+            single_due_date_str = request.POST.get('single_due_date')
+            single_due_date = None
+            if single_due_date_str:
+                from datetime import datetime
+                single_due_date = datetime.strptime(single_due_date_str, '%Y-%m-%d').date()
+            # Around line 347-355, uncomment the fee assignment:
+            student_session = admin_models.StudentSession(
+            student=newuser,
+            session=session,
+            registration_date=date.today(),
+            registration_fee=session.registration_fee,
+            fee=session.fee,  # ADD THIS LINE BACK
+            status='Active',
+            due_date=single_due_date if not request.POST.get('enable_installments') else None
+            )
+            student_session.save()
+            total_fee += session.fee
+            registration_fee += session.registration_fee
+
+            # --- Fee Management Logic ---
+            discount = float(request.POST.get('discount', 0))
+            total_fee_with_reg = total_fee + registration_fee
+            final_fee = float(request.POST.get('final_fee', total_fee_with_reg))
+            paid_amount = float(request.POST.get('paid_amount', 0))
+            enable_installments = request.POST.get('enable_installments') == 'on'
+            installments_count = int(request.POST.get('installments_count') or 0)
+            per_installment_amount = float(request.POST.get('per_installment_amount') or 0)
+            latest_installment_paid = float(request.POST.get('latest_installment_paid') or 0)
+            due_date_str = request.POST.get('due_date')
+            from datetime import timedelta
+            from django.utils import timezone
+            due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date() if due_date_str else timezone.now().date()
+
+            # Create StudentFee record (Moderator model)
+            from Moderator import models as mod_models
+            student_fee = mod_models.StudentFee.objects.create(
+                student=newuser,
+                total_fee=total_fee_with_reg,
+                discount=discount,
+                final_fee=final_fee,
+                paid_amount=paid_amount,
+                installments_count=installments_count if enable_installments else 0,
+                per_installment_amount=per_installment_amount if enable_installments else None
+            )
+
+            # Create Installment records if enabled
+            if enable_installments and installments_count > 0:
+                for i in range(1, installments_count + 1):
+                    amount = per_installment_amount
+                    paid_date = None
+                    status = 'Unpaid'
+                    if i == 1 and latest_installment_paid > 0:
+                        amount = latest_installment_paid
+                        paid_date = due_date
+                        status = 'Paid'
+                    mod_models.Installment.objects.create(
+                        student_fee=student_fee,
+                        installment_number=i,
+                        amount=amount,
+                        due_date=due_date,
+                        paid_date=paid_date,
+                        status=status
+                    )
+                    # Next due date is one month later
+                    due_date = (due_date + timedelta(days=32)).replace(day=due_date.day)
 
             message = "Added  " + newuser.student_name
             admin_models.Notification.objects.create(user=user, date=date.today(), category='New Entry', content=message)
@@ -386,4 +459,19 @@ def Profile(request):
         form = UserForm(instance=user)  # Pre-populate form with user data
 
     return render(request, 'Moderator/Profile.html', {'form': form, 'user': user})
+def Payments(request):
+    if 'user_id' not in request.session:
+        return redirect('home')
+
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)  # Logged-in user
+
+    from Moderator import models as mod_models
+    student_fees = mod_models.StudentFee.objects.select_related('student').prefetch_related('installments').all()
+
+    context = {
+        'user': user,
+        'student_fees': student_fees,
+    }
+    return render(request, 'Moderator/Payments.html', context)
 

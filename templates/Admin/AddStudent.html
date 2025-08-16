@@ -36,6 +36,50 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/static/assets/vendor/libs/apex-charts/apex-charts.css" />
+    
+    <!-- Add Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+
+    <!-- Custom styles -->
+    <style>
+        .select2-container--bootstrap-5 .select2-selection {
+            min-height: 58px;
+            padding: 0.875rem 0.875rem 0;
+            font-size: 0.9375rem;
+            border-radius: 0.375rem;
+            border: 1px solid #d9dee3;
+            background-color: #fff;
+        }
+        .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered {
+            padding-top: 8px;
+        }
+        .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice {
+            background-color: #696cff;
+            color: #fff;
+            border: none;
+            padding: 2px 8px;
+            margin: 2px;
+        }
+        .select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__choice__remove {
+            color: #fff;
+            margin-right: 5px;
+        }
+        .select2-container--bootstrap-5 .select2-dropdown {
+            border-color: #696cff;
+        }
+        .select2-container--bootstrap-5 .select2-results__option--highlighted[aria-selected] {
+            background-color: #696cff;
+        }
+        .form-floating-outline .select2-container--bootstrap-5 .select2-selection {
+            background-color: transparent;
+            border: 1px solid #d9dee3;
+        }
+        .form-floating-outline .select2-container--bootstrap-5.select2-container--focus .select2-selection {
+            border-color: #696cff;
+            box-shadow: 0 0 0.25rem rgba(105, 108, 255, 0.25);
+        }
+    </style>
 
     <!-- Page CSS -->
 
@@ -55,7 +99,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -167,7 +211,14 @@
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
-
+            
+            <!-- Mobile menu toggle button -->
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-24px"></i>
+              </a>
+            </div>
+          
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -238,9 +289,35 @@
                     </ul>
                   </div>
                   <div class="card mb-6">
+                    <div class="card-header">
+                        <h5 class="mb-0">{{ form_title|default:"Add New Student" }}</h5>
+                    </div>
                     <div class="card-body pt-0">
-                      <form id="formAddUser" method="POST" enctype="multipart/form-data">
+                      <form id="formAddUser" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                         {% csrf_token %}
+                        
+                        <!-- Add Django form errors display -->
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <h6>Please correct the following errors:</h6>
+                                <ul class="mb-0">
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <li>{{ field|title }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}
+                                    <p class="mb-0">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
                         <div class="row mt-1 g-5">
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
@@ -303,6 +380,93 @@
                                     <label for="last_institution">Last Institution</label>
                                 </div>
                             </div>
+                            <!-- Sessions Selection -->
+                            <div class="col-md-12">
+                                <div class="form-floating form-floating-outline">
+                                    <select class="form-select select2-multiple" id="sessions" name="sessions" multiple required>
+                                        {% for session in active_sessions %}
+                                            <option value="{{ session.id }}" 
+                                                data-registration-fee="{{ session.registration_fee }}" 
+                                                data-fee="{{ session.fee }}"
+                                                {% if preselected_session_id == session.id %}selected{% endif %}
+                                                {% if selected_student and session.id in student_sessions.session.id %}selected{% endif %}>
+                                                {{ session.session_name }} (Registration Fee: {{ session.registration_fee }}, Fee: {{ session.fee }})
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    <label for="sessions">Select Sessions</label>
+                                </div>
+                            </div>
+                            <!-- Registration Fee Section -->
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="number" id="registration_fee" name="registration_fee" readonly required />
+                                    <label for="registration_fee">Registration Fee (Auto-calculated)</label>
+                                </div>
+                            </div>
+                            <!-- Fee Management Section -->
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="number" id="total_fee" name="total_fee" readonly required />
+                                    <label for="total_fee">Total Fee (Sessions + Registration Fee)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="number" id="discount" name="discount" min="0" value="0" required />
+                                    <label for="discount">Discount (Amount)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="number" id="final_fee" name="final_fee" readonly required />
+                                    <label for="final_fee">Final Fee (Total Fee + Registration Fee - Discount)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline">
+                                    <input class="form-control" type="number" id="paid_amount" name="paid_amount" min="0" value="0" required />
+                                    <label for="paid_amount">Paid Amount</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="enable_installments" name="enable_installments">
+                                    <label class="form-check-label" for="enable_installments">Enable Installments</label>
+                                </div>
+                            </div>
+                            <!-- Due Date for Single Payment -->
+                            <div class="col-md-6" id="single_due_date_section">
+                                <div class="form-floating form-floating-outline mb-2">
+                                    <input class="form-control" type="date" id="single_due_date" name="single_due_date" />
+                                    <label for="single_due_date">Due Date</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-none" id="installments_section">
+                                <div class="form-floating form-floating-outline mb-2">
+                                    <input class="form-control" type="date" id="due_date" name="due_date" />
+                                    <label for="due_date">Due Date (Next Installment)</label>
+                                </div>
+                                <div class="form-floating form-floating-outline mb-2">
+                                    <select class="form-select" id="installments_count" name="installments_count">
+                                        <option value="">Select Installments</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <label for="installments_count">Number of Installments (Max 5)</label>
+                                </div>
+                                <div class="form-floating form-floating-outline mb-2">
+                                    <input class="form-control" type="number" id="per_installment_amount" name="per_installment_amount" readonly />
+                                    <label for="per_installment_amount">Per Installment Amount</label>
+                                </div>
+                                <div class="form-floating form-floating-outline mb-2">
+                                    <input class="form-control" type="number" id="latest_installment_paid" name="latest_installment_paid" min="0" value="0" />
+                                    <label for="latest_installment_paid">Latest Installment Paid</label>
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline">
                                     <select class="form-select" id="status" name="status">
@@ -315,29 +479,42 @@
                             <div class="col-md-6">
                                 <label for="profile_photo" class="btn btn-sm btn-primary me-3 mb-4">
                                     <span class="d-none d-sm-block">Upload Profile Photo</span>
-                                    <input type="file" id="profile_photo" name="profile_photo" class="account-file-input" hidden/>
+                                    <input type="file" id="profile_photo" name="profile_photo" class="account-file-input" hidden accept="image/*" onchange="previewImage(this, 'profilePreview')"/>
                                 </label>
+                                <div class="image-preview mt-2">
+                                    <img id="profilePreview" src="/static/assets/img/avatars/1.png" alt="Profile Preview" class="d-block w-px-100 h-px-100 rounded"/>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="cnic_photo" class="btn btn-sm btn-primary me-3 mb-4">
                                     <span class="d-none d-sm-block">Upload CNIC Photo</span>
-                                    <input type="file" id="cnic_photo" name="cnic_photo" class="account-file-input" hidden/>
+                                    <input type="file" id="cnic_photo" name="cnic_photo" class="account-file-input" hidden accept="image/*" onchange="previewImage(this, 'cnicPreview')"/>
                                 </label>
+                                <div class="image-preview mt-2">
+                                    <img id="cnicPreview" src="/static/assets/img/avatars/1.png" alt="CNIC Preview" class="d-block w-px-100 h-px-100 rounded"/>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="degree_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Degree Photo</span>
-                                    <input type="file" id="degree_photo" name="degree_photo" class="account-file-input" hidden/>
+                                    <span class="d-none d-sm-block">Upload Degree Photo (Optional)</span>
+                                    <input type="file" id="degree_photo" name="degree_photo" class="account-file-input" hidden accept="image/*" onchange="previewImage(this, 'degreePreview')"/>
                                 </label>
+                                <div class="image-preview mt-2">
+                                    <img id="degreePreview" src="/static/assets/img/avatars/1.png" alt="Degree Preview" class="d-block w-px-100 h-px-100 rounded"/>
+                                </div>
                             </div>
                     
                             <div class="mt-6">
-                                <button type="submit" class="btn btn-primary me-3">Add Student</button>
+                                <button type="submit" class="btn btn-primary me-2">{{ button_text|default:"Add Student" }}</button>
                             </div>
                         </div>
-                    </form>
+                      </form>
 
-
+                      <!-- Add an error message container -->
+                      <div id="errorContainer" class="alert alert-danger mt-3" style="display: none;">
+                          <ul id="errorList" class="mb-0">
+                          </ul>
+                      </div>
 
                     </div>
                     <!-- /Account -->
@@ -393,5 +570,239 @@
 
     <!-- Page JS -->
     <script src="/static/assets/js/dashboards-analytics.js"></script>
+
+    <!-- Add Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2
+            $('.select2-multiple').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+                placeholder: 'Search and select sessions',
+                allowClear: true,
+                closeOnSelect: false,
+                templateResult: formatSession,
+                templateSelection: formatSessionSelection
+            });
+
+            // Custom formatting for dropdown options
+            function formatSession(session) {
+                if (!session.id) return session.text;
+                
+                var $container = $(
+                    '<div class="session-option">' +
+                        '<div class="session-name">' + session.text.split(' (')[0] + '</div>' +
+                        '<div class="session-fees text-muted small">' + session.text.split(' (')[1].replace(')', '') + '</div>' +
+                    '</div>'
+                );
+                
+                return $container;
+            }
+
+            // Custom formatting for selected options
+            function formatSessionSelection(session) {
+                if (!session.id) return session.text;
+                return session.text.split(' (')[0];
+            }
+        });
+    </script>
+
+    <script>
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '/static/assets/img/avatars/1.png';
+            }
+        }
+    </script>
+
+    <script>
+        function validateForm() {
+            const errorList = [];
+            const errorContainer = document.getElementById('errorContainer');
+            const errorListElement = document.getElementById('errorList');
+            
+            // Clear previous errors
+            errorListElement.innerHTML = '';
+            errorContainer.style.display = 'none';
+
+            // Required text fields
+            const requiredFields = [
+                { id: 'student_name', label: 'Student Name' },
+                { id: 'father_name', label: 'Father Name' },
+                { id: 'email', label: 'Email' },
+                { id: 'cnic', label: 'CNIC' },
+                { id: 'mobile_no', label: 'Mobile Number' },
+                { id: 'Temp_address', label: 'Temporary Address' },
+                { id: 'Perm_address', label: 'Permanent Address' },
+                { id: 'last_degree', label: 'Last Degree' },
+                { id: 'last_institution', label: 'Last Institution' }
+            ];
+
+            // Check required text fields
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field.id);
+                if (!input.value.trim()) {
+                    errorList.push(`${field.label} is required`);
+                    input.classList.add('is-invalid');
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            // Validate email format
+            const email = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email.value.trim() && !emailRegex.test(email.value.trim())) {
+                errorList.push('Please enter a valid email address');
+                email.classList.add('is-invalid');
+            }
+
+            // Relaxed CNIC validation - allow various formats
+            const cnic = document.getElementById('cnic');
+            const cnicValue = cnic.value.replace(/\D/g, ''); // Remove all non-digits
+            if (cnicValue.length !== 13) {
+                errorList.push('CNIC must be 13 digits');
+                cnic.classList.add('is-invalid');
+            }
+
+            // Relaxed mobile number validation
+            const mobile = document.getElementById('mobile_no');
+            const mobileValue = mobile.value.replace(/\D/g, ''); // Remove all non-digits
+            if (mobileValue.length < 10 || mobileValue.length > 12) {
+                errorList.push('Mobile number must be between 10-12 digits');
+                mobile.classList.add('is-invalid');
+            }
+
+            // Check if at least one session is selected
+            const sessions = document.getElementById('sessions');
+            if (sessions.selectedOptions.length === 0) {
+                errorList.push('Please select at least one session');
+                sessions.classList.add('is-invalid');
+            } else {
+                sessions.classList.remove('is-invalid');
+            }
+
+            // Remove required file validation - make photos optional
+            // Profile photo and CNIC photo are now optional
+
+            // If there are errors, display them and prevent form submission
+            if (errorList.length > 0) {
+                errorList.forEach(error => {
+                    const li = document.createElement('li');
+                    li.textContent = error;
+                    errorListElement.appendChild(li);
+                });
+                errorContainer.style.display = 'block';
+                
+                // Scroll to error messages
+                errorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return false;
+            }
+
+            return true;
+        }
+
+        // Add input event listeners to clear validation styling when user types
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+        });
+
+        // Format CNIC input as user types
+        document.getElementById('cnic').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 13) value = value.slice(0, 13);
+            if (value.length >= 12) {
+                value = value.slice(0, 5) + '-' + value.slice(5, 12) + '-' + value.slice(12);
+            } else if (value.length >= 5) {
+                value = value.slice(0, 5) + '-' + value.slice(5);
+            }
+            e.target.value = value;
+        });
+
+        // Format mobile number as user types
+        document.getElementById('mobile_no').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
+            if (value.length > 12) value = value.slice(0, 12); // Limit to 12 digits
+            if (!value.startsWith('0') && value.length > 0) {
+                value = '0' + value; // Add leading 0 if missing
+            }
+            e.target.value = value;
+        });
+    </script>
+
+    <script>
+        function addMonths(date, months) {
+            let d = new Date(date);
+            d.setMonth(d.getMonth() + months);
+            return d.toISOString().split('T')[0];
+        }
+        function setDefaultDueDates() {
+            let defaultDue = addMonths(new Date(), 1);
+            $('#single_due_date').val(defaultDue);
+            $('#due_date').val(defaultDue);
+        }
+        function calculateFees() {
+            let totalFee = 0;
+            let registrationFee = 0;
+            $("#sessions option:selected").each(function() {
+                totalFee += parseInt($(this).data('fee')) || 0;
+                registrationFee += parseInt($(this).data('registration-fee')) || 0;
+            });
+            $("#registration_fee").val(registrationFee);
+            $("#total_fee").val(totalFee + registrationFee);
+            let discount = parseInt($("#discount").val()) || 0;
+            let finalFee = (totalFee + registrationFee) - discount;
+            $("#final_fee").val(finalFee > 0 ? finalFee : 0);
+            // If installments enabled, recalculate per installment
+            if ($('#enable_installments').is(':checked')) {
+                let count = parseInt($('#installments_count').val()) || 1;
+                let perInstallment = count > 0 ? Math.ceil(finalFee / count) : finalFee;
+                $('#per_installment_amount').val(perInstallment);
+                // Set Paid Amount to latest installment paid
+                let latestPaid = parseInt($('#latest_installment_paid').val()) || 0;
+                $('#paid_amount').val(latestPaid);
+            }
+        }
+        $(document).ready(function() {
+            setDefaultDueDates();
+            $('#sessions, #discount').on('change keyup', calculateFees);
+            $('#enable_installments').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#installments_section').removeClass('d-none');
+                    $('#single_due_date_section').addClass('d-none');
+                    calculateFees();
+                } else {
+                    $('#installments_section').addClass('d-none');
+                    $('#single_due_date_section').removeClass('d-none');
+                    $('#installments_count').val('');
+                    $('#per_installment_amount').val('');
+                    $('#latest_installment_paid').val('');
+                    $('#due_date').val($('#single_due_date').val());
+                }
+            });
+            $('#installments_count, #latest_installment_paid').on('change keyup', calculateFees);
+            // Allow user to change due dates
+            $('#single_due_date').on('change', function() {
+                if (!$('#enable_installments').is(':checked')) {
+                    $('#due_date').val($(this).val());
+                }
+            });
+            // Initial calculation
+            calculateFees();
+        });
+    </script>
   </body>
 </html>

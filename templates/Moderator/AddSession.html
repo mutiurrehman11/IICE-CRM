@@ -9,7 +9,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Moderator Dashboard</title>
+    <title>Admin Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -68,38 +68,90 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-          <ul class="menu-inner py-1">
-            <!-- User Pages -->
-              <li class="menu-item">
-              <a href="{% url 'mod_notification' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-fill"></i>
-                <div data-i18n="Dashboards">Notifications</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+            <li class="menu-item">
+              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-home-smile-line"></i>
+                <div data-i18n="Basic">Dashboard</div>
               </a>
             </li>
-            <li class="menu-item open">
+          <ul class="menu-inner py-1">
+            <!-- User Pages -->
+            <li class="menu-item">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
-                <li class="menu-item active">
-                  <a href="{% url 'mod_Students' %}" class="menu-link">
+                <li class="menu-item">
+                  <a href="{% url 'Faculty' %}" class="menu-link">
+                    <div data-i18n="CRM">Faculty</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
                 <li  class="menu-item">
-                  <a href="{% url 'mod_ExStudents' %}" class="menu-link">
+                  <a href="{% url 'ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+              <li class="menu-item">
+              <a href="" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-book-fill"></i>
+                <div data-i18n="Dashboards">Sessions</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+                <ul class="menu-sub">
+                <li class="menu-item active">
+                  <a href="{% url 'Sessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Current</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Completed</div>
                   </a>
                 </li>
               </ul>
             </li>
 
             <li class="menu-item">
-              <a href="{% url 'mod_Leads' %}" class="menu-link">
+              <a href="{% url 'Leads' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'select_course' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">Attendance</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'payment' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
+                <div data-i18n="Dashboards">Payments</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+              <li class="menu-item">
+              <a href="{% url 'EmailService' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
+                <div data-i18n="Dashboards">Email Service</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
@@ -134,7 +186,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                     <li>
-                      <a class="dropdown-item" href="{% url 'Moderator_Profile' %}">
+                      <a class="dropdown-item" href="{% url 'Admin_Profile' %}">
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
@@ -144,7 +196,7 @@
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
                             <small class="text-muted">
-                                    Moderator
+                                    Admin
                             </small>
                           </div>
                         </div>
@@ -170,6 +222,8 @@
 
           <!-- / Navbar -->
 
+          <!-- / Navbar -->
+
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -185,101 +239,80 @@
                     </ul>
                   </div>
                   <div class="card mb-6">
+                    <!-- Account -->
+                    <div class="card-body">
+                      <div class="d-flex align-items-start align-items-sm-center gap-6">
+                        <img
+                          src="{% if userdata.profile_photo %}{{ userdata.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
+                          alt="{{ userdata.first_name }} {{ userdata.last_name }}"
+                          class="d-block w-px-100 h-px-100 rounded"
+                          id="uploadedAvatar" />
+                      </div>
+                    </div>
                     <div class="card-body pt-0">
                       <form id="formAddUser" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="row mt-1 g-5">
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="student_name" name="student_name" required />
-                                    <label for="student_name">Student Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" name="father_name" id="father_name" required />
-                                    <label for="father_name">Father Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="email" id="email" name="email" required />
-                                    <label for="email">E-mail</label>
-                                    {% if form.email.errors %}
-                                        <div class="text-danger">
-                                            {% for error in form.email.errors %}
-                                                <p>{{ error }}</p>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="cnic" name="cnic" required />
-                                    <label for="cnic">CNIC</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
-                                    <label for="mobile_no">Mobile Number</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="Temp_address" name="Temp_address" required />
-                                    <label for="Temp_address"> Temporary Address</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="Perm_address" name="Perm_address" required />
-                                    <label for="Perm_address"> Permanent Address</label>
-                                </div>
-                            </div>
+                            <!-- First Name -->
                             <div class="col-md-6">
                               <div class="form-floating form-floating-outline">
-                                <input type="text" class="form-control" id="last_degree" name="last_degree" required />
-                                <label for="last_degree">Last Degree</label>
+                                <input class="form-control" type="text" id="session_name" name="session_name" required />
+                                <label for="session_name">Session Name</label>
+                              </div>
+                            </div>
+                          
+                            <!-- Registration fee -->
+                            <div class="col-md-6">
+                              <div class="form-floating form-floating-outline">
+                                <input class="form-control" type="text" id="registration_fee" name="registration_fee" required />
+                                <label for="registration_fee">Registration Fee</label>
+                              </div>
+                            </div>
+                          
+                          <!-- Tuition fee -->
+                            <div class="col-md-6">
+                              <div class="form-floating form-floating-outline">
+                                <input class="form-control" type="text" id="fee" name="fee" required />
+                                <label for="fee">Tuition Fee</label>
+                              </div>
+                            </div>
+                          
+                          <!-- Start Date -->
+                            <div class="col-md-6">
+                              <div class="form-floating form-floating-outline">
+                                <input type="date" class="form-control" id="start_date" name="start_date" required />
+                                <label for="start_date">Start Date</label>
+                              </div>
+                            </div>
+                          
+                          <!-- End Date -->
+                            <div class="col-md-6">
+                              <div class="form-floating form-floating-outline">
+                                <input type="date" class="form-control" id="end_date" name="end_date" required />
+                                <label for="end_date">End Date</label>
+                              </div>
+                            </div>
+                          
+                          <!-- Status -->
+                            <div class="col-md-6">
+                              <div class="form-floating form-floating-outline">
+                                <select class="form-select" id="status" name="status">
+                                  <option value="Active" selected>Active</option>
+                                  <option value="Inactive">Inactive</option>
+                                </select>
+                                <label for="status">Status</label>
                               </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <input type="text" class="form-control" id="last_institution" name="last_institution" required />
-                                    <label for="last_institution">Last Institution</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline">
-                                    <select class="form-select" id="status" name="status">
-                                        <option value="Active" selected>Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                    </select>
-                                    <label for="status">Status</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="profile_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Profile Photo</span>
-                                    <input type="file" id="profile_photo" name="profile_photo" class="account-file-input" hidden/>
+                                <label for="session_photo" class="btn btn-sm btn-primary me-3 mb-4">
+                                    <span class="d-none d-sm-block">Upload Session Photo (Optional)</span>
+                                    <input type="file" id="session_photo" name="session_photo" class="account-file-input" hidden/>
                                 </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="cnic_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload CNIC Photo</span>
-                                    <input type="file" id="cnic_photo" name="cnic_photo" class="account-file-input" hidden/>
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="degree_photo" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Degree Photo</span>
-                                    <input type="file" id="degree_photo" name="degree_photo" class="account-file-input" hidden/>
-                                </label>
+                                <small class="text-muted d-block mt-2">A photo is not required for the session.</small>
                             </div>
                     
                             <div class="mt-6">
-                                <button type="submit" class="btn btn-primary me-3">Add Student</button>
+                                <button type="submit" class="btn btn-primary me-3">Add Session</button>
                             </div>
                         </div>
                     </form>

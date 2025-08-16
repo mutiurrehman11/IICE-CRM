@@ -38,6 +38,30 @@
     <link rel="stylesheet" href="/static/assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
+    <style>
+        /* Notification Icon Styles */
+        .nav-link:hover .ri-notification-line {
+            color: #007bff !important;
+            transform: scale(1.1);
+            transition: all 0.2s ease;
+        }
+        
+        .notification-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
 
     <!-- Helpers -->
     <script src="/static/assets/vendor/js/helpers.js"></script>
@@ -55,7 +79,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -83,11 +107,13 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
+                {% if user.usertype != 2 %}
                 <li class="menu-item">
                   <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
+                {% endif %}
                 <li class="menu-item">
                   <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
@@ -134,6 +160,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% if user.usertype != 2 %}
             <li class="menu-item">
               <a href="{% url 'payment' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
@@ -141,6 +168,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% endif %}
             <li class="menu-item">
               <a href="{% url 'notification' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-mail-fill"></i>
@@ -168,9 +196,29 @@
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
 
+            <!-- Add this hamburger button for mobile -->
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-24px"></i>
+              </a>
+            </div>
+            
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
+                <!-- Notification Icon -->
+                <li class="nav-item navbar-dropdown dropdown me-3">
+                  <a class="nav-link position-relative" href="{% url 'notification' %}" title="Notifications">
+                    <i class="ri-notification-line ri-24px text-muted"></i>
+                    {% if notification_count > 0 %}
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem; min-width: 18px; height: 18px; line-height: 18px;">
+                      {{ notification_count }}
+                      <span class="visually-hidden">unread notifications</span>
+                    </span>
+                    {% endif %}
+                  </a>
+                </li>
+                
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a
@@ -312,7 +360,77 @@
                 </div>
                 <!--/ Total Earning -->
 
+                <!-- Quick Access Sections -->
+                <div class="col-12 mb-4">
+                  <div class="row gy-4">
+                    <!-- Add Student Section -->
+                    <div class="col-md-6 col-lg-3">
+                      <div class="card h-100">
+                        <div class="card-body text-center">
+                          <div class="avatar avatar-md mx-auto mb-3">
+                            <span class="avatar-initial rounded-circle bg-label-primary">
+                              <i class="ri-user-add-line ri-2x"></i>
+                            </span>
+                          </div>
+                          <h5 class="card-title mb-1">Add Student</h5>
+                          <p class="card-text text-muted">Register new students</p>
+                          <a href="{% url 'Students' %}" class="btn btn-primary">Add Student</a>
+                        </div>
+                      </div>
+                    </div>
 
+                    <!-- Add Session Section -->
+                    <div class="col-md-6 col-lg-3">
+                      <div class="card h-100">
+                        <div class="card-body text-center">
+                          <div class="avatar avatar-md mx-auto mb-3">
+                            <span class="avatar-initial rounded-circle bg-label-success">
+                              <i class="ri-calendar-add-line ri-2x"></i>
+                            </span>
+                          </div>
+                          <h5 class="card-title mb-1">Add Session</h5>
+                          <p class="card-text text-muted">Create new sessions</p>
+                          <a href="{% url 'Sessions' %}" class="btn btn-success">Add Session</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Add Lead Section -->
+                    <div class="col-md-6 col-lg-3">
+                      <div class="card h-100">
+                        <div class="card-body text-center">
+                          <div class="avatar avatar-md mx-auto mb-3">
+                            <span class="avatar-initial rounded-circle bg-label-warning">
+                              <i class="ri-group-add-line ri-2x"></i>
+                            </span>
+                          </div>
+                          <h5 class="card-title mb-1">Add Lead</h5>
+                          <p class="card-text text-muted">Register new leads</p>
+                          <a href="{% url 'Leads' %}" class="btn btn-warning">Add Lead</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Attendance Section -->
+                    <div class="col-md-6 col-lg-3">
+                      <div class="card h-100">
+                        <div class="card-body text-center">
+                          <div class="avatar avatar-md mx-auto mb-3">
+                            <span class="avatar-initial rounded-circle bg-label-info">
+                              <i class="ri-calendar-check-line ri-2x"></i>
+                            </span>
+                          </div>
+                          <h5 class="card-title mb-1">Attendance</h5>
+                          <p class="card-text text-muted">Manage attendance</p>
+                          <a href="{% url 'select_course' %}" class="btn btn-info">Take Attendance</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Quick Access Sections -->
+
+{% if user.usertype != 2 %}
                 <div class="col-12">
                     <div class="card overflow-hidden">
                         <div class="table-responsive">
@@ -326,45 +444,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for user in users %}
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-4">
-                                                    <img src="{{ user.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
-                                                </div>
-                                                <div>
-                                                    <h6 class="mb-0 text-truncate">{{ user.first_name }} {{ user.last_name }}</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-truncate">{{ user.email }}</td>
-                                        <td class="text-truncate">
-                                            <div class="d-flex align-items-center">
-                                                {% if user.usertype == 1 %}
-                                                <i class="ri-vip-crown-line ri-22px text-primary me-2"></i>
-                                                <span>Admin</span>
-                                                {% elif user.usertype == 2 %}
-                                                <i class="ri-edit-box-line text-warning ri-22px me-2"></i>
-                                                <span>Moderator</span>
-                                                {% elif user.usertype == 3 %}
-                                                <i class="ri-user-3-line text-success me-2"></i>
-                                                <span>Teacher</span>
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                        <td><span class="badge 
-                                            {% if user.status == 'Active' %} bg-label-success 
-                                            {% else %} bg-label-secondary 
-                                            {% endif %} rounded-pill">{{ user.status }}</span>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
+                                  {% for user in users %}
+                                  <tr>
+                                      <td>
+                                          <div class="d-flex align-items-center">
+                                              <div class="avatar avatar-sm me-4">
+                                                  <img src="{{ user.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
+                                              </div>
+                                              <div>
+                                                  <h6 class="mb-0 text-truncate">{{ user.first_name }} {{ user.last_name }}</h6>
+                                              </div>
+                                          </div>
+                                      </td>
+                                      <td class="text-truncate">{{ user.email }}</td>
+                                      <td class="text-truncate">
+                                          <div class="d-flex align-items-center">
+                                              {% if user.usertype == 1 %}
+                                              <i class="ri-vip-crown-line ri-22px text-primary me-2"></i>
+                                              <span>Admin</span>
+                                              {% elif user.usertype == 2 %}
+                                              <i class="ri-edit-box-line text-warning ri-22px me-2"></i>
+                                              <span>Moderator</span>
+                                              {% elif user.usertype == 3 %}
+                                              <i class="ri-user-3-line text-success me-2"></i>
+                                              <span>Teacher</span>
+                                              {% endif %}
+                                          </div>
+                                      </td>
+                                      <td><span class="badge 
+                                          {% if user.status == 'Active' %} bg-label-success 
+                                          {% else %} bg-label-secondary 
+                                          {% endif %} rounded-pill">{{ user.status }}</span>
+                                      </td>
+                                  </tr>
+                                  {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+{% endif %}
               </div>
             </div>
             <!-- / Content -->

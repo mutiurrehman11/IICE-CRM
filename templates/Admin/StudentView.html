@@ -1,50 +1,333 @@
 <!doctype html>
+<html lang="en" class="light-style layout-menu-fixed layout-compact" dir="ltr" data-theme="theme-default" data-assets-path="/static/assets/" data-template="vertical-menu-template-free">
 
-<html
-  lang="en"
-  class="light-style layout-menu-fixed layout-compact">
-  <head>
+<head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>Admin Dashboard</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Student Details - IQRA ACADEMY</title>
     <meta name="description" content="" />
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../../static/Logos/L1.jpg" />
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
-      rel="stylesheet" />
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/static/assets/vendor/fonts/remixicon/remixicon.css" />
-
-    <!-- Menu waves for no-customizer fix -->
-    <link rel="stylesheet" href="/static/assets/vendor/libs/node-waves/node-waves.css" />
-
-    <!-- Core CSS -->
     <link rel="stylesheet" href="/static/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="/static/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="/static/assets/css/demo.css" />
-
-    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/static/assets/vendor/libs/node-waves/node-waves.css" />
     <link rel="stylesheet" href="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/static/assets/vendor/libs/apex-charts/apex-charts.css" />
-
-    <!-- Page CSS -->
-
-    <!-- Helpers -->
     <script src="/static/assets/vendor/js/helpers.js"></script>
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/static/assets/js/config.js"></script>
-  </head>
+    
+    <!-- Custom Enhanced Styles -->
+    <style>
+        /* Enhanced Animation Framework */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200px 0;
+            }
+            100% {
+                background-position: calc(200px + 100%) 0;
+            }
+        }
+        
+        /* Enhanced Card Styling */
+        .card {
+            animation: fadeInUp 0.6s ease-out;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(105, 108, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        /* Enhanced Header */
+        .card-header {
+            background: linear-gradient(135deg, #696cff 0%, #5a5fef 100%);
+            color: white;
+            border-radius: 16px 16px 0 0 !important;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s infinite;
+        }
+        
+        .card-header h5 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.25rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Enhanced Form Controls */
+        .form-control, .form-select {
+            border: 2px solid #e7e7ff;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #696cff;
+            box-shadow: 0 0 0 0.2rem rgba(105, 108, 255, 0.15);
+            transform: translateY(-1px);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #566a7f;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        /* Enhanced Buttons */
+        .btn {
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #696cff 0%, #5a5fef 100%);
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(105, 108, 255, 0.4);
+        }
+        
+        /* Enhanced Navigation Tabs */
+        .nav-pills .nav-link {
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #696cff 0%, #5a5fef 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(105, 108, 255, 0.3);
+        }
+        
+        /* Enhanced Table */
+        .table {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .table thead th {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: none;
+            font-weight: 600;
+            color: #566a7f;
+            padding: 1rem;
+        }
+        
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table tbody tr:hover {
+            background: rgba(105, 108, 255, 0.05);
+            transform: scale(1.01);
+        }
+        
+        /* Enhanced Image Preview */
+        .image-preview {
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .image-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .image-preview img {
+            transition: all 0.3s ease;
+        }
+        
+        .image-preview:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* Enhanced Status Badges */
+        .badge {
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        /* Enhanced Loading States */
+        .loading {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        /* Enhanced Responsive Design */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* Enhanced Scroll Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Enhanced Payment Status */
+        .payment-status {
+            position: relative;
+            padding: 1rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(105, 108, 255, 0.1) 0%, rgba(105, 108, 255, 0.05) 100%);
+            border: 1px solid rgba(105, 108, 255, 0.2);
+        }
+        
+        /* Enhanced Installment Details */
+        .installment-row {
+            transition: all 0.3s ease;
+        }
+        
+        .installment-row:hover {
+            background: linear-gradient(135deg, rgba(105, 108, 255, 0.05) 0%, rgba(105, 108, 255, 0.02) 100%);
+        }
+        
+        /* Enhanced Modal */
+        .modal-content {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #696cff 0%, #5a5fef 100%);
+            color: white;
+            border-radius: 16px 16px 0 0;
+        }
+        
+        /* Enhanced Progress Indicators */
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(105, 108, 255, 0.1);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(135deg, #696cff 0%, #5a5fef 100%);
+            border-radius: 4px;
+        }
+    </style>
+</head>
 
   <body>
     <!-- Layout wrapper -->
@@ -55,7 +338,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -167,6 +450,13 @@
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
+            
+            <!-- Mobile menu toggle -->
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-22px"></i>
+              </a>
+            </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
@@ -231,40 +521,78 @@
                     <ul class="nav nav-pills flex-column flex-md-row mb-6 gap-2 gap-lg-0">
                       <li class="nav-item">
                         <a href="{% url 'StudentView' userdata.id %}" class="nav-link active"
-                          ><i class="ri-group-line me-1_5"></i>Student</a
+                          ><i class="ri-user-3-line me-2"></i>Student Profile</a
                         >
                       </li>
-                      <li class="nav-item">
-                        <a href="{% url 'StudentSession' userdata.id %}" class="nav-link"
-                          ><i class="ri-book-2-line me-1_5"></i>Session</a
-                        >
-                      </li>
+                      
                     </ul>
                   </div>
-                  <div class="card mb-6">
+                  <div class="card mb-6 animate-on-scroll">
+                    <div class="card-header">
+                      <h5 class="mb-0">
+                        <i class="ri-user-star-line me-2"></i>
+                        Student Profile - {{ userdata.student_name }}
+                      </h5>
+                    </div>
                     <div class="card-body">
-                      <div class="d-flex align-items-start align-items-sm-center gap-6">
-                        <img
-                          src="{% if userdata.profile_photo %}{{ userdata.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          alt="{{ userdata.student_name }}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
-                      <img
-                          src="{% if userdata.cnic_photo %}{{ userdata.cnic_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          alt="{{ userdata.student_name }}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
-                      <img
-                          src="{% if userdata.degree_photo %}{{ userdata.degree_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}"
-                          alt="{{ userdata.student_name }}"
-                          class="d-block w-px-100 h-px-100 rounded"
-                          id="uploadedAvatar" />
+                      <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                          <div class="image-preview">
+                            <label class="form-label">Profile Photo</label>
+                            {% if userdata.profile_photo %}
+                              <img src="{{ userdata.profile_photo.url }}" alt="Profile" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                            {% else %}
+                              <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="ri-user-line" style="font-size: 3rem; color: #ccc;"></i>
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                          <div class="image-preview">
+                            <label class="form-label">CNIC Photo</label>
+                            {% if userdata.cnic_photo %}
+                              <img src="{{ userdata.cnic_photo.url }}" alt="CNIC" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                            {% else %}
+                              <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="ri-id-card-line" style="font-size: 3rem; color: #ccc;"></i>
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                          <div class="image-preview">
+                            <label class="form-label">Degree Photo</label>
+                            {% if userdata.degree_photo %}
+                              <img src="{{ userdata.degree_photo.url }}" alt="Degree" class="img-fluid rounded" style="max-height: 200px; width: 100%; object-fit: cover;">
+                            {% else %}
+                              <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="ri-award-line" style="font-size: 3rem; color: #ccc;"></i>
+                              </div>
+                            {% endif %}
+                          </div>
+                        </div>
                       </div>
                     
                     </div>
                     <div class="card-body pt-0">
                       <form id="formAccountSettings" method="POST" enctype="multipart/form-data">
                       {% csrf_token %}
+                      
+                      <!-- Display form errors if any -->
+                      {% if form_errors %}
+                      <div class="alert alert-danger" role="alert">
+                          <h6>Please correct the following errors:</h6>
+                          <ul class="mb-0">
+                              {% for field, errors in form_errors.items %}
+                                  {% for error in errors %}
+                                      <li>{{ field }}: {{ error }}</li>
+                                  {% endfor %}
+                              {% endfor %}
+                          </ul>
+                      </div>
+                      {% endif %}
+                      
                       <div class="row mt-1 g-5">
                         
                         <div class="row mt-1 g-5">
@@ -338,6 +666,317 @@
                                     <label for="status">Status</label>
                                 </div>
                             </div>
+                            
+                            <!-- Enrolled Sessions Section -->
+                            <div class="col-12 mt-4">
+                                <div class="card mb-4 animate-on-scroll">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0">
+                                              <i class="ri-book-open-line me-2"></i>
+                                              Enrolled Sessions
+                                            </h5>
+                                            <div class="d-flex align-items-center">
+                                                <select class="form-select me-2" id="available_sessions" style="min-width: 200px;">
+                                                    <option value="">Select Session to Enroll</option>
+                                                    {% for session in available_sessions %}
+                                                        <option value="{{ session.id }}" 
+                                                                data-fee="{{ session.fee }}"
+                                                                data-registration-fee="{{ session.registration_fee }}">
+                                                            {{ session.session_name }} (Fee: {{ session.fee }})
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                                <button type="button" class="btn btn-primary" id="enrollButton" disabled>
+                                                    <i class="ri-add-line me-1"></i> Enroll
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead class="bg-light">
+                                                    <tr>
+                                                        <th>Session Name</th>
+                                                        <th>Registration Date</th>
+                                                        <th>Fee</th>
+                                                        <th>Registration Fee</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for session in student_sessions %}
+                                                    <tr>
+                                                        <td>{{ session.session.session_name }}</td>
+                                                        <td>{{ session.registration_date|date:"M d, Y" }}</td>
+                                                        <td>{{ session.session.fee }}</td>
+                                                        <td>{{ session.registration_fee }}</td>
+                                                        <td>{{ session.status }}</td>
+                                                    </tr>
+                                                    {% empty %}
+                                                    <tr>
+                                                        <td colspan="5" class="text-center">
+                                                            No sessions found. Please select a session from the dropdown above to enroll.
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Payment Information Section -->
+                            <div class="col-12 mt-4">
+                                <div class="card animate-on-scroll">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">
+                                          <i class="ri-money-dollar-circle-line me-2"></i>
+                                          Payment Information
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="payment-status mb-4">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="text-center">
+                                                        <h4 class="text-primary mb-1">Rs. {{ final_fee|default:0 }}</h4>
+                                                        <small class="text-muted">Total Fee</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="text-center">
+                                                        <h4 class="text-success mb-1">Rs. {{ paid_amount|default:0 }}</h4>
+                                                        <small class="text-muted">Paid Amount</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="text-center">
+                                                        <h4 class="text-warning mb-1">Rs. {{ remaining_amount|default:0 }}</h4>
+                                                        <small class="text-muted">Remaining</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="text-center">
+                                                        <h4 class="text-info mb-1">{{ payment_info.installments_paid|default:0 }}/{{ payment_info.installments_count|default:0 }}</h4>
+                                                        <small class="text-muted">Installments</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Enhanced Progress Bar -->
+                                            <div class="mt-3">
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" 
+                                                         style="width: {% if final_fee and final_fee > 0 %}{% widthratio paid_amount|default:0 final_fee 100 %}{% else %}0{% endif %}%"
+                                                         aria-valuenow="{{ paid_amount|default:0 }}" 
+                                                         aria-valuemin="0" 
+                                                         aria-valuemax="{{ final_fee|default:0 }}">
+                                                    </div>
+                                                </div>
+                                                <small class="text-muted mt-1 d-block">Payment Progress</small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <!-- Left Column -->
+                                            <div class="col-md-6">
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Total Fee:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="total_fee" name="total_fee" step="1" min="0"
+                                                            value="{{ total_fee|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Registration Fee:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="registration_fee" name="registration_fee" step="1" min="0"
+                                                            value="{{ registration_fee|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Discount:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="discount" name="discount" step="1" min="0"
+                                                            value="{{ discount|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Final Fee:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="final_fee" name="final_fee" step="1" min="0"
+                                                            value="{{ final_fee|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Paid Amount:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="paid_amount" name="paid_amount" step="1" min="0"
+                                                            value="{{ paid_amount|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Remaining Amount:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="remaining_amount" name="remaining_amount" step="1" min="0"
+                                                            value="{{ remaining_amount|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Installments:</label>
+                                                    <div class="col-sm-6">
+                                                        <select class="form-select text-end" id="installments_count" name="installments_count">
+                                                            <option value="0" {% if not payment_info.installments_count %}selected{% endif %}>No Installments</option>
+                                                            <option value="1" {% if payment_info.installments_count == 1 %}selected{% endif %}>1</option>
+                                                            <option value="2" {% if payment_info.installments_count == 2 %}selected{% endif %}>2</option>
+                                                            <option value="3" {% if payment_info.installments_count == 3 %}selected{% endif %}>3</option>
+                                                            <option value="4" {% if payment_info.installments_count == 4 %}selected{% endif %}>4</option>
+                                                            <option value="5" {% if payment_info.installments_count == 5 %}selected{% endif %}>5</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Per Installment:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="per_installment_amount" name="per_installment_amount" step="1" min="0"
+                                                            value="{{ payment_info.per_installment_amount|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Right Column -->
+                                            <div class="col-md-6">
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Next Due Date:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="date" id="due_date" name="due_date" 
+                                                            value="{{ next_due_date|date:'Y-m-d'|default:'' }}" 
+                                                            class="form-control" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Next Due Amount:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="next_due_amount" name="next_due_amount" step="1" min="0"
+                                                            value="{{ payment_info.next_due_amount|default:0|floatformat:0 }}" 
+                                                            class="form-control text-end" />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Installments Paid:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="text" id="installments_paid" 
+                                                            value="{{ payment_info.installments_paid|default:0 }} of {{ payment_info.installments_count|default:0 }}" 
+                                                            class="form-control text-end" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Installments Due:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="number" id="installments_due" 
+                                                            value="{{ payment_info.installments_due|default:0 }}" 
+                                                            class="form-control text-end" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Enrollment Date:</label>
+                                                    <div class="col-sm-6">
+                                                        <input type="date" id="enrollment_date" name="enrollment_date" 
+                                                            value="{{ enrollment_date|date:'Y-m-d'|default:'' }}" 
+                                                            class="form-control" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label class="col-sm-6 col-form-label">Mark Next Installment as Paid:</label>
+                                                    <div class="col-sm-6">
+                                                        <button type="button" id="pay_installment" class="btn btn-success">
+                                                            Mark As Paid
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Installment Details Section -->
+                                        <div class="mt-4">
+                                            <div class="card animate-on-scroll">
+                                                <div class="card-header d-flex justify-content-between align-items-center">
+                                                    <h5 class="mb-0">
+                                                        <i class="ri-calendar-check-line me-2"></i>
+                                                        Installment Details
+                                                    </h5>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary" id="toggle_details">
+                                                        <i class="ri-arrow-down-line me-1"></i> Show Details
+                                                    </button>
+                                                </div>
+                                                <div class="card-body" id="installment_details_table" style="display: none;">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><i class="ri-hashtag me-1"></i>Installment</th>
+                                                                    <th><i class="ri-money-dollar-circle-line me-1"></i>Amount</th>
+                                                                    <th><i class="ri-calendar-line me-1"></i>Due Date</th>
+                                                                    <th><i class="ri-calendar-check-line me-1"></i>Paid Date</th>
+                                                                    <th><i class="ri-checkbox-circle-line me-1"></i>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for installment in installments %}
+                                                                <tr class="installment-row">
+                                                                    <td><strong>#{{ forloop.counter }}</strong></td>
+                                                                    <td><span class="text-primary fw-semibold">Rs. {{ installment.amount }}</span></td>
+                                                                    <td>{{ installment.due_date|date:"M d, Y" }}</td>
+                                                                    <td>
+                                                                        {% if installment.paid_date %}
+                                                                            <span class="text-success">{{ installment.paid_date|date:"M d, Y" }}</span>
+                                                                        {% else %}
+                                                                            <span class="text-muted">Not paid</span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if installment.status == 'Paid' %}
+                                                                            <span class="badge bg-success">
+                                                                                <i class="ri-check-line me-1"></i>Paid
+                                                                            </span>
+                                                                        {% else %}
+                                                                            <span class="badge bg-warning">
+                                                                                <i class="ri-time-line me-1"></i>Unpaid
+                                                                            </span>
+                                                                        {% endif %}
+                                                                    </td>
+                                                                </tr>
+                                                                {% empty %}
+                                                                <tr>
+                                                                    <td colspan="5" class="text-center text-muted py-4">
+                                                                        <i class="ri-information-line me-2"></i>
+                                                                        No installments found
+                                                                    </td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Hidden fields to save in form -->
+                                        <input type="hidden" id="enable_installments" name="enable_installments" value="{% if payment_info.installments_count > 0 %}on{% endif %}">
+                                        <input type="hidden" id="latest_installment_paid" name="latest_installment_paid" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div class="col-md-6">
                                 <label for="profile_upload" class="btn btn-sm btn-primary me-3 mb-4">
                                     <span class="d-none d-sm-block">Upload Profile Photo</span>
@@ -352,14 +991,19 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="degree_upload" class="btn btn-sm btn-primary me-3 mb-4">
-                                    <span class="d-none d-sm-block">Upload Degree Photo</span>
-                                    <input type="file" id="degree_upload" name="degree_photo" class="account-file-input" hidden/>
+                                    <span class="d-none d-sm-block">Upload Degree Photo (Optional)</span>
+                                    <input type="file" id="degree_upload" name="degree_photo" class="account-file-input" hidden />
                                 </label>
                             </div>
 
                     
-                            <div class="mt-6">
-                                <button type="submit" class="btn btn-primary me-3">Save Changes</button>
+                            <div class="mt-6 d-flex gap-2">
+                                <button type="submit" class="btn btn-primary me-3" name="save_changes" value="1" onclick="console.log('Save Changes clicked')">Save Changes</button>
+                                {% if userdata.status == "Active" %}
+                                    <button type="submit" class="btn btn-warning" name="freeze_student" value="1">Freeze Student</button>
+                                {% else %}
+                                    <button type="submit" class="btn btn-success" name="unfreeze_student" value="1">Unfreeze Student</button>
+                                {% endif %}
                             </div>
                         </div>
                     </form>
@@ -432,6 +1076,498 @@
 
     <!-- Page JS -->
     <script src="/static/assets/js/dashboards-analytics.js"></script>
+    
+    <!-- Enhanced Custom JavaScript -->
+    <script>
+        $(document).ready(function() {
+            // Enhanced scroll animations
+            function animateOnScroll() {
+                $('.animate-on-scroll').each(function() {
+                    const elementTop = $(this).offset().top;
+                    const elementBottom = elementTop + $(this).outerHeight();
+                    const viewportTop = $(window).scrollTop();
+                    const viewportBottom = viewportTop + $(window).height();
+                    
+                    if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                        $(this).addClass('animated');
+                    }
+                });
+            }
+            
+            // Initial animation check
+            animateOnScroll();
+            
+            // Animate on scroll
+            $(window).on('scroll', animateOnScroll);
+            
+            // Enhanced form interactions
+            $('.form-control, .form-select').on('focus', function() {
+                $(this).closest('.mb-3').find('.form-label').css('color', '#696cff');
+            }).on('blur', function() {
+                $(this).closest('.mb-3').find('.form-label').css('color', '#566a7f');
+            });
+            
+            // Enhanced button interactions
+            $('.btn').on('mouseenter', function() {
+                $(this).addClass('shadow-lg');
+            }).on('mouseleave', function() {
+                $(this).removeClass('shadow-lg');
+            });
+            
+            // Enhanced table row interactions
+            $('.table tbody tr').on('mouseenter', function() {
+                $(this).find('td').css('background', 'rgba(105, 108, 255, 0.05)');
+            }).on('mouseleave', function() {
+                $(this).find('td').css('background', '');
+            });
+            
+            // Enhanced loading states
+            $('form').on('submit', function() {
+                $(this).find('.btn[type="submit"]').addClass('loading').prop('disabled', true);
+            });
+        });
+        
+        function calculateNextDueDate() {
+            let installments = parseInt($("#installments_count").val()) || 0;
+            if (installments > 0) {
+                let enrollmentDateStr = $("#enrollment_date").val();
+                let installmentsPaid = parseInt($("#installments_paid").val()) || 0;
+                // If the field is like "2 of 3", extract the first number
+                if ($("#installments_paid").val().indexOf(" of ") !== -1) {
+                    installmentsPaid = parseInt($("#installments_paid").val().split(" of ")[0]) || 0;
+                }
+                if (enrollmentDateStr) {
+                    let enrollmentDate = new Date(enrollmentDateStr);
+                    let nextDueDate = new Date(enrollmentDate);
+                    nextDueDate.setMonth(nextDueDate.getMonth() + installmentsPaid + 1);
+                    let formattedDate = nextDueDate.toISOString().split('T')[0];
+                    $("#due_date").val(formattedDate);
+                }
+            } else {
+                $("#due_date").val('');
+                $("#next_due_amount").val('0');
+            }
+        }
+
+        function calculateFees() {
+            // Get values and ensure they're valid integers
+            let registrationFee = Math.round(parseFloat($("#registration_fee").val())) || 0;
+            let totalFee = Math.round(parseFloat($("#total_fee").val())) || 0;
+            let discount = Math.round(parseFloat($("#discount").val())) || 0;
+            let paidAmount = Math.round(parseFloat($("#paid_amount").val())) || 0;
+            
+            // Update input fields with rounded values
+            $("#registration_fee").val(registrationFee);
+            $("#total_fee").val(totalFee);
+            $("#discount").val(discount);
+            $("#paid_amount").val(paidAmount);
+            
+            // Calculate final fee (including registration fee)
+            let finalFee = totalFee + registrationFee - discount;
+            $("#final_fee").val(finalFee);
+            
+            // Calculate remaining amount
+            let remainingAmount = finalFee - paidAmount;
+            remainingAmount = remainingAmount > 0 ? remainingAmount : 0;
+            $("#remaining_amount").val(remainingAmount);
+            
+            // Handle installments
+            let installments = parseInt($("#installments_count").val()) || 0;
+            if (installments > 0) {
+                // Calculate per installment amount based on final fee, not remaining amount
+                let perInstallment = Math.floor(finalFee / installments);
+                let lastInstallment = perInstallment + (finalFee % installments);
+                $("#per_installment_amount").val(perInstallment);
+                
+                // Set next due amount
+                if (!$("#next_due_amount").data('manually-changed')) {
+                    let installmentsPaid = parseInt("{{ payment_info.installments_paid|default:0 }}") || 0;
+                    if (installmentsPaid === installments - 1) {
+                        $("#next_due_amount").val(lastInstallment);
+                    } else {
+                        $("#next_due_amount").val(perInstallment);
+                    }
+                }
+                
+                $("#enable_installments").val("on");
+                $(".installment-field").show();
+                $("#installment_details_table").show();
+                $("#toggle_details").show();
+                
+                // Update installments paid display
+                let installmentsPaid = parseInt("{{ payment_info.installments_paid|default:0 }}") || 0;
+                $("#installments_paid").val(installmentsPaid + " of " + installments);
+                $("#installments_due").val(Math.max(0, installments - installmentsPaid));
+            } else {
+                // Reset all installment-related fields when no installments
+                $("#per_installment_amount").val("0");
+                $("#next_due_amount").val("0");
+                $("#enable_installments").val("");
+                $("#installments_paid").val("0 of 0");
+                $("#installments_due").val("0");
+                $("#due_date").val("");
+                
+                // Hide all installment-related elements
+                $(".installment-field").hide();
+                $("#installment_details_table").hide();
+                $("#toggle_details").hide();
+                
+                // Clear manually-changed flag
+                $("#next_due_amount").data('manually-changed', false);
+            }
+        }
+        
+        $(document).ready(function() {
+            // Add installment-field class to relevant elements
+            $("#due_date").closest(".row.mb-3").addClass("installment-field");
+            $("#next_due_amount").closest(".row.mb-3").addClass("installment-field");
+            $("#installments_paid").closest(".row.mb-3").addClass("installment-field");
+            $("#installments_due").closest(".row.mb-3").addClass("installment-field");
+            $("#pay_installment").closest(".row.mb-3").addClass("installment-field");
+            
+            // Set initial values - DISABLED FOR TESTING
+            // if (!$("#total_fee").val()) {
+            //     $("#total_fee").val("{{ student_sessions.0.fee|default:0 }}");
+            // }
+            // if (!$("#registration_fee").val()) {
+            //     $("#registration_fee").val("{{ student_sessions.0.registration_fee|default:0 }}");
+            // }
+            // if (!$("#paid_amount").val()) {
+            //     $("#paid_amount").val("{{ payment_info.paid_amount|default:0 }}");
+            // }
+            // if (!$("#discount").val()) {
+            //     $("#discount").val("{{ payment_info.discount|default:0 }}");
+            // }
+
+            // Initial calculations
+            calculateFees();
+            calculateNextDueDate();
+            
+            // Handle fee calculations when values change
+            $('#total_fee, #registration_fee, #discount, #paid_amount').on('change keyup', function() {
+                calculateFees();
+            });
+            
+            // Handle enrollment date change
+            $('#enrollment_date').on('change', calculateNextDueDate);
+            
+            // Handle next due amount changes
+            $("#next_due_amount").on('change keyup', function() {
+                $(this).data('manually-changed', true);
+            });
+            
+            // Handle installment count change
+            $('#installments_count').on('change', function() {
+                // Reset manually-changed flag when changing installment count
+                $("#next_due_amount").data('manually-changed', false);
+                calculateFees();
+                calculateNextDueDate();
+            });
+            
+            // Initial visibility state based on installments
+            let initialInstallments = parseInt($("#installments_count").val()) || 0;
+            if (initialInstallments === 0) {
+                $(".installment-field").hide();
+                $("#installment_details_table").hide();
+                $("#toggle_details").hide();
+            }
+            
+            // Enhanced toggle installment details visibility
+            $("#toggle_details").on("click", function() {
+                $("#installment_details_table").slideToggle(300);
+                
+                if ($("#installment_details_table").is(":visible")) {
+                    $(this).html('<i class="ri-arrow-up-line me-1"></i> Hide Details');
+                } else {
+                    $(this).html('<i class="ri-arrow-down-line me-1"></i> Show Details');
+                }
+            });
+            
+            // Form submission handler with validation
+            $("#formAccountSettings").on('submit', function(e) {
+                // Validate installment data before submission
+                let installments = parseInt($("#installments_count").val()) || 0;
+                let dueDate = $("#due_date").val();
+                let perInstallment = parseFloat($("#per_installment_amount").val()) || 0;
+                
+                if (installments > 0) {
+                    if (!dueDate) {
+                        alert("Please set a due date for installments.");
+                        e.preventDefault();
+                        return false;
+                    }
+                    if (perInstallment <= 0) {
+                        alert("Per installment amount must be greater than 0.");
+                        e.preventDefault();
+                        return false;
+                    }
+                    $("#enable_installments").val("on");
+                } else {
+                    $("#enable_installments").val("");
+                    $("#next_due_amount").val("0");
+                    $("#due_date").val("");
+                }
+                
+                // Ensure all payment values are integers
+                $("#total_fee").val(Math.round(parseFloat($("#total_fee").val()) || 0));
+                $("#registration_fee").val(Math.round(parseFloat($("#registration_fee").val()) || 0));
+                $("#discount").val(Math.round(parseFloat($("#discount").val()) || 0));
+                $("#final_fee").val(Math.round(parseFloat($("#final_fee").val()) || 0));
+                $("#paid_amount").val(Math.round(parseFloat($("#paid_amount").val()) || 0));
+                $("#remaining_amount").val(Math.round(parseFloat($("#remaining_amount").val()) || 0));
+                $("#per_installment_amount").val(Math.round(parseFloat($("#per_installment_amount").val()) || 0));
+                $("#next_due_amount").val(Math.round(parseFloat($("#next_due_amount").val()) || 0));
+                
+                console.log("Form submission data:", {
+                    installments_count: $("#installments_count").val(),
+                    enable_installments: $("#enable_installments").val(),
+                    due_date: $("#due_date").val(),
+                    per_installment_amount: $("#per_installment_amount").val(),
+                    latest_installment_paid: $("#latest_installment_paid").val()
+                });
+                
+                return true;
+            });
+
+            // Mark next installment as paid
+            $("#pay_installment").on('click', function(e) {
+                e.preventDefault();
+                
+                let installmentsCount = parseInt($("#installments_count").val()) || 0;
+                
+                if (installmentsCount === 0) {
+                    alert("Please set up installments first.");
+                    return;
+                }
+                
+                // Confirm action
+                if (!confirm("Are you sure you want to mark the next pending installment as paid?")) {
+                    return;
+                }
+                
+                // Disable button to prevent double clicks
+                $(this).prop('disabled', true).text('Processing...');
+                
+                // Make AJAX request
+                $.ajax({
+                    url: `/Admin-Students/{{ userdata.id }}/mark-installment-paid/`,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val(),
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Update the UI with new values
+                            $("#paid_amount").val(response.paid_amount);
+                            $("#remaining_amount").val(response.remaining_amount);
+                            $("#installments_paid").val(response.installments_paid + " of " + installmentsCount);
+                            $("#installments_due").val(response.installments_due);
+                            $("#next_due_amount").val(response.next_due_amount);
+                            
+                            if (response.next_due_date) {
+                                $("#due_date").val(response.next_due_date);
+                            }
+                            
+                            // Show success message
+                            alert(response.message);
+                            
+                            // Reload the page to update the installment table
+                            location.reload();
+                            
+                        } else {
+                            alert('Error: ' + response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', error);
+                        alert('An error occurred while processing the payment. Please try again.');
+                    },
+                    complete: function() {
+                        // Re-enable button
+                        $("#pay_installment").prop('disabled', false).text('Mark As Paid');
+                    }
+                });
+            });
+            
+            // Handle navigation links
+            $('.enroll-btn, .dropdown-item').on('click', function(e) {
+                const href = $(this).attr('href');
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+
+            // Enable/disable enroll button based on selection
+            $('#available_sessions').on('change', function() {
+                $('#enrollButton').prop('disabled', !$(this).val());
+            });
+
+            // Handle enroll button click
+            $('#enrollButton').on('click', function() {
+                const select = $('#available_sessions');
+                const selectedOption = select.find('option:selected');
+                
+                if (selectedOption.val()) {
+                    // Populate modal with selected session details
+                    $('#modal_session_id').val(selectedOption.val());
+                    $('#modal_session_name').val(selectedOption.text());
+                    $('#modal_registration_fee').val(selectedOption.data('registration-fee'));
+                    $('#modal_session_fee').val(selectedOption.data('fee'));
+                    $('#modal_registration_date').val("{{ today_date|date:'Y-m-d' }}");
+                    $('#modal_initial_payment').val(selectedOption.data('registration-fee')); // Set initial payment to registration fee
+                    
+                    // Show enrollment modal
+                    $('#enrollmentModal').modal('show');
+                }
+            });
+
+            // Handle enrollment confirmation
+            $('#confirmEnrollment').on('click', function() {
+                const formData = new FormData($('#enrollmentForm')[0]);
+                formData.append('student_id', '{{ userdata.id }}');
+
+                $.ajax({
+                    url: '{% url "AddStudentSession" userdata.id %}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.success) {
+                            // Reload the page to show updated sessions
+                            location.reload();
+                        } else {
+                            alert(response.error || 'Failed to enroll in session');
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred while processing your request');
+                    }
+                });
+            });
+
+            // Handle delete session via AJAX
+            $('.delete-session').on('click', function(e) {
+                e.preventDefault();
+                if (!confirm('Are you sure you want to remove enrollment from this session?')) return;
+                // Use the URL from data attribute
+                const url = $(this).data('delete-url');
+                const row = $(this).closest('tr');
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    headers: {'X-CSRFToken': $('[name=csrfmiddlewaretoken]').val()},
+                    success: function(response) {
+                        if (response.success) {
+                            // Remove row from table
+                            row.remove();
+                        } else {
+                            alert('Failed to delete session');
+                        }
+                    },
+                    error: function() {
+                        alert('Failed to delete session');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Add this at the end of the file, before the closing </body> tag -->
+    <div class="modal fade" id="enrollmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enroll in New Session</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="enrollmentForm">
+                        {% csrf_token %}
+                        <input type="hidden" id="modal_session_id" name="session_id">
+                        <div class="mb-3">
+                            <label class="form-label">Session Name</label>
+                            <input type="text" class="form-control" id="modal_session_name" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Registration Fee</label>
+                            <input type="number" class="form-control" id="modal_registration_fee" name="registration_fee" step="1" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Session Fee</label>
+                            <input type="number" class="form-control" id="modal_session_fee" name="fee" step="1" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Registration Date</label>
+                            <input type="date" class="form-control" id="modal_registration_date" name="registration_date" value="{{ today_date|date:'Y-m-d' }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Initial Payment</label>
+                            <input type="number" class="form-control" id="modal_initial_payment" name="initial_payment" step="1" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmEnrollment">Confirm Enrollment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+  <!-- Debug Script for Save Changes -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      console.log('StudentView page loaded');
+      
+      const form = document.getElementById('formAccountSettings');
+      if (form) {
+          console.log('Form found:', form);
+          
+          form.addEventListener('submit', function(e) {
+              console.log('Form submission started');
+              console.log('Form data:', new FormData(form));
+              
+              // Check which button was clicked
+              const activeElement = document.activeElement;
+              if (activeElement) {
+                  console.log('Active element:', activeElement.name, activeElement.value);
+              }
+              
+              // Validate required fields
+              const requiredFields = form.querySelectorAll('[required]');
+              let hasErrors = false;
+              
+              requiredFields.forEach(field => {
+                  if (!field.value.trim()) {
+                      console.log('Empty required field:', field.name);
+                      hasErrors = true;
+                  }
+              });
+              
+              if (hasErrors) {
+                  e.preventDefault();
+                  alert('Please fill all required fields');
+                  return false;
+              }
+              
+              console.log('Form validation passed, submitting...');
+          });
+          
+          // Add click handlers to buttons
+          const saveButton = form.querySelector('[name="save_changes"]');
+          if (saveButton) {
+              saveButton.addEventListener('click', function() {
+                  console.log('Save Changes button clicked');
+              });
+          }
+      } else {
+          console.error('Form not found!');
+      }
+  });
+  </script>
+  
   </body>
 </html>
 

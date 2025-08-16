@@ -8,18 +8,8 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-<!doctype html>
 
-<html
-  lang="en"
-  class="light-style layout-menu-fixed layout-compact">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>Moderator Dashboard</title>
+    <title>Admin Dashboard</title>
 
     <meta name="description" content="" />
 
@@ -54,45 +44,6 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/static/assets/js/config.js"></script>
-      <style>
-    /* Bold font for header and table text */
-    #user-table th,
-    #user-table td {
-        font-weight: normal;
-    }
-
-    /* Custom button hover style */
-    .btn-custom:hover {
-        background-color: #8bd8ff !important; /* Change to your preferred hover color */
-        color: white !important;
-    }
-
-    /* Styling the search bar to add some padding */
-    .dataTables_filter {
-        margin-bottom: 15px;
-        margin-right: 10px;
-        border-radius: 50px;
-    }
-
-    /* Styling for pagination buttons */
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin: 2px;
-        color: #333;
-        font-weight: bold;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background-color: #6c63ff; /* Hover color */
-        color: white;
-    }
-
-    /* Center-align table and add padding */
-    .dataTables_wrapper {
-        padding: 20px;
-    }
-</style>
   </head>
 
   <body>
@@ -104,7 +55,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="{% url 'home' %}" class="app-brand-link">
-              <span class="app-brand-text demo menu-text fw-semibold ms-2">IQRA INSTITUTE</span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
             </a>
 
             <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -117,42 +68,93 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
-          <ul class="menu-inner py-1">
-            <!-- User Pages -->
-              <li class="menu-item">
-              <a href="{% url 'mod_notification' %}" class="menu-link">
-                <i class="menu-icon tf-icons ri-mail-fill"></i>
-                <div data-i18n="Dashboards">Notifications</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+            <li class="menu-item">
+              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-home-smile-line"></i>
+                <div data-i18n="Basic">Dashboard</div>
               </a>
             </li>
+          <ul class="menu-inner py-1">
+            <!-- User Pages -->
             <li class="menu-item">
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
-                <ul class="menu-sub">
+                <ul class="menu-sub open">
                 <li class="menu-item">
-                  <a href="{% url 'mod_Students' %}" class="menu-link">
+                  <a href="{% url 'Faculty' %}" class="menu-link">
+                    <div data-i18n="CRM">Faculty</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
                   </a>
                 </li>
-                <li  class="menu-item">
-                  <a href="{% url 'mod_ExStudents' %}" class="menu-link">
+                <li  class="menu-item active">
+                  <a href="{% url 'ExStudents' %}" class="menu-link">
                     <div data-i18n="CRM">Ex-Students</div>
                   </a>
                 </li>
               </ul>
             </li>
+              <li class="menu-item">
+              <a href="" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-book-fill"></i>
+                <div data-i18n="Dashboards">Sessions</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+                <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{% url 'Sessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Current</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Completed</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
 
-            <li class="menu-item active">
-              <a href="{% url 'mod_Leads' %}" class="menu-link">
+            <li class="menu-item">
+              <a href="{% url 'Leads' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
-          </ul>
+            <li class="menu-item">
+              <a href="{% url 'select_course' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">Attendance</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'payment' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
+                <div data-i18n="Dashboards">Payments</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+              <li class="menu-item">
+              <a href="{% url 'EmailService' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
+                <div data-i18n="Dashboards">Email Service</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>          </ul>
 
         </aside>
         <!-- / Menu -->
@@ -164,6 +166,140 @@
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
+            <div class="app-brand demo">
+              <a href="{% url 'home' %}" class="app-brand-link">
+                <span class="app-brand-logo demo">
+                  <span style="color: var(--bs-primary)">
+                    <svg width="30" height="24" viewBox="0 0 250 196" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M40.7849 198.444C37.4295 198.444 34.7071 195.722 34.7071 192.366V87.0001C34.7071 85.8954 35.6024 85.0001 36.7071 85.0001H47.8632C48.9679 85.0001 49.8632 85.8954 49.8632 87.0001V181.444H165.286C166.391 181.444 167.286 182.339 167.286 183.444V192.366C167.286 195.722 164.564 198.444 161.208 198.444H40.7849Z"
+                        fill="currentColor" />
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M50.7071 87.0001C50.7071 85.8954 51.6024 85.0001 52.7071 85.0001H165.286C166.391 85.0001 167.286 85.8954 167.286 87.0001V192.366C167.286 195.722 164.564 198.444 161.208 198.444H52.7071C51.6024 198.444 50.7071 197.549 50.7071 196.444V87.0001Z"
+                        fill="currentColor" />
+                  </svg>
+                </span>
+              </span>
+              <span class="app-brand-text demo menu-text fw-semibold ms-2">Iqra Academy</span>
+            </a>
+
+            <a href="" class="layout-menu-toggle menu-link text-large ms-auto">
+              <i class="menu-toggle-icon d-xl-block align-middle"></i>
+            </a>
+          </div>
+
+          <div class="menu-inner-shadow"></div>
+            
+            <li class="menu-header mt-7">
+              <span class="menu-header-text">Main DashBoard</span>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-home-smile-line"></i>
+                <div data-i18n="Basic">Dashboard</div>
+              </a>
+            </li>
+          <ul class="menu-inner py-1">
+            <!-- User Pages -->
+            <li class="menu-item">
+              <a href="" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">User Info</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+                <ul class="menu-sub open">
+                <li class="menu-item">
+                  <a href="{% url 'Faculty' %}" class="menu-link">
+                    <div data-i18n="CRM">Faculty</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'Students' %}" class="menu-link">
+                    <div data-i18n="CRM">Students</div>
+                  </a>
+                </li>
+                <li  class="menu-item active">
+                  <a href="{% url 'ExStudents' %}" class="menu-link">
+                    <div data-i18n="CRM">Ex-Students</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+              <li class="menu-item">
+              <a href="" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ri-book-fill"></i>
+                <div data-i18n="Dashboards">Sessions</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+                <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="{% url 'Sessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Current</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="{% url 'CompletedSessions' %}" class="menu-link">
+                    <div data-i18n="CRM">Completed</div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="menu-item">
+              <a href="{% url 'Leads' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-group-line"></i>
+                <div data-i18n="Dashboards">Leads</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'select_course' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">Attendance</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'payment' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
+                <div data-i18n="Dashboards">Payments</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'notification' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-fill"></i>
+                <div data-i18n="Dashboards">Notifications</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>
+              <li class="menu-item">
+              <a href="{% url 'EmailService' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-mail-send-fill"></i>
+                <div data-i18n="Dashboards">Email Service</div>
+{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
+              </a>
+            </li>          </ul>
+
+        </aside>
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar">
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+                <i class="ri-menu-fill ri-24px"></i>
+              </a>
+            </div>
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
@@ -183,7 +319,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
                     <li>
-                      <a class="dropdown-item" href="{% url 'Moderator_Profile' %}">
+                      <a class="dropdown-item" href="{% url 'Admin_Profile' %}">
                         <div class="d-flex align-items-center">
                           <div class="flex-shrink-0 me-2">
                             <img src="{% if user.profile_photo %}{{ user.profile_photo.url }}{% else %}/static/assets/img/avatars/1.png{% endif %}" 
@@ -193,7 +329,7 @@
                           <div class="flex-grow-1">
                             <h6 class="mb-0 small">{{ user.first_name }} {{ user.last_name }}</h6>
                             <small class="text-muted">
-                                    Moderator
+                                    Admin
                             </small>
                           </div>
                         </div>
@@ -224,11 +360,6 @@
             <!-- Content -->
             
             <div class="container-xxl flex-grow-1 container-p-y">
-            <a class="btn btn-primary" href="{% url 'AddLead' %}">
-                <span class="tf-icons ri-add-circle-fill ri-16px me-1_5"></span>Add
-            </a>
-            <br>
-            <br>
               <div class="row gy-lg-8">             
 
                 <div class="col-12">
@@ -237,23 +368,28 @@
                             <table id="user-table" class="table table-sm table-hover table-striped align-middle mb-0">
                                 <thead>
                                     <tr>
+                                        <th class="text-truncate">Roll No</th>
                                         <th class="text-truncate">User</th>
                                         <th class="text-truncate">Email</th>
                                         <th class="text-truncate">Phone</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for Lead in Leads %}
+                                    {% for student in students %}
                                     <tr>
+                                        <td class="text-truncate">{{ student.rollno|default:"-" }}</td>
                                         <td>
-                                            <a href="{% url 'LeadView' Lead.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                            <a href="{% url 'StudentView' student.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
+                                                <div class="avatar avatar-sm me-4">
+                                                    <img src="{{ student.profile_photo.url }}" alt="Avatar" class="rounded-circle" />
+                                                </div>
                                                 <div>
-                                                    <h6 class="mb-0 text-truncate">{{ Lead.name }}</h6>
+                                                    <h6 class="mb-0 text-truncate">{{ student.student_name }}</h6>
                                                 </div>
                                             </a>
                                         </td>
-                                        <td class="text-truncate">{{ Lead.email }}</td>
-                                        <td class="text-truncate">{{ Lead.mobile_no }}</td>
+                                        <td class="text-truncate">{{ student.email }}</td>
+                                        <td class="text-truncate">{{ student.mobile_no }}</td>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -304,8 +440,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <!-- DataTable Initialization Script -->
-<script>
+
+    <script>
     $(document).ready(function() {
         $('#user-table').DataTable({
             "paging": true,
@@ -324,7 +460,6 @@
         });
     });
 </script>
-
     <!-- endbuild -->
 
     <!-- Vendors JS -->
