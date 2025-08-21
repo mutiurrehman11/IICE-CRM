@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,20 +27,82 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z5l&+t4sz@zdn3igmv7v)99=i6&0o&1^lu564y$hl4btnwqgy#'
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-z5l&+t4sz@zdn3igmv7v)99=i6&0o&1^lu564y$hl4btnwqgy#')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Email Setup
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'callmemutiurrehman@gmail.com'
-EMAIL_HOST_PASSWORD = 'hccm gkqb iitx wyqo'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Modern Email Service Configuration (Choose one option below)
 
-ALLOWED_HOSTS = []
+# Option 1: SendGrid (Recommended - Free tier: 100 emails/day)
+# Free Gmail SMTP Configuration - No third-party services needed
+# Temporarily use console backend for testing (emails will print to console)
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Using SMTP backend for actual email sending
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Use for testing only
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  # TLS port (more reliable than SSL)
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'indrivecopy@gmail.com'  # Your Gmail address
+EMAIL_HOST_PASSWORD = 'tlny pjdq qwdn gaoc'  # Replace with Gmail App Password
+DEFAULT_FROM_EMAIL = 'indrivecopy@gmail.com'
+EMAIL_TIMEOUT = 30  # Add timeout setting
+
+# Backup SMTP configurations (uncomment if Gmail fails)
+# Option 1: Gmail with SSL (alternative)
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 465
+# EMAIL_USE_TLS = False
+# EMAIL_USE_SSL = True
+
+# Option 2: Outlook/Hotmail (free alternative)
+# EMAIL_HOST = 'smtp-mail.outlook.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+
+# Alternative free SMTP options if Gmail doesn't work:
+# Outlook/Hotmail (completely free):
+# EMAIL_HOST = 'smtp-mail.outlook.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@outlook.com'
+# EMAIL_HOST_PASSWORD = 'your-outlook-password'
+
+# Yahoo (completely free with App Password):
+# EMAIL_HOST = 'smtp.mail.yahoo.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@yahoo.com'
+# EMAIL_HOST_PASSWORD = 'your-yahoo-app-password'
+
+# Option 2: Mailgun (Alternative - Free tier: 5000 emails/month)
+# EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+# ANYMAIL = {
+#     'MAILGUN_API_KEY': 'your_mailgun_api_key',
+#     'MAILGUN_SENDER_DOMAIN': 'your_domain.com',
+# }
+# DEFAULT_FROM_EMAIL = 'noreply@your_domain.com'
+
+# Option 3: Resend (Modern alternative - Free tier: 3000 emails/month)
+# EMAIL_BACKEND = 'resend_backend.ResendBackend'
+# RESEND_API_KEY = 'your_resend_api_key'
+# DEFAULT_FROM_EMAIL = 'noreply@your_domain.com'
+
+# Fallback SMTP (commented out)
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'callmemutiurrehman@gmail.com'
+# EMAIL_HOST_PASSWORD = 'hccm gkqb iitx wyqo'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
 
 
 # Application definition
@@ -58,12 +122,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'Admin.middleware.SessionStatusMiddleware',
 ]
 
 ROOT_URLCONF = 'IICE.urls'
@@ -91,16 +157,25 @@ WSGI_APPLICATION = 'IICE.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'iice',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',  # or the hostname where your MySQL server is running
-        'PORT': '3306',      # or the port on which your MySQL server is listening
+# Database configuration
+if config('DATABASE_URL', default=None):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=config('DATABASE_URL')
+        )
     }
-}
+else:
+    # Local development database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'iice',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
 
 
 # DATABASES = {
@@ -145,11 +220,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    BASE_DIR,"static"
+    os.path.join(BASE_DIR, 'static'),
 ]
+
+# Static files storage for production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
