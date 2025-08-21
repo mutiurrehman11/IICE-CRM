@@ -42,6 +42,7 @@ urlpatterns = [
     path('Admin-Sessions/Students/<int:sessionid>/', adminViews.SessionStudentView, name='SessionStudentView'),
     path('Admin-Sessions/Add/', adminViews.AddSession, name='AddSession'),
     path('Admin-CompletedSessions/', adminViews.CompletedSessions, name='CompletedSessions'),
+    path('Admin-Sessions/Restore/<int:sessionid>/', adminViews.RestoreSession, name='RestoreSession'),
     path('Admin-Sessions/Delete/<int:sessionid>/', adminViews.DeleteSession, name='DeleteSession'),
     path('Admin-Students/', adminViews.Students, name='Students'),
     path('Moderator-Students/', modViews.Students, name='mod_Students'),
@@ -82,10 +83,15 @@ urlpatterns = [
     path('Admin-Payments/', adminViews.Payment, name='payment'),
     path('print_attendance_report/<int:course_id>/', adminViews.print_attendance_report, name='print_attendance_report'),
     path('Admin-EmailService/', adminViews.EmailService, name='EmailService'),
+    path('get-email-statistics/', adminViews.get_email_statistics, name='get_email_statistics'),
+    path('get-email-history/', adminViews.get_email_history, name='get_email_history'),
     path('notify-late-fee-students/', adminViews.notify_late_fee_students, name='notify_late_fee_students'),
     path('send-fee-reminder/', adminViews.send_fee_reminder, name='send_fee_reminder'),
+    path('send-bulk-fee-reminders/', adminViews.notify_late_fee_students, name='send_bulk_fee_reminders'),
     path('mark-all-notifications-read/', adminViews.mark_all_notifications_read, name='mark_all_notifications_read'),
     path('Admin-Students/<int:studentid>/mark-installment-paid/', adminViews.mark_installment_paid, name='mark_installment_paid'),
+    path('payments/filter/', adminViews.filter_payments, name='filter_payments'),
+    path('payments/export-word/', adminViews.export_word_report, name='export_word_report'),
 ]
 
 if settings.DEBUG:

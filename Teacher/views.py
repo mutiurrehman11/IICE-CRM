@@ -17,7 +17,7 @@ def select_course(request):
         'user': user,
         'courses': courses
     }
-    return render(request, 'Teacher/Attendance.html', context)
+    return render(request, 'Admin/Attendance.html', context)
 def mark_attendance(request, course_id):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -50,7 +50,7 @@ def mark_attendance(request, course_id):
         'course': course,
         'students': students
     }
-    return render(request, 'Teacher/Mark_Attendance.html', context)
+    return render(request, 'Admin/Mark_Attendance.html', context)
 
 def Profile(request):
     if 'user_id' not in request.session:
@@ -80,4 +80,4 @@ def Profile(request):
     else:
         form = UserForm(instance=user)  # Pre-populate form with user data
 
-    return render(request, 'Teacher/Profile.html', {'form': form, 'user': user})
+    return render(request, 'Admin/Profile.html', {'form': form, 'user': user})

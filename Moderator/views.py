@@ -26,7 +26,7 @@ def MakeNotification(request):
         'user': user,
         'notifications': notifications
     }
-    return render(request, 'Moderator/Notifications.html', context)
+    return render(request, 'Admin/Notifications.html', context)
 def Notification(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -37,17 +37,28 @@ def Notification(request):
         'user': user,
         'notifications': notifications
     }
-    return render(request, 'Moderator/Notifications.html', context)
+    return render(request, 'Admin/Notifications.html', context)
 def DeleteStudentSession(request, studentsessionid):
     if 'user_id' not in request.session:
         return redirect('home')
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)  # Logged-in user
-    studentsession = admin_models.StudentSession.objects.get(id=studentsessionid)
+    
+    try:
+        studentsession = admin_models.StudentSession.objects.get(id=studentsessionid)
+    except admin_models.StudentSession.DoesNotExist:
+        messages.error(request, f'Student session with ID {studentsessionid} does not exist.')
+        return redirect('mod_Students')
+    
     studentid = studentsession.student.id
-    message = "Removed  " + studentsession.student.student_name + " from " + studentsession.session.session_name + " session"
-    admin_models.Notification.objects.create(user=user, date=date.today(), category='Deletion', content=message)
+    student_name = studentsession.student.student_name
+    session_name = studentsession.session.session_name
+    
     studentsession.delete()
+    
+    message = "Removed  " + student_name + " from " + session_name + " session"
+    admin_models.Notification.objects.create(user=user, date=date.today(), category='Deletion', content=message)
+    messages.success(request, f'Successfully removed "{student_name}" from "{session_name}" session.')
     return redirect('mod_StudentSession', studentid=studentid)
 def StudentSessionView(request, studentsessionid):
     if 'user_id' not in request.session:
@@ -70,7 +81,7 @@ def StudentSessionView(request, studentsessionid):
         admin_models.Notification.objects.create(user=user, date=date.today(), category='Updation', content=message)
         userdata.save()
 
-    return render(request, 'Moderator/StudentSessionView.html', context)
+    return render(request, 'Admin/StudentSessionView.html', context)
 def AddStudentSession(request, studentid):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -116,7 +127,7 @@ def AddStudentSession(request, studentid):
         return redirect('mod_StudentSession', studentid=studentid)
 
     # Render the form with student and active sessions
-    return render(request, 'Moderator/AddStudentSession.html', {
+    return render(request, 'Admin/AddStudentSession.html', {
         'student': student,
         'active_sessions': active_sessions,
     })
@@ -135,7 +146,7 @@ def StudentSession(request, studentid):
         'sessions': sessions,
         'studentid': studentid
     }
-    return render(request, 'Moderator/StudentSession.html', context)
+    return render(request, 'Admin/StudentSession.html', context)
 def LeadView(request, leadid):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -166,16 +177,26 @@ def LeadView(request, leadid):
         form = LeadForm(instance=userdata)
 
     context['form'] = form
-    return render(request, 'Moderator/LeadView.html', context)
+    return render(request, 'Admin/LeadView.html', context)
 def DeleteLead(request, leadid):
     if 'user_id' not in request.session:
         return redirect('home')
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    lead = admin_models.Lead.objects.get(id=leadid)
-    message = "Removed  " + lead.name + " from Leads"
-    admin_models.Notification.objects.create(user=user, date=date.today(), category='Deletion', content=message)
+    
+    try:
+        lead = admin_models.Lead.objects.get(id=leadid)
+    except admin_models.Lead.DoesNotExist:
+        messages.error(request, f'Lead with ID {leadid} does not exist.')
+        return redirect('mod_Leads')
+    
+    lead_name = lead.lead_name
     lead.delete()
+    
+    message = "Deleted Lead " + lead_name
+    admin_models.Notification.objects.create(user=user, date=date.today(), category='Deletion', content=message)
+    messages.success(request, f'Lead "{lead_name}" has been successfully deleted.')
+    
     return redirect('mod_Leads')
 def AddLead(request):
     if 'user_id' not in request.session:
@@ -204,7 +225,7 @@ def AddLead(request):
         'user': user,
         'form': form,
     }
-    return render(request, 'Moderator/AddLead.html', context)
+    return render(request, 'Admin/AddLead.html', context)
 def Leads(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -215,13 +236,26 @@ def Leads(request):
         'user': user,
         'Leads': Leads,
     }
-    return render(request, 'Moderator/Leads.html', context)
+    return render(request, 'Admin/Leads.html', context)
 def DeleteStudent(request, studentid):
     if 'user_id' not in request.session:
         return redirect('home')
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    student = admin_models.Student.objects.get(id=studentid)
+    
+    try:
+        student = admin_models.Student.objects.get(id=studentid)
+    except admin_models.Student.DoesNotExist:
+        messages.error(request, f'Student with ID {studentid} does not exist.')
+        from_page = request.GET.get('from')
+        if from_page == 'exstudents':
+            return redirect('mod_ExStudents')
+        return redirect('mod_Students')
+    
+    # Store student name before deletion for notification
+    student_name = student.student_name
+    
+    # Remove associated files
     if student.profile_photo:
         if os.path.exists(student.profile_photo.path):
             os.remove(student.profile_photo.path)
@@ -231,12 +265,21 @@ def DeleteStudent(request, studentid):
     if student.degree_photo:
         if os.path.exists(student.degree_photo.path):
             os.remove(student.degree_photo.path)
+    
+    # Delete the student
     student.delete()
-    message = "Removed  " + student.student_name
+    
+    # Create notification
+    message = "Removed  " + student_name
     admin_models.Notification.objects.create(user=user, date=date.today(), category='Deletion', content=message)
+    
+    # Add success message
+    messages.success(request, f'Student {student_name} has been successfully deleted.')
+    
+    # Redirect based on source page
     from_page = request.GET.get('from')
     if from_page == 'exstudents':
-        return redirect('mod_ExStudents')  # Replace 'ExStudents' with the actual name of the ex-students page URL
+        return redirect('mod_ExStudents')
     return redirect('mod_Students')
 def StudentView(request, studentid):
     if 'user_id' not in request.session:
@@ -247,11 +290,92 @@ def StudentView(request, studentid):
     userdata = admin_models.Student.objects.get(id=studentid)  # The user you are trying to update
     status_choices = admin_models.Student.STATUS_CHOICES
 
+    # Get student's enrolled sessions
+    student_sessions = admin_models.StudentSession.objects.filter(student=userdata)
+    
+    # Compute available sessions: active sessions not yet enrolled
+    all_active = admin_models.Sessions.objects.filter(status='Active')
+    enrolled_ids = student_sessions.values_list('session_id', flat=True)
+    available_sessions = all_active.exclude(id__in=enrolled_ids)
+    
+    # Get fee info from Moderator's StudentFee
+    try:
+        student_fee = models.StudentFee.objects.get(student=userdata)
+        payment_info = {
+            'total_fee': student_fee.total_fee,
+            'discount': student_fee.discount,
+            'final_fee': student_fee.final_fee,
+            'paid_amount': student_fee.paid_amount,
+            'remaining_amount': student_fee.final_fee - student_fee.paid_amount,
+            'installments_count': student_fee.installments_count,
+            'per_installment_amount': student_fee.per_installment_amount,
+        }
+        
+        # Get installments
+        installments_qs = student_fee.installments.all().order_by('installment_number')
+        paid_installments = installments_qs.filter(status='Paid').count()
+        unpaid_installments = installments_qs.filter(status='Unpaid').count()
+        payment_info['installments_paid'] = paid_installments
+        payment_info['installments_due'] = unpaid_installments
+        
+        # Next due
+        next_unpaid = installments_qs.filter(status='Unpaid').order_by('due_date').first()
+        next_due_date = next_unpaid.due_date if next_unpaid else None
+        next_due_amount = next_unpaid.amount if next_unpaid else 0
+        payment_info['next_due_amount'] = next_due_amount
+        
+        installments = [
+            {
+                'id': inst.id,
+                'amount': inst.amount,
+                'due_date': inst.due_date,
+                'paid_date': inst.paid_date,
+                'status': inst.status,
+                'is_paid': inst.status == 'Paid'
+            } for inst in installments_qs
+        ]
+    except models.StudentFee.DoesNotExist:
+        payment_info = {
+            'total_fee': 0,
+            'discount': 0,
+            'final_fee': 0,
+            'paid_amount': 0,
+            'remaining_amount': 0,
+            'installments_count': 0,
+            'per_installment_amount': 0,
+            'installments_paid': 0,
+            'installments_due': 0,
+            'next_due_amount': 0
+        }
+        installments = []
+        next_due_date = None
+    
+    # Calculate one-time registration fee from primary session
+    primary_session = (student_sessions.exclude(registration_date__isnull=True).order_by('registration_date', 'id').first() or student_sessions.order_by('id').first())
+    registration_fee = primary_session.registration_fee if primary_session and primary_session.registration_fee is not None else (primary_session.session.registration_fee or 0) if primary_session else 0
+    
+    # Get enrollment date
+    enrollment_date = None
+    first_session = student_sessions.order_by('registration_date').first()
+    if first_session and first_session.registration_date:
+        enrollment_date = first_session.registration_date
+    
     context = {
         'user': user,
         'userdata': userdata,
         'status_choices': status_choices,
-        'redirection': 1
+        'redirection': 1,
+        'student_sessions': student_sessions,
+        'available_sessions': available_sessions,
+        'payment_info': payment_info,
+        'installments': installments,
+        'next_due_date': next_due_date,
+        'enrollment_date': enrollment_date,
+        'registration_fee': registration_fee,
+        'total_fee': payment_info['total_fee'],
+        'discount': payment_info['discount'],
+        'final_fee': payment_info['final_fee'],
+        'remaining_amount': payment_info['remaining_amount'],
     }
 
     if request.method == 'POST':
@@ -294,7 +418,7 @@ def StudentView(request, studentid):
         form = StudentForm(instance=userdata)
 
     context['form'] = form
-    return render(request, 'Moderator/StudentView.html', context)
+    return render(request, 'Admin/StudentView.html', context)
 def ExStudents(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -306,7 +430,7 @@ def ExStudents(request):
         'students': students,
         'redirection': 2
     }
-    return render(request, 'Moderator/ExStudents.html', context)
+    return render(request, 'Admin/ExStudents.html', context)
 def AddStudent(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -417,7 +541,7 @@ def AddStudent(request):
         'user': user,
         'form': form,
     }
-    return render(request, 'Moderator/AddStudent.html', context)
+    return render(request, 'Admin/AddStudent.html', context)
 def Students(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -429,7 +553,7 @@ def Students(request):
         'students': students,
         'redirection': 1
     }
-    return render(request, 'Moderator/Students.html', context)
+    return render(request, 'Admin/Students.html', context)
 def Profile(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -458,7 +582,7 @@ def Profile(request):
     else:
         form = UserForm(instance=user)  # Pre-populate form with user data
 
-    return render(request, 'Moderator/Profile.html', {'form': form, 'user': user})
+    return render(request, 'Admin/Profile.html', {'form': form, 'user': user})
 def Payments(request):
     if 'user_id' not in request.session:
         return redirect('home')
@@ -473,5 +597,5 @@ def Payments(request):
         'user': user,
         'student_fees': student_fees,
     }
-    return render(request, 'Moderator/Payments.html', context)
+    return render(request, 'Admin/Payments.html', context)
 

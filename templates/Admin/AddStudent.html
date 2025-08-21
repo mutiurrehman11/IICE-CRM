@@ -127,11 +127,13 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
+                {% if user.usertype != 2 %}
                 <li class="menu-item">
                   <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
+                {% endif %}
                 <li class="menu-item active">
                   <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
@@ -178,6 +180,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% if user.usertype != 2 %}
             <li class="menu-item">
               <a href="{% url 'payment' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
@@ -185,6 +188,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% endif %}
             <li class="menu-item">
               <a href="{% url 'notification' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-mail-fill"></i>
@@ -388,6 +392,8 @@
                                             <option value="{{ session.id }}" 
                                                 data-registration-fee="{{ session.registration_fee }}" 
                                                 data-fee="{{ session.fee }}"
+                                                data-session-type="{{ session.session_type }}"
+                                                data-end-date="{{ session.end_date|date:'Y-m-d' }}"
                                                 {% if preselected_session_id == session.id %}selected{% endif %}
                                                 {% if selected_student and session.id in student_sessions.session.id %}selected{% endif %}>
                                                 {{ session.session_name }} (Registration Fee: {{ session.registration_fee }}, Fee: {{ session.fee }})
@@ -627,7 +633,14 @@
     </script>
 
     <script>
+        let isSubmitting = false; // Flag to prevent duplicate submissions
+        
         function validateForm() {
+            // Prevent duplicate submissions
+            if (isSubmitting) {
+                return false;
+            }
+            
             const errorList = [];
             const errorContainer = document.getElementById('errorContainer');
             const errorListElement = document.getElementById('errorList');
@@ -692,7 +705,19 @@
             } else {
                 sessions.classList.remove('is-invalid');
             }
-
+            
+            // Validate payment when installments are disabled
+            const enableInstallments = document.getElementById('enable_installments');
+            const paidAmount = parseFloat(document.getElementById('paid_amount').value) || 0;
+            const finalFee = parseFloat(document.getElementById('final_fee').value) || 0;
+            
+            if (!enableInstallments.checked && paidAmount !== finalFee) {
+                errorList.push('When installments are disabled, the paid amount must equal the final fee');
+                document.getElementById('paid_amount').classList.add('is-invalid');
+            } else {
+                document.getElementById('paid_amount').classList.remove('is-invalid');
+            }
+            
             // Remove required file validation - make photos optional
             // Profile photo and CNIC photo are now optional
 
@@ -710,6 +735,16 @@
                 return false;
             }
 
+            // Set flag to prevent duplicate submissions
+            isSubmitting = true;
+            
+            // Disable submit button to provide visual feedback
+            const submitButton = document.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Adding Student...';
+            }
+
             return true;
         }
 
@@ -718,6 +753,16 @@
             input.addEventListener('input', function() {
                 this.classList.remove('is-invalid');
             });
+        });
+        
+        // Reset submission flag when page loads or form is reset
+        window.addEventListener('load', function() {
+            isSubmitting = false;
+            const submitButton = document.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '{{ button_text|default:"Add Student" }}';
+            }
         });
 
         // Format CNIC input as user types
@@ -749,28 +794,101 @@
             d.setMonth(d.getMonth() + months);
             return d.toISOString().split('T')[0];
         }
+        
         function setDefaultDueDates() {
-            let defaultDue = addMonths(new Date(), 1);
-            $('#single_due_date').val(defaultDue);
-            $('#due_date').val(defaultDue);
+            let today = new Date().toISOString().split('T')[0];
+            // Set single payment due date to registration date (today)
+            $('#single_due_date').val(today);
+            // Set first installment due date to registration date (today)
+            $('#due_date').val(today);
+        }
+        
+        function validateInstallmentDates() {
+            let installmentCount = parseInt($('#installments_count').val()) || 1;
+            let dueDateValue = $('#due_date').val();
+            
+            if (!dueDateValue || installmentCount <= 1) return;
+            
+            let earliestEndDate = null;
+            $("#sessions option:selected").each(function() {
+                let endDate = $(this).data('end-date');
+                if (endDate) {
+                    let sessionEndDate = new Date(endDate);
+                    if (!earliestEndDate || sessionEndDate < earliestEndDate) {
+                        earliestEndDate = sessionEndDate;
+                    }
+                }
+            });
+            
+            if (earliestEndDate) {
+                let dueDate = new Date(dueDateValue);
+                let finalInstallmentDate = new Date(dueDate);
+                finalInstallmentDate.setMonth(finalInstallmentDate.getMonth() + (installmentCount - 1));
+                
+                $('.installment-date-warning').remove();
+                
+                if (finalInstallmentDate > earliestEndDate) {
+                    let warningMsg = `Warning: Final installment date (${finalInstallmentDate.toLocaleDateString()}) exceeds session end date (${earliestEndDate.toLocaleDateString()})`;
+                    $('#installments_count').parent().after(`<div class="installment-date-warning text-danger small mt-1">${warningMsg}</div>`);
+                    
+                    // Calculate maximum allowed installments
+                    let monthsDiff = (earliestEndDate.getFullYear() - dueDate.getFullYear()) * 12 + (earliestEndDate.getMonth() - dueDate.getMonth()) + 1;
+                    let maxInstallments = Math.max(1, monthsDiff);
+                    
+                    $('#installments_count').parent().append(`<div class="installment-date-warning text-info small mt-1">Maximum ${maxInstallments} installments allowed for this session duration</div>`);
+                }
+            }
         }
         function calculateFees() {
             let totalFee = 0;
             let registrationFee = 0;
+            let hasMonthlySession = false;
+            
             $("#sessions option:selected").each(function() {
                 totalFee += parseInt($(this).data('fee')) || 0;
-                registrationFee += parseInt($(this).data('registration-fee')) || 0;
+                
+                // Check if any selected session is monthly
+                if ($(this).data('session-type') === 'monthly') {
+                    hasMonthlySession = true;
+                }
+                
+                // Apply registration fee waiver logic
+                {% if selected_student %}
+                    // Existing student - waive registration fee
+                    registrationFee = 0;
+                {% else %}
+                    // New student - charge registration fee
+                    registrationFee += parseInt($(this).data('registration-fee')) || 0;
+                {% endif %}
             });
+            
+            // Hide/show installment options based on session type
+            if (hasMonthlySession) {
+                $('#enable_installments').prop('checked', false).prop('disabled', true);
+                $('#installments_section').addClass('d-none');
+                $('#single_due_date_section').removeClass('d-none');
+                $('.installment-warning').remove();
+                $('#enable_installments').parent().after('<div class="installment-warning text-warning small mt-1">Installment payments are not available for monthly sessions</div>');
+            } else {
+                $('#enable_installments').prop('disabled', false);
+                $('.installment-warning').remove();
+            }
+            
             $("#registration_fee").val(registrationFee);
             $("#total_fee").val(totalFee + registrationFee);
             let discount = parseInt($("#discount").val()) || 0;
             let finalFee = (totalFee + registrationFee) - discount;
             $("#final_fee").val(finalFee > 0 ? finalFee : 0);
+            
             // If installments enabled, recalculate per installment
-            if ($('#enable_installments').is(':checked')) {
+            if ($('#enable_installments').is(':checked') && !hasMonthlySession) {
                 let count = parseInt($('#installments_count').val()) || 1;
                 let perInstallment = count > 0 ? Math.ceil(finalFee / count) : finalFee;
                 $('#per_installment_amount').val(perInstallment);
+                
+                // Validate installment dates against session end dates
+                validateInstallmentDates();
+                
                 // Set Paid Amount to latest installment paid
                 let latestPaid = parseInt($('#latest_installment_paid').val()) || 0;
                 $('#paid_amount').val(latestPaid);
@@ -783,6 +901,9 @@
                 if ($(this).is(':checked')) {
                     $('#installments_section').removeClass('d-none');
                     $('#single_due_date_section').addClass('d-none');
+                    // Set first installment due date to registration date (today)
+                    let today = new Date().toISOString().split('T')[0];
+                    $('#due_date').val(today);
                     calculateFees();
                 } else {
                     $('#installments_section').addClass('d-none');
@@ -793,7 +914,13 @@
                     $('#due_date').val($('#single_due_date').val());
                 }
             });
-            $('#installments_count, #latest_installment_paid').on('change keyup', calculateFees);
+            $('#installments_count, #latest_installment_paid').on('change keyup', function() {
+                calculateFees();
+                validateInstallmentDates();
+            });
+            
+            // Validate dates when due date changes
+            $('#due_date').on('change', validateInstallmentDates);
             // Allow user to change due dates
             $('#single_due_date').on('change', function() {
                 if (!$('#enable_installments').is(':checked')) {

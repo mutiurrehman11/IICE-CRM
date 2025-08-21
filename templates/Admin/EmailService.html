@@ -37,7 +37,155 @@
     <link rel="stylesheet" href="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/static/assets/vendor/libs/apex-charts/apex-charts.css" />
 
-    <!-- Page CSS -->
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        .email-dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 4px solid #6c63ff;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .btn-modern {
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .email-form-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        
+        .recipient-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .recipient-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .form-control-modern {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control-modern:focus {
+            border-color: #6c63ff;
+            box-shadow: 0 0 0 0.2rem rgba(108, 99, 255, 0.25);
+        }
+        
+        .quick-action-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            color: white;
+        }
+        
+        .email-stats-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .checkbox-modern {
+            width: 20px;
+            height: 20px;
+            accent-color: #6c63ff;
+        }
+        
+        .list-group-item-modern {
+            border: none;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .list-group-item-modern:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+    </style>
 
     <!-- Helpers -->
     <script src="/static/assets/vendor/js/helpers.js"></script>
@@ -83,11 +231,13 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
+                {% if user.usertype != 2 %}
                 <li class="menu-item">
                   <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
+                {% endif %}
                 <li class="menu-item">
                   <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
@@ -134,6 +284,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% if user.usertype != 2 %}
             <li class="menu-item">
               <a href="{% url 'payment' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
@@ -141,6 +292,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% endif %}
             <li class="menu-item">
               <a href="{% url 'notification' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-mail-fill"></i>
@@ -234,57 +386,216 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row gy-lg-8">
-                <div class="text-center">
-                  <form method="POST" action="{% url 'notify_late_fee_students' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-primary">Notify Late Fee Students</button>
-                    </form>
-                </div>
-                <div id="notificationMessage" class="text-center mt-3"></div>
-                <div id="responseMessage" class="text-center mt-4"></div>
-                <form method="POST" id="emailForm">
-                {% csrf_token %}  
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h4>Email Content</h4>
-                    </div>
-                    <div class="card-body">
-                        <textarea class="form-control" id="email_subject" name="email_subject" rows="5" placeholder="Write your email Subject here..."></textarea>
-                    </div>
-                    <div class="card-body">
-                        <textarea class="form-control" id="email_content" name="email_content" rows="5" placeholder="Write your email content here..."></textarea>
-                    </div>
-                </div>
-        
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h4>Individuals</h4>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <input type="checkbox" name="faculty_checkbox" id="faculty_checkbox" class="form-check-input me-2">
-                                <label for="user1">Faculty</label>
-                            </li>
-                            <li class="list-group-item">
-                                <input type="checkbox" name="student_checkbox" id="student_checkbox" class="form-check-input me-2">
-                                <label for="user2">Students</label>
-                            </li>
-                            <li class="list-group-item">
-                                <input type="checkbox" name="lead_checkbox" id="lead_checkbox" class="form-check-input me-2">
-                                <label for="user3">Leads</label>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-        
-                <div class="text-center">
-                    <button class="btn btn-primary">Send</button>
-                </div>
-                </form>
-                </div>
+              {% csrf_token %}
+              
+              <!-- Dashboard Header -->
+              <div class="email-dashboard-header">
+                  <div class="row align-items-center">
+                      <div class="col-md-8">
+                          <h2 class="mb-2">Email Services Dashboard</h2>
+                          <p class="mb-0 opacity-75">Comprehensive email management and communication center</p>
+                      </div>
+                      <div class="col-md-4 text-end">
+                          <div class="d-flex justify-content-end gap-2">
+                              <button class="btn btn-light btn-modern" onclick="refreshEmailStats()">
+                                  <i class="ri-refresh-line me-2"></i>Refresh
+                              </button>
+
+                          </div>
+                      </div>
+                  </div>
               </div>
+              
+              <!-- Email Statistics Row -->
+              <div class="row mb-4">
+                  <div class="col-xl-3 col-md-6 mb-4">
+                      <div class="metric-card">
+                          <div class="metric-value">156</div>
+                          <div class="metric-label">Total Emails Sent</div>
+                          <div class="mt-2">
+                              <small class="text-success">
+                                  <i class="ri-mail-check-line"></i>
+                                  This Month: 42
+                              </small>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="col-xl-3 col-md-6 mb-4">
+                      <div class="metric-card">
+                          <div class="metric-value">89%</div>
+                          <div class="metric-label">Delivery Success Rate</div>
+                          <div class="mt-2">
+                              <div class="progress" style="height: 6px;">
+                                  <div class="progress-bar bg-success" style="width: 89%"></div>
+                              </div>
+                              <small class="text-muted">Excellent delivery rate</small>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="col-xl-3 col-md-6 mb-4">
+                      <div class="metric-card">
+                          <div class="metric-value">23</div>
+                          <div class="metric-label">Pending Reminders</div>
+                          <div class="mt-2">
+                              <small class="text-warning">
+                                  <i class="ri-time-line"></i>
+                                  Late fee notifications
+                              </small>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="col-xl-3 col-md-6 mb-4">
+                      <div class="metric-card">
+                          <div class="metric-value">342</div>
+                          <div class="metric-label">Total Recipients</div>
+                          <div class="mt-2">
+                              <small class="text-info">
+                                  <i class="ri-group-line"></i>
+                                  Students, Faculty & Leads
+                              </small>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <!-- Quick Actions Section -->
+              <div class="row mb-4">
+                  <div class="col-12">
+                      <div class="chart-container">
+                          <h5 class="mb-4">
+                              <i class="ri-flashlight-line text-primary me-2"></i>
+                              Quick Actions
+                          </h5>
+                          <div class="row">
+                              <div class="col-md-3 mb-3">
+                                  <button type="button" class="quick-action-btn w-100" onclick="sendPaymentReminders()">
+                                      <i class="ri-mail-send-line"></i>
+                                      Send Payment Reminders
+                                  </button>
+                              </div>
+                              <div class="col-md-3 mb-3">
+                                  <button class="quick-action-btn w-100" onclick="composeEmail()">
+                                      <i class="ri-edit-line"></i>
+                                      Compose Email
+                                  </button>
+                              </div>
+                              <div class="col-md-3 mb-3">
+                                  <button class="quick-action-btn w-100" onclick="viewTemplates()">
+                                      <i class="ri-file-text-line"></i>
+                                      Email Templates
+                                  </button>
+                              </div>
+                              <div class="col-md-3 mb-3">
+                                  <button class="quick-action-btn w-100" onclick="bulkEmail()">
+                                      <i class="ri-group-line"></i>
+                                      Bulk Email
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <div id="notificationMessage" class="text-center mt-3"></div>
+              <div id="responseMessage" class="text-center mt-4"></div>
+              <!-- Email Composition Section -->
+              <div class="row mb-4">
+                  <div class="col-lg-8">
+                      <form method="POST" id="emailForm">
+                          {% csrf_token %}
+                          <div class="email-form-card">
+                              <h5 class="mb-4">
+                                  <i class="ri-mail-line text-primary me-2"></i>
+                                  Compose Email
+                              </h5>
+                              
+                              <div class="mb-4">
+                                  <label class="form-label fw-bold">Email Subject</label>
+                                  <input type="text" class="form-control form-control-modern" id="email_subject" name="email_subject" placeholder="Enter email subject...">
+                              </div>
+                              
+                              <div class="mb-4">
+                                  <label class="form-label fw-bold">Email Content</label>
+                                  <textarea class="form-control form-control-modern" id="email_content" name="email_content" rows="8" placeholder="Write your email content here..."></textarea>
+                              </div>
+                              
+                              <div class="text-center">
+                                  <button type="submit" class="btn btn-primary btn-modern px-5">
+                                      <i class="ri-send-plane-line me-2"></i>
+                                      Send Email
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+                  
+                  <div class="col-lg-4">
+                      <!-- Recipients Selection -->
+                      <div class="email-form-card">
+                          <h5 class="mb-4">
+                              <i class="ri-group-line text-success me-2"></i>
+                              Select Recipients
+                          </h5>
+                          
+                          <div class="recipient-card">
+                              <div class="d-flex align-items-center">
+                                  <input type="checkbox" name="faculty_checkbox" id="faculty_checkbox" class="checkbox-modern me-3">
+                                  <div>
+                                      <h6 class="mb-1">Faculty Members</h6>
+                                      <small class="opacity-75">Send to all teaching staff</small>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="recipient-card">
+                              <div class="d-flex align-items-center">
+                                  <input type="checkbox" name="student_checkbox" id="student_checkbox" class="checkbox-modern me-3">
+                                  <div>
+                                      <h6 class="mb-1">Students</h6>
+                                      <small class="opacity-75">Send to all enrolled students</small>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="recipient-card">
+                              <div class="d-flex align-items-center">
+                                  <input type="checkbox" name="lead_checkbox" id="lead_checkbox" class="checkbox-modern me-3">
+                                  <div>
+                                      <h6 class="mb-1">Leads</h6>
+                                      <small class="opacity-75">Send to potential students</small>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                      <!-- Email Tips -->
+                      <div class="email-stats-card">
+                          <h6 class="mb-3">
+                              <i class="ri-lightbulb-line me-2"></i>
+                              Email Tips
+                          </h6>
+                          <ul class="list-unstyled mb-0">
+                              <li class="mb-2">
+                                  <i class="ri-check-line text-success me-2"></i>
+                                  Keep subject lines clear and concise
+                              </li>
+                              <li class="mb-2">
+                                  <i class="ri-check-line text-success me-2"></i>
+                                  Personalize your message when possible
+                              </li>
+                              <li class="mb-0">
+                                  <i class="ri-check-line text-success me-2"></i>
+                                  Include clear call-to-action
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              
+
             </div>
             <!-- / Content -->
 
@@ -322,30 +633,402 @@
     <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="/static/assets/vendor/js/menu.js"></script>
     <script>
-        // AJAX form submission
-        document.getElementById('emailForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            fetch("{% url 'EmailService' %}", {
-                method: 'POST',
-                body: formData,
+        $(document).ready(function() {
+            // Enhanced email form submission with modern UI feedback
+            $('#emailForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                const submitBtn = $(this).find('button[type="submit"]');
+                const originalText = submitBtn.html();
+                submitBtn.html('<i class="ri-loader-4-line me-2 spinner-border spinner-border-sm"></i>Sending...');
+                submitBtn.prop('disabled', true);
+                
+                var formData = {
+                    'email_subject': $('#email_subject').val(),
+                    'email_content': $('#email_content').val(),
+                    'faculty_checkbox': $('#faculty_checkbox').is(':checked'),
+                    'student_checkbox': $('#student_checkbox').is(':checked'),
+                    'lead_checkbox': $('#lead_checkbox').is(':checked'),
+                    'csrfmiddlewaretoken': $('[name=csrfmiddlewaretoken]').val()
+                };
+                
+                // Validate form
+                if (!formData.email_subject || !formData.email_content) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Information',
+                        text: 'Please fill in both subject and content fields.',
+                        confirmButtonColor: '#6c63ff'
+                    });
+                    submitBtn.html(originalText);
+                    submitBtn.prop('disabled', false);
+                    return;
+                }
+                
+                if (!formData.faculty_checkbox && !formData.student_checkbox && !formData.lead_checkbox) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'No Recipients Selected',
+                        text: 'Please select at least one recipient group.',
+                        confirmButtonColor: '#6c63ff'
+                    });
+                    submitBtn.html(originalText);
+                    submitBtn.prop('disabled', false);
+                    return;
+                }
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "EmailService" %}',
+                    data: formData,
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Email Sent Successfully!',
+                            text: 'Your email has been delivered to the selected recipients.',
+                            confirmButtonColor: '#6c63ff'
+                        });
+                        $('#emailForm')[0].reset();
+                        updateEmailStats();
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Email Sending Failed',
+                            text: 'There was an error sending your email. Please try again.',
+                            confirmButtonColor: '#6c63ff'
+                        });
+                    },
+                    complete: function() {
+                        submitBtn.html(originalText);
+                        submitBtn.prop('disabled', false);
+                    }
+                });
+            });
+        });
+        
+        // Interactive functions for the new UI elements
+        function refreshEmailStats() {
+            // Add loading animation
+            const cards = document.querySelectorAll('.metric-card');
+            cards.forEach(card => {
+                card.style.opacity = '0.7';
+                card.style.transform = 'scale(0.98)';
+            });
+            
+            // Fetch real-time statistics from Django backend
+            fetch('/get-email-statistics/', {
+                method: 'GET',
                 headers: {
-                    'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
                 }
             })
             .then(response => response.json())
             .then(data => {
-                const responseMessage = document.getElementById('responseMessage');
                 if (data.status === 'success') {
-                    responseMessage.innerHTML = `<p style="color:green;">${data.message}</p>`;
+                    const stats = data.data;
+                    
+                    // Update metric cards with real data
+                    document.querySelector('.metric-value').textContent = stats.total_emails_sent.toLocaleString();
+                    const metricCards = document.querySelectorAll('.metric-card');
+                    if (metricCards.length >= 4) {
+                        metricCards[0].querySelector('.metric-value').textContent = stats.total_emails_sent.toLocaleString();
+                        metricCards[1].querySelector('.metric-value').textContent = stats.delivery_success_rate + '%';
+                        metricCards[2].querySelector('.metric-value').textContent = stats.pending_reminders.toLocaleString();
+                        metricCards[3].querySelector('.metric-value').textContent = stats.total_recipients.toLocaleString();
+                    }
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Statistics Updated',
+                        text: 'Email statistics have been refreshed with latest data.',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        confirmButtonColor: '#6c63ff'
+                    });
                 } else {
-                    responseMessage.innerHTML = `<p style="color:red;">${data.message}</p>`;
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Update Failed',
+                        text: 'Failed to refresh statistics: ' + data.message,
+                        confirmButtonColor: '#6c63ff'
+                    });
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error fetching statistics:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Connection Error',
+                    text: 'Failed to refresh statistics. Please try again.',
+                    confirmButtonColor: '#6c63ff'
+                });
+            })
+            .finally(() => {
+                // Remove loading animation
+                cards.forEach(card => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                });
             });
+        }
+        
+
+        
+        function composeEmail() {
+            // Scroll to email composition form
+            $('html, body').animate({
+                scrollTop: $('.email-form-card').offset().top - 100
+            }, 800);
+            $('#email_subject').focus();
+        }
+        
+        function viewTemplates() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Email Templates',
+                html: `
+                    <div class="text-start">
+                        <h6>Available Templates:</h6>
+                        <div class="list-group">
+                            <button type="button" class="list-group-item list-group-item-action" onclick="useTemplate('payment')">
+                                <i class="ri-mail-line text-primary me-2"></i>Payment Reminder Template
+                            </button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="useTemplate('welcome')">
+                                <i class="ri-mail-line text-success me-2"></i>Welcome Message Template
+                            </button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="useTemplate('session')">
+                                <i class="ri-mail-line text-info me-2"></i>Session Update Template
+                            </button>
+                            <button type="button" class="list-group-item list-group-item-action" onclick="useTemplate('faculty')">
+                                <i class="ri-mail-line text-warning me-2"></i>Faculty Meeting Template
+                            </button>
+                        </div>
+                    </div>
+                `,
+                confirmButtonColor: '#6c63ff',
+                showConfirmButton: false,
+                showCloseButton: true
+            });
+        }
+        
+        function useTemplate(templateType) {
+            let subject = '';
+            let content = '';
+            
+            // Email header
+            const emailHeader = `========================================
+IICE 
+========================================
+
+`;
+            
+            // Email footer
+            const emailFooter = `
+
+========================================
+Best regards,
+IICE Administration Team
+Email: info@iice.edu | Phone: +92-XXX-XXXXXXX
+
+This is an automated message. Please do not reply to this email.
+========================================`;
+            
+            switch(templateType) {
+                case 'payment':
+                    subject = '[Payment Reminder - [Student Name]]';
+                    content = emailHeader + `PAYMENT REMINDER
+
+Dear [Student Name],
+
+[Email Body Content - Add your payment reminder message here]
+
+Payment Details:
+• Amount Due: [Amount]
+• Due Date: [Due Date]
+• Session: [Session Name]
+
+Please contact our administration office for any queries.` + emailFooter;
+                    break;
+                    
+                case 'welcome':
+                    subject = '[Welcome to IICE - [Student Name]]';
+                    content = emailHeader + `WELCOME TO IICE!
+
+Dear [Student Name],
+
+[Email Body Content - Add your welcome message here]
+
+We are excited to have you join our institute. Here are some important details:
+• Student ID: [Student ID]
+• Session: [Session Name]
+• Start Date: [Start Date]
+
+We look forward to your successful journey with us!` + emailFooter;
+                    break;
+                    
+                case 'session':
+                    subject = '[Session Update - [Session Name]]';
+                    content = emailHeader + `SESSION UPDATE
+
+Dear [Student Name],
+
+[Email Body Content - Add your session update message here]
+
+Session Information:
+• Session: [Session Name]
+• Date: [Session Date]
+• Time: [Session Time]
+• Instructor: [Instructor Name]
+
+Please make sure to attend on time.` + emailFooter;
+                    break;
+                    
+                case 'faculty':
+                    subject = '[Faculty Meeting - [Meeting Topic]]';
+                    content = emailHeader + `FACULTY MEETING NOTICE
+
+Dear [Faculty Name],
+
+[Email Body Content - Add your meeting details here]
+
+Meeting Details:
+• Topic: [Meeting Topic]
+• Date: [Meeting Date]
+• Time: [Meeting Time]
+• Venue: [Meeting Venue]
+
+Your attendance is highly appreciated.` + emailFooter;
+                    break;
+            }
+            
+            // Fill the form fields
+            document.getElementById('email_subject').value = subject;
+            document.getElementById('email_content').value = content;
+            
+            // Close the template modal
+            Swal.close();
+            
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Template Applied!',
+                text: 'Email template has been applied to the form. You can now customize the content.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+            
+            // Scroll to the email form
+            document.getElementById('email_subject').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function sendPaymentReminders() {
+            // Show loading state
+            Swal.fire({
+                title: 'Sending Payment Reminders...',
+                text: 'Please wait while we send reminders to students with pending fees.',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            // Make AJAX call to send payment reminders
+            $.ajax({
+                type: 'POST',
+                url: '{% url "notify_late_fee_students" %}',
+                data: {
+                    'csrfmiddlewaretoken': $('[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Payment Reminders Sent Successfully!',
+                            html: `
+                                <div class="text-start">
+                                    <p><strong>Summary:</strong></p>
+                                    <ul>
+                                        <li>Emails sent: ${response.emails_sent || 0}</li>
+                                        <li>Students notified: ${response.students_with_pending_fees || 0}</li>
+                                        ${response.failed_emails > 0 ? `<li class="text-warning">Failed emails: ${response.failed_emails}</li>` : ''}
+                                    </ul>
+                                </div>
+                            `,
+                            confirmButtonColor: '#6c63ff'
+                        });
+                        // Refresh email statistics
+                        updateEmailStats();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to Send Reminders',
+                            text: response.message || 'An error occurred while sending payment reminders.',
+                            confirmButtonColor: '#6c63ff'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    let errorMessage = 'An error occurred while sending payment reminders.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Sending Reminders',
+                        text: errorMessage,
+                        confirmButtonColor: '#6c63ff'
+                    });
+                }
+            });
+        }
+        
+        function bulkEmail() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Bulk Email',
+                text: 'Use the compose form below to send emails to multiple recipient groups at once.',
+                confirmButtonColor: '#6c63ff'
+            });
+            composeEmail();
+        }
+        
+        function updateEmailStats() {
+            // Refresh both statistics and email history
+            refreshEmailStats();
+        }
+        
+        // Helper function to get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Add smooth animations to cards
+        $(document).ready(function() {
+            $('.metric-card, .email-form-card, .chart-container').each(function(index) {
+                $(this).css('opacity', '0').css('transform', 'translateY(20px)');
+                $(this).delay(index * 100).animate({
+                    opacity: 1
+                }, 600).css('transform', 'translateY(0px)');
+            });
+            
+            // Load real-time statistics on page load
+            setTimeout(refreshEmailStats, 1000);
         });
     </script>
     <!-- endbuild -->

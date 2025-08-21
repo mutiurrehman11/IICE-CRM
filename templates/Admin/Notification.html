@@ -376,7 +376,7 @@
                                                             <div class="d-flex justify-content-between align-items-start mb-2">
                                                                 <div>
                                                                     <h6 class="mb-1">{{ notification.user.first_name }} {{ notification.user.last_name }}</h6>
-                                                                    <span class="category-badge badge {% if notification.category == 'New Fee' %}bg-success{% elif notification.category == 'Late fee' %}bg-danger{% elif notification.category == 'Updation' %}bg-info{% elif notification.category == 'Deletion' %}bg-secondary{% else %}bg-primary{% endif %}">{{ notification.category }}</span>
+                                                                    <span class="category-badge badge {% if notification.category == 'New Fee' %}bg-success{% elif notification.category == 'Late fee' %}bg-danger{% elif notification.category == 'Monthly Renewal' %}bg-warning{% elif notification.category == 'Updation' %}bg-info{% elif notification.category == 'Deletion' %}bg-secondary{% else %}bg-primary{% endif %}">{{ notification.category }}</span>
                                                                 </div>
                                                                 <div class="notification-date">
                                                                     <i class="ri-time-line me-1"></i>
@@ -407,6 +407,17 @@
                                     <!-- Payments Tab -->
                                     <div class="tab-pane fade" id="payments" role="tabpanel">
                                         {% if due_fee_sessions %}
+                                            <!-- Bulk Actions -->
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <div>
+                                                    <h6 class="mb-0">Overdue Students ({{ due_fees_count }})</h6>
+                                                    <small class="text-muted">Students with pending fee payments</small>
+                                                </div>
+                                                <button class="btn btn-primary d-flex align-items-center gap-2" onclick="sendBulkReminders()" id="bulkReminderBtn">
+                                                    <i class="ri-mail-send-line"></i>
+                                                    Send Reminders to All
+                                                </button>
+                                            </div>
                                             <div class="table-responsive">
                                                 <table id="fee-due-table" class="table table-hover">
                                                     <thead class="table-dark">
@@ -528,6 +539,58 @@
             });
         });
         
+        function sendBulkReminders() {
+            const button = document.getElementById('bulkReminderBtn');
+            const originalText = button.innerHTML;
+            
+            // Confirm action
+            if (!confirm('Are you sure you want to send reminders to all overdue students? This will send emails to all students with pending payments.')) {
+                return;
+            }
+            
+            // Show loading state
+            button.innerHTML = '<i class="ri-loader-4-line ri-spin me-1"></i>Sending Bulk Reminders...';
+            button.disabled = true;
+            
+            // Send bulk reminders
+            fetch('{% url "send_bulk_fee_reminders" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showToast(`Bulk reminders completed! ${data.details.emails_sent} emails sent successfully`, 'success');
+                    if (data.details.failed_emails > 0) {
+                        setTimeout(() => {
+                            showToast(`${data.details.failed_emails} emails failed to send`, 'warning');
+                        }, 2000);
+                    }
+                    button.innerHTML = '<i class="ri-check-line me-1"></i>Sent to All';
+                    button.classList.remove('btn-primary');
+                    button.classList.add('btn-success');
+                    
+                    // Refresh the page after 3 seconds to update the data
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                } else {
+                    showToast('Failed to send bulk reminders: ' + (data.message || 'Unknown error'), 'error');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Network error. Please check your connection and try again.', 'error');
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+        }
+        
         function sendReminder(studentId, sessionId) {
             const button = event.target.closest('button');
             const originalText = button.innerHTML;
@@ -536,31 +599,43 @@
             button.innerHTML = '<i class="ri-loader-4-line ri-spin me-1"></i>Sending...';
             button.disabled = true;
             
-            $.ajax({
-                url: '{% url "send_fee_reminder" %}',
-                type: 'POST',
-                data: {
+            // Use fetch API for better error handling
+            fetch('{% url "send_fee_reminder" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
                     'student_id': studentId,
-                    'session_id': sessionId,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(response) {
-                    if (response.success) {
-                        showToast('Reminder sent successfully!', 'success');
-                        button.innerHTML = '<i class="ri-check-line me-1"></i>Sent';
-                        button.classList.remove('btn-remind');
-                        button.classList.add('btn-success');
-                    } else {
-                        showToast('Failed to send reminder: ' + response.error, 'error');
-                        button.innerHTML = originalText;
-                        button.disabled = false;
+                    'session_id': sessionId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showToast('Reminder sent successfully!', 'success');
+                    button.innerHTML = '<i class="ri-check-line me-1"></i>Sent';
+                    button.classList.remove('btn-remind');
+                    button.classList.add('btn-success');
+                    
+                    // Show additional details if available
+                    if (data.details) {
+                        setTimeout(() => {
+                            showToast(`Email sent to ${data.details.email} - Rs. ${data.details.pending_amount} pending`, 'info');
+                        }, 1000);
                     }
-                },
-                error: function() {
-                    showToast('Error sending reminder. Please try again.', 'error');
+                } else {
+                    showToast('Failed to send reminder: ' + (data.message || 'Unknown error'), 'error');
                     button.innerHTML = originalText;
                     button.disabled = false;
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Network error. Please check your connection and try again.', 'error');
+                button.innerHTML = originalText;
+                button.disabled = false;
             });
         }
         

@@ -32,6 +32,10 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    
     <!-- Custom Styles -->
     <style>
         .revenue-card {
@@ -212,11 +216,13 @@
                             <div data-i18n="Dashboards">User Info</div>
                         </a>
                         <ul class="menu-sub">
+                            {% if user.usertype != 2 %}
                             <li class="menu-item">
                                 <a href="{% url 'Faculty' %}" class="menu-link">
                                     <div data-i18n="CRM">Faculty</div>
                                 </a>
                             </li>
+                            {% endif %}
                             <li class="menu-item">
                                 <a href="{% url 'Students' %}" class="menu-link">
                                     <div data-i18n="CRM">Students</div>
@@ -264,12 +270,14 @@
                         </a>
                     </li>
                     
+                    {% if user.usertype != 2 %}
                     <li class="menu-item active">
                         <a href="{% url 'payment' %}" class="menu-link">
                             <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
                             <div data-i18n="Dashboards">Revenue</div>
                         </a>
                     </li>
+                    {% endif %}
                     
                     <li class="menu-item">
                         <a href="{% url 'notification' %}" class="menu-link">
@@ -371,6 +379,75 @@
                                             </ul>
                                         </div>
                                         <button class="btn btn-outline-light btn-modern" onclick="refreshData()">Refresh</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Time Period Filter Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="chart-container">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">
+                                                <i class="ri-filter-line text-primary"></i>
+                                                Filter Revenue by Time Period
+                                            </h5>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="d-flex gap-2 justify-content-end">
+                                                <button class="btn btn-success btn-modern" onclick="exportWordReport()">
+                                                    <i class="ri-file-word-line"></i>
+                                                    Export Word Report
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="form-label">Quick Time Periods</label>
+                                            <select class="form-select" id="timePeriodSelect" onchange="applyQuickFilter()">
+                                                <option value="all">All Time</option>
+                                                <option value="today">Today</option>
+                                                <option value="7">Last 7 Days</option>
+                                                <option value="30" selected>Last 30 Days</option>
+                                                <option value="60">Last 60 Days</option>
+                                                <option value="90">Last 90 Days</option>
+                                                <option value="180">Last 6 Months</option>
+                                                <option value="365">Last Year</option>
+                                                <option value="custom">Custom Range</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">From Date</label>
+                                            <input type="date" class="form-control" id="fromDate" onchange="applyCustomFilter()">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="form-label">To Date</label>
+                                            <input type="date" class="form-control" id="toDate" onchange="applyCustomFilter()">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label">&nbsp;</label>
+                                            <div class="d-flex gap-1">
+                                                <button class="btn btn-primary btn-modern" onclick="applyFilter()">
+                                                    <i class="ri-search-line"></i>
+                                                </button>
+                                                <button class="btn btn-outline-secondary btn-modern" onclick="resetFilter()">
+                                                    <i class="ri-refresh-line"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div id="filterStatus" class="alert alert-info">
+                                                <i class="ri-information-line"></i>
+                                                <span id="filterStatusText">Showing data for: Last 30 Days</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -684,32 +761,32 @@
                         <!-- Quick Actions Section -->
                         <div class="row mb-4">
                             <div class="col-12">
-                                <div class="chart-container">
-                                    <h5 class="mb-3">
-                                        <i class="ri-flashlight-line text-primary"></i>
+                                <div class="chart-container p-4 border rounded shadow-sm">
+                                    <h5 class="mb-4">
+                                        <i class="ri-flashlight-line text-primary me-2"></i>
                                         Quick Actions
                                     </h5>
                                     <div class="row">
                                         <div class="col-md-3 mb-3">
-                                            <button class="btn btn-outline-primary w-100" onclick="sendBulkReminders()">
+                                            <button class="btn btn-primary w-100 d-flex align-items-center justify-content-center gap-2 py-2" onclick="sendBulkReminders()">
                                                 <i class="ri-mail-send-line"></i>
                                                 Send Payment Reminders
                                             </button>
                                         </div>
                                         <div class="col-md-3 mb-3">
-                                            <button class="btn btn-outline-success w-100" onclick="viewOverdueStudents()">
+                                            <button class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2 py-2" onclick="viewOverdueStudents()">
                                                 <i class="ri-user-search-line"></i>
                                                 View Overdue Students
                                             </button>
                                         </div>
                                         <div class="col-md-3 mb-3">
-                                            <button class="btn btn-outline-info w-100" onclick="generateMonthlyReport()">
+                                            <button class="btn btn-info w-100 d-flex align-items-center justify-content-center gap-2 py-2" onclick="generateMonthlyReport()">
                                                 <i class="ri-file-chart-line"></i>
                                                 Monthly Report
                                             </button>
                                         </div>
                                         <div class="col-md-3 mb-3">
-                                            <button class="btn btn-outline-warning w-100" onclick="viewSessionAnalytics()">
+                                            <button class="btn btn-warning w-100 d-flex align-items-center justify-content-center gap-2 py-2" onclick="viewSessionAnalytics()">
                                                 <i class="ri-bar-chart-line"></i>
                                                 Session Analytics
                                             </button>
@@ -832,6 +909,261 @@
     <script src="/static/assets/js/main.js"></script>
     
     <script>
+    // Global variables for filtering
+    let currentFilter = {
+        type: 'days',
+        value: 30,
+        fromDate: null,
+        toDate: null
+    };
+    
+    // Initialize date inputs with default values
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date();
+        const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
+        
+        document.getElementById('toDate').value = today.toISOString().split('T')[0];
+        document.getElementById('fromDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+        
+        // Apply default filter
+        applyQuickFilter();
+    });
+    
+    function applyQuickFilter() {
+        const select = document.getElementById('timePeriodSelect');
+        const value = select.value;
+        
+        if (value === 'custom') {
+            // Enable custom date inputs
+            document.getElementById('fromDate').disabled = false;
+            document.getElementById('toDate').disabled = false;
+            return;
+        }
+        
+        // Disable custom date inputs
+        document.getElementById('fromDate').disabled = true;
+        document.getElementById('toDate').disabled = true;
+        
+        currentFilter.type = value === 'all' ? 'all' : (value === 'today' ? 'today' : 'days');
+        currentFilter.value = value === 'all' ? null : (value === 'today' ? 1 : parseInt(value));
+        
+        applyFilter();
+    }
+    
+    function applyCustomFilter() {
+        const fromDate = document.getElementById('fromDate').value;
+        const toDate = document.getElementById('toDate').value;
+        
+        if (fromDate && toDate) {
+            currentFilter.type = 'custom';
+            currentFilter.fromDate = fromDate;
+            currentFilter.toDate = toDate;
+            document.getElementById('timePeriodSelect').value = 'custom';
+        }
+    }
+    
+    function applyFilter() {
+        // Show loading state
+        showLoadingState();
+        
+        // Prepare filter data
+        const filterData = {
+            type: currentFilter.type,
+            value: currentFilter.value,
+            fromDate: currentFilter.fromDate,
+            toDate: currentFilter.toDate
+        };
+        
+        // Make AJAX request to filter data
+        fetch('/payments/filter/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(filterData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateDashboard(data.data);
+                updateFilterStatus(data.data.filter_description);
+            } else {
+                alert('Error filtering data: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while filtering data.');
+        })
+        .finally(() => {
+            hideLoadingState();
+        });
+    }
+    
+    function resetFilter() {
+        document.getElementById('timePeriodSelect').value = '30';
+        currentFilter = { type: 'days', value: 30, fromDate: null, toDate: null };
+        applyFilter();
+    }
+    
+    function updateDashboard(data) {
+        // Update key metrics
+        document.querySelector('.metric-value').textContent = `Rs. ${data.total_revenue.toLocaleString()}`;
+        
+        // Update all metric cards
+        const metricCards = document.querySelectorAll('.metric-card .metric-value');
+        if (metricCards.length >= 4) {
+            metricCards[0].textContent = `Rs. ${data.total_revenue.toLocaleString()}`;
+            metricCards[1].textContent = `Rs. ${data.total_pending.toLocaleString()}`;
+            metricCards[2].textContent = `${data.collection_rate}%`;
+            metricCards[3].textContent = `Rs. ${data.avg_payment.toLocaleString()}`;
+        }
+        
+        // Update business insights
+        const businessMetrics = document.querySelectorAll('.metric-card .metric-value');
+        if (businessMetrics.length >= 8) {
+            businessMetrics[4].textContent = `Rs. ${data.daily_revenue.toLocaleString()}`;
+            businessMetrics[5].textContent = data.active_students_count;
+            businessMetrics[6].textContent = data.overdue_students_count;
+            businessMetrics[7].textContent = `Rs. ${data.projected_monthly_revenue.toLocaleString()}`;
+        }
+        
+        // Update student status badges
+        const statusBadges = document.querySelectorAll('.status-badge');
+        if (statusBadges.length >= 3) {
+            statusBadges[0].textContent = `${data.students_paid} Fully Paid`;
+            statusBadges[1].textContent = `${data.students_partial} Partial`;
+            statusBadges[2].textContent = `${data.students_unpaid} Unpaid`;
+        }
+        
+        // Update recent payments table
+        updateRecentPaymentsTable(data.recent_payments);
+        
+        // Update charts
+        updateCharts(data);
+    }
+    
+    function updateRecentPaymentsTable(payments) {
+        const tbody = document.querySelector('.table-modern tbody');
+        tbody.innerHTML = '';
+        
+        payments.forEach(payment => {
+            const row = `
+                <tr>
+                    <td>${new Date(payment.date).toLocaleDateString()}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-sm me-2">
+                                <span class="avatar-initial rounded-circle bg-label-primary">${payment.student_name.charAt(0)}</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">${payment.student_name}</h6>
+                                <small class="text-muted">${payment.rollno || '-'}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${payment.session_name}</td>
+                    <td><strong>Rs. ${payment.amount.toLocaleString()}</strong></td>
+                    <td>${payment.collected_by}</td>
+                    <td><span class="badge bg-success">Completed</span></td>
+                </tr>
+            `;
+            tbody.innerHTML += row;
+        });
+    }
+    
+    function updateCharts(data) {
+        // Update session chart if it exists
+        if (window.sessionChart) {
+            window.sessionChart.data.labels = data.session_performance.map(s => s.name);
+            window.sessionChart.data.datasets[0].data = data.session_performance.map(s => s.revenue);
+            window.sessionChart.update();
+        }
+    }
+    
+    function updateFilterStatus(description) {
+        const statusDiv = document.getElementById('filterStatus');
+        const statusText = document.getElementById('filterStatusText');
+        statusText.textContent = `Showing data for: ${description}`;
+        statusDiv.style.display = 'block';
+    }
+    
+    function showLoadingState() {
+        // Add loading overlay or spinner
+        const overlay = document.createElement('div');
+        overlay.id = 'loadingOverlay';
+        overlay.innerHTML = `
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `;
+        overlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.8);
+            z-index: 9999;
+        `;
+        document.body.appendChild(overlay);
+    }
+    
+    function hideLoadingState() {
+        const overlay = document.getElementById('loadingOverlay');
+        if (overlay) {
+            overlay.remove();
+        }
+    }
+    
+    function exportWordReport() {
+        // Show loading state
+        showLoadingState();
+        
+        // Prepare export data with current filter
+        const exportData = {
+            filter: currentFilter,
+            format: 'word'
+        };
+        
+        // Make request to export endpoint
+        fetch('/payments/export-word/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(exportData)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            }
+            throw new Error('Export failed');
+        })
+        .then(blob => {
+            // Create download link
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Revenue_Report_${new Date().toISOString().split('T')[0]}.docx`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to export Word document. Please try again.');
+        })
+        .finally(() => {
+            hideLoadingState();
+        });
+    }
+    
     $(document).ready(function() {
         // Initialize DataTable
         $('#studentFeesTable').DataTable({
@@ -849,7 +1181,7 @@
         // Session Revenue Chart
         const sessionCtx = document.getElementById('sessionChart');
         if (sessionCtx) {
-            new Chart(sessionCtx, {
+            window.sessionChart = new Chart(sessionCtx, {
                 type: 'doughnut',
                 data: {
                     labels: [{% for session, amount in session_revenue.items %}'{{ session }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
@@ -904,34 +1236,83 @@
     }
     
     function sendReminder(studentId) {
-        if (confirm('Send fee reminder to this student?')) {
-            // Implement send reminder functionality
-            fetch('/send-fee-reminder/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                },
-                body: JSON.stringify({
-                    'student_id': studentId
+        Swal.fire({
+            title: 'Send Payment Reminder?',
+            text: 'This will send an email reminder to the student about their pending fees.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, send reminder!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading state
+                Swal.fire({
+                    title: 'Sending Reminder...',
+                    text: 'Please wait while we send the payment reminder.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                fetch('/send-fee-reminder/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: JSON.stringify({
+                        'student_id': studentId
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Reminder sent successfully!');
-                } else {
-                    alert('Failed to send reminder: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while sending the reminder.');
-            });
-        }
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: data.message,
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: data.message || 'Failed to send reminder',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Network Error',
+                        text: 'An error occurred while sending the reminder. Please check your connection and try again.',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            }
+        });
     }
     
     function exportData(period = 'all') {
+        // Set filter based on period
+        if (period !== 'all') {
+            currentFilter = { type: 'days', value: parseInt(period), fromDate: null, toDate: null };
+        } else {
+            currentFilter = { type: 'all', value: null, fromDate: null, toDate: null };
+        }
+        
+        // Apply filter and then export
+        applyFilter();
+        
+        // Generate CSV with current data
+        setTimeout(() => {
+            exportDetailedReport();
+        }, 1000);
+        
         // Create comprehensive CSV export with summary
         let csv = [];
         const today = new Date();
@@ -1063,6 +1444,9 @@
     // Quick Action Functions
     function sendBulkReminders() {
         if (confirm('Send payment reminders to all students with outstanding fees?')) {
+            // Show loading indicator
+            showLoadingState();
+            
             fetch('/notify-late-fee-students/', {
                 method: 'POST',
                 headers: {
@@ -1072,15 +1456,43 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Hide loading indicator
+                hideLoadingState();
+                
                 if (data.status === 'success') {
-                    alert('Payment reminders sent successfully!');
+                    // Create a more detailed success message
+                    const successMessage = `Payment reminders sent successfully!\n\nDetails:\n- ${data.details?.emails_sent || 0} emails sent\n- ${data.details?.students_with_pending_fees || 0} students with pending fees`;
+                    
+                    // Show success notification
+                    Swal.fire({
+                        title: 'Success!',
+                        text: successMessage,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
                 } else {
-                    alert('Failed to send reminders: ' + data.message);
+                    // Show error notification
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Failed to send reminders: ' + data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
                 }
             })
             .catch(error => {
+                // Hide loading indicator
+                hideLoadingState();
+                
                 console.error('Error:', error);
-                alert('An error occurred while sending reminders.');
+                
+                // Show error notification
+                Swal.fire({
+                    title: 'Error',
+                    text: 'An error occurred while sending reminders.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             });
         }
     }
@@ -1093,8 +1505,77 @@
         // Scroll to table
         document.getElementById('studentFeesTable').scrollIntoView({ behavior: 'smooth' });
         
-        // Show notification
-        alert('Table filtered to show students with unpaid fees. Clear the search to see all students.');
+        // Show notification with bulk reminder option
+        Swal.fire({
+            title: 'Overdue Students View',
+            text: 'Table filtered to show students with unpaid fees. Would you like to send reminders to all overdue students?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Send Reminders to All',
+            cancelButtonText: 'Just View',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#6c757d'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sendBulkRemindersToOverdue();
+            }
+        });
+    }
+    
+    function sendBulkRemindersToOverdue() {
+        // Show loading indicator
+        showLoadingState();
+        
+        fetch('/send-bulk-fee-reminders/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading indicator
+            hideLoadingState();
+            
+            if (data.status === 'success') {
+                // Create a detailed success message
+                const successMessage = `Bulk reminders sent successfully!\n\nDetails:\n- ${data.details?.emails_sent || 0} emails sent\n- ${data.details?.students_with_pending_fees || 0} overdue students processed`;
+                
+                // Show success notification
+                Swal.fire({
+                    title: 'Success!',
+                    text: successMessage,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    // Refresh the page to update any status changes
+                    location.reload();
+                });
+            } else {
+                // Show error notification
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Failed to send bulk reminders: ' + data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        })
+        .catch(error => {
+            // Hide loading indicator
+            hideLoadingState();
+            
+            console.error('Error:', error);
+            
+            // Show error notification
+            Swal.fire({
+                title: 'Error',
+                text: 'An error occurred while sending bulk reminders.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        });
     }
     
     function generateMonthlyReport() {

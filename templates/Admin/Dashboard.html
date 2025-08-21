@@ -92,13 +92,25 @@
             <li class="menu-header mt-7">
               <span class="menu-header-text">Main DashBoard</span>
             </li>
+            {% if user.usertype != 3 %}
             <li class="menu-item active">
               <a href="{% url 'Admin_Dashboard' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
                 <div data-i18n="Basic">Dashboard</div>
               </a>
             </li>
+            {% endif %}
           <ul class="menu-inner py-1">
+            {% if user.usertype == 3 %}
+            <!-- Teacher Menu - Only Attendance -->
+            <li class="menu-item active">
+              <a href="{% url 'tec_select_course' %}" class="menu-link">
+                <i class="menu-icon tf-icons ri-user-fill"></i>
+                <div data-i18n="Dashboards">Attendance</div>
+              </a>
+            </li>
+            {% else %}
+            <!-- Admin/Moderator Menu - Full Access -->
             <!-- User Pages -->
             <li class="menu-item">
               <a href="" class="menu-link menu-toggle">
@@ -183,6 +195,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% endif %}
           </ul>
 
         </aside>
@@ -423,6 +436,40 @@
                           <h5 class="card-title mb-1">Attendance</h5>
                           <p class="card-text text-muted">Manage attendance</p>
                           <a href="{% url 'select_course' %}" class="btn btn-info">Take Attendance</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Payments Section -->
+                    {% if user.usertype != 2 %}
+                    <div class="col-md-6 col-lg-3">
+                      <div class="card h-100">
+                        <div class="card-body text-center">
+                          <div class="avatar avatar-md mx-auto mb-3">
+                            <span class="avatar-initial rounded-circle bg-label-danger">
+                              <i class="ri-money-dollar-circle-line ri-2x"></i>
+                            </span>
+                          </div>
+                          <h5 class="card-title mb-1">Payments</h5>
+                          <p class="card-text text-muted">Manage payments</p>
+                          <a href="{% url 'payment' %}" class="btn btn-danger">View Payments</a>
+                        </div>
+                      </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Email Service Section -->
+                    <div class="col-md-6 col-lg-3">
+                      <div class="card h-100">
+                        <div class="card-body text-center">
+                          <div class="avatar avatar-md mx-auto mb-3">
+                            <span class="avatar-initial rounded-circle bg-label-secondary">
+                              <i class="ri-mail-send-line ri-2x"></i>
+                            </span>
+                          </div>
+                          <h5 class="card-title mb-1">Email Service</h5>
+                          <p class="card-text text-muted">Send notifications</p>
+                          <a href="{% url 'EmailService' %}" class="btn btn-secondary">Email Service</a>
                         </div>
                       </div>
                     </div>

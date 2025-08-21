@@ -366,11 +366,13 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub open">
+                {% if user.usertype != 2 %}
                 <li class="menu-item">
                   <a href="{% url 'Faculty' %}" class="menu-link">
                     <div data-i18n="CRM">Faculty</div>
                   </a>
                 </li>
+                {% endif %}
                 <li class="menu-item">
                   <a href="{% url 'Students' %}" class="menu-link">
                     <div data-i18n="CRM">Students</div>
@@ -417,6 +419,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% if user.usertype != 2 %}
             <li class="menu-item">
               <a href="{% url 'payment' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
@@ -424,6 +427,7 @@
 {#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
+            {% endif %}
             <li class="menu-item">
               <a href="{% url 'notification' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-mail-fill"></i>
@@ -703,20 +707,48 @@
                                                         <th>Fee</th>
                                                         <th>Registration Fee</th>
                                                         <th>Status</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {% for session in student_sessions %}
                                                     <tr>
-                                                        <td>{{ session.session.session_name }}</td>
+                                                        <td>
+                                                            {{ session.session.session_name }}
+                                                            <!-- Session Status Indicator -->
+                                                            {% if session.session.status == 'Active' %}
+                                                                <span class="badge bg-success ms-2">Active Session</span>
+                                                            {% else %}
+                                                                <span class="badge bg-secondary ms-2">Inactive Session</span>
+                                                            {% endif %}
+                                                        </td>
                                                         <td>{{ session.registration_date|date:"M d, Y" }}</td>
                                                         <td>{{ session.session.fee }}</td>
-                                                        <td>{{ session.registration_fee }}</td>
-                                                        <td>{{ session.status }}</td>
+                                                        <td>
+                                                            {{ session.registration_fee }}
+                                                            {% if session.registration_fee == 0 and session.notes and "waived" in session.notes %}
+                                                                <small class="text-muted">(Waived)</small>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            {% if session.status == 'Active' %}
+                                                                <span class="badge bg-success">{{ session.status }}</span>
+                                                            {% else %}
+                                                                <span class="badge bg-warning">{{ session.status }}</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            {% if session.session.status == 'Active' and session.status == 'Active' %}
+                                                                <button class="btn btn-sm btn-outline-danger delete-session" 
+                                                                        data-delete-url="{% url 'DeleteStudentSession' session.id %}">
+                                                                    <i class="ri-close-line"></i> Withdraw
+                                                                </button>
+                                                            {% endif %}
+                                                        </td>
                                                     </tr>
                                                     {% empty %}
                                                     <tr>
-                                                        <td colspan="5" class="text-center">
+                                                        <td colspan="6" class="text-center">
                                                             No sessions found. Please select a session from the dropdown above to enroll.
                                                         </td>
                                                     </tr>
@@ -740,28 +772,46 @@
                                     <div class="card-body">
                                         <div class="payment-status mb-4">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="text-center">
-                                                        <h4 class="text-primary mb-1">Rs. {{ final_fee|default:0 }}</h4>
+                                                        <h4 class="text-primary mb-1">Rs. {{ total_fee|default:0 }}</h4>
                                                         <small class="text-muted">Total Fee</small>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
+                                                    <div class="text-center">
+                                                        <h4 class="text-info mb-1">Rs. {{ registration_fee|default:0 }}</h4>
+                                                        <small class="text-muted">Registration Fee</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
                                                     <div class="text-center">
                                                         <h4 class="text-success mb-1">Rs. {{ paid_amount|default:0 }}</h4>
                                                         <small class="text-muted">Paid Amount</small>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="text-center">
                                                         <h4 class="text-warning mb-1">Rs. {{ remaining_amount|default:0 }}</h4>
                                                         <small class="text-muted">Remaining</small>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <div class="text-center">
                                                         <h4 class="text-info mb-1">{{ payment_info.installments_paid|default:0 }}/{{ payment_info.installments_count|default:0 }}</h4>
                                                         <small class="text-muted">Installments</small>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="text-center">
+                                                        {% if latest_payment %}
+                                                            <h4 class="text-success mb-1">Rs. {{ latest_payment.amount|default:0 }}</h4>
+                                                            <small class="text-muted">Latest Payment <span class="badge bg-primary">{{ latest_payment.date|date:"M d, Y"|default:"" }}</span></small>
+                                                        {% else %}
+                                                            <h4 class="text-muted mb-1">Rs. 0</h4>
+                                                            <small class="text-muted">Latest Payment <span class="badge bg-secondary">None</span></small>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
@@ -770,10 +820,10 @@
                                             <div class="mt-3">
                                                 <div class="progress">
                                                     <div class="progress-bar" role="progressbar" 
-                                                         style="width: {% if final_fee and final_fee > 0 %}{% widthratio paid_amount|default:0 final_fee 100 %}{% else %}0{% endif %}%"
+                                                         style="width: {% if total_fee and total_fee > 0 %}{% widthratio paid_amount|default:0 total_fee|add:registration_fee|default:0 100 %}{% else %}0{% endif %}%"
                                                          aria-valuenow="{{ paid_amount|default:0 }}" 
                                                          aria-valuemin="0" 
-                                                         aria-valuemax="{{ final_fee|default:0 }}">
+                                                         aria-valuemax="{{ total_fee|add:registration_fee|default:0 }}">
                                                     </div>
                                                 </div>
                                                 <small class="text-muted mt-1 d-block">Payment Progress</small>
@@ -806,14 +856,7 @@
                                                             class="form-control text-end" />
                                                     </div>
                                                 </div>
-                                                <div class="row mb-3">
-                                                    <label class="col-sm-6 col-form-label">Final Fee:</label>
-                                                    <div class="col-sm-6">
-                                                        <input type="number" id="final_fee" name="final_fee" step="1" min="0"
-                                                            value="{{ final_fee|default:0|floatformat:0 }}" 
-                                                            class="form-control text-end" readonly />
-                                                    </div>
-                                                </div>
+
                                                 <div class="row mb-3">
                                                     <label class="col-sm-6 col-form-label">Paid Amount:</label>
                                                     <div class="col-sm-6">
@@ -1129,7 +1172,9 @@
         
         function calculateNextDueDate() {
             let installments = parseInt($("#installments_count").val()) || 0;
-            if (installments > 0) {
+            let remainingAmount = parseFloat($("#remaining_amount").val()) || 0;
+            
+            if (installments > 0 && remainingAmount > 0) {
                 let enrollmentDateStr = $("#enrollment_date").val();
                 let installmentsPaid = parseInt($("#installments_paid").val()) || 0;
                 // If the field is like "2 of 3", extract the first number
@@ -1144,6 +1189,7 @@
                     $("#due_date").val(formattedDate);
                 }
             } else {
+                // Clear due date when no installments or no remaining amount
                 $("#due_date").val('');
                 $("#next_due_amount").val('0');
             }
@@ -1162,11 +1208,10 @@
             $("#discount").val(discount);
             $("#paid_amount").val(paidAmount);
             
-            // Calculate final fee (including registration fee)
-            let finalFee = totalFee + registrationFee - discount;
-            $("#final_fee").val(finalFee);
+            // Calculate final fee (total already includes registration fee - discount)
+            let finalFee = totalFee - discount;
             
-            // Calculate remaining amount
+            // Calculate remaining amount directly
             let remainingAmount = finalFee - paidAmount;
             remainingAmount = remainingAmount > 0 ? remainingAmount : 0;
             $("#remaining_amount").val(remainingAmount);
@@ -1174,15 +1219,19 @@
             // Handle installments
             let installments = parseInt($("#installments_count").val()) || 0;
             if (installments > 0) {
-                // Calculate per installment amount based on final fee, not remaining amount
-                let perInstallment = Math.floor(finalFee / installments);
-                let lastInstallment = perInstallment + (finalFee % installments);
+                // Calculate per installment amount directly based on total fee
+                let perInstallment = Math.floor(totalFee / installments);
+                let lastInstallment = perInstallment + (totalFee % installments);
                 $("#per_installment_amount").val(perInstallment);
                 
-                // Set next due amount
+                // Set next due amount based on remaining balance and installments
                 if (!$("#next_due_amount").data('manually-changed')) {
                     let installmentsPaid = parseInt("{{ payment_info.installments_paid|default:0 }}") || 0;
-                    if (installmentsPaid === installments - 1) {
+                    
+                    // If all payments are complete (no remaining amount), set to 0
+                    if (remainingAmount <= 0) {
+                        $("#next_due_amount").val("0");
+                    } else if (installmentsPaid === installments - 1) {
                         $("#next_due_amount").val(lastInstallment);
                     } else {
                         $("#next_due_amount").val(perInstallment);
@@ -1283,9 +1332,34 @@
                 }
             });
             
+            // Ensure the clicked action is captured and included in POST
+            $("button[name='freeze_student'], button[name='unfreeze_student'], button[name='save_changes']").on('click', function() {
+                $("#clicked_action").remove(); // avoid duplicates
+                const hidden = $('<input>', {
+                    type: 'hidden',
+                    id: 'clicked_action',
+                    name: this.name,          // e.g., 'freeze_student' | 'unfreeze_student' | 'save_changes'
+                    value: this.value || '1'
+                });
+                $("#formAccountSettings").append(hidden);
+                console.log('Set clicked action hidden input:', this.name);
+            });
+            
             // Form submission handler with validation
             $("#formAccountSettings").on('submit', function(e) {
-                // Validate installment data before submission
+                console.log('Form submission triggered');
+                
+                // Determine which action is being performed
+                const clickedActionName = $("#clicked_action").attr('name') || '';
+                console.log('clickedActionName:', clickedActionName);
+                
+                // Skip validation for freeze/unfreeze and allow submit
+                if (clickedActionName === 'freeze_student' || clickedActionName === 'unfreeze_student') {
+                    console.log('Freeze/Unfreeze action detected via hidden input, skipping validation');
+                    return true;
+                }
+                
+                // Validate installment data before submission (regular Save Changes path)
                 let installments = parseInt($("#installments_count").val()) || 0;
                 let dueDate = $("#due_date").val();
                 let perInstallment = parseFloat($("#per_installment_amount").val()) || 0;
@@ -1312,7 +1386,7 @@
                 $("#total_fee").val(Math.round(parseFloat($("#total_fee").val()) || 0));
                 $("#registration_fee").val(Math.round(parseFloat($("#registration_fee").val()) || 0));
                 $("#discount").val(Math.round(parseFloat($("#discount").val()) || 0));
-                $("#final_fee").val(Math.round(parseFloat($("#final_fee").val()) || 0));
+                // Final fee field removed
                 $("#paid_amount").val(Math.round(parseFloat($("#paid_amount").val()) || 0));
                 $("#remaining_amount").val(Math.round(parseFloat($("#remaining_amount").val()) || 0));
                 $("#per_installment_amount").val(Math.round(parseFloat($("#per_installment_amount").val()) || 0));
@@ -1525,43 +1599,7 @@
       if (form) {
           console.log('Form found:', form);
           
-          form.addEventListener('submit', function(e) {
-              console.log('Form submission started');
-              console.log('Form data:', new FormData(form));
-              
-              // Check which button was clicked
-              const activeElement = document.activeElement;
-              if (activeElement) {
-                  console.log('Active element:', activeElement.name, activeElement.value);
-              }
-              
-              // Validate required fields
-              const requiredFields = form.querySelectorAll('[required]');
-              let hasErrors = false;
-              
-              requiredFields.forEach(field => {
-                  if (!field.value.trim()) {
-                      console.log('Empty required field:', field.name);
-                      hasErrors = true;
-                  }
-              });
-              
-              if (hasErrors) {
-                  e.preventDefault();
-                  alert('Please fill all required fields');
-                  return false;
-              }
-              
-              console.log('Form validation passed, submitting...');
-          });
-          
-          // Add click handlers to buttons
-          const saveButton = form.querySelector('[name="save_changes"]');
-          if (saveButton) {
-              saveButton.addEventListener('click', function() {
-                  console.log('Save Changes button clicked');
-              });
-          }
+
       } else {
           console.error('Form not found!');
       }
