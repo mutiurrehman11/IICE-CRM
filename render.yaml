@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: iice-crm
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn IICE.wsgi:application
+    preDeployCommand: python manage.py migrate
