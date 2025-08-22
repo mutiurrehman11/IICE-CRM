@@ -385,11 +385,13 @@
                             <div data-i18n="Dashboards">User Info</div>
                         </a>
                         <ul class="menu-sub">
+                            {% if user.usertype != 2 %}
                             <li class="menu-item">
                                 <a href="{% url 'Faculty' %}" class="menu-link">
                                     <div data-i18n="CRM">Faculty</div>
                                 </a>
                             </li>
+                            {% endif %}
                             <li class="menu-item">
                                 <a href="{% url 'Students' %}" class="menu-link">
                                     <div data-i18n="CRM">Students</div>
@@ -433,12 +435,14 @@
                             <div data-i18n="Dashboards">Attendance</div>
                         </a>
                     </li>
+                    {% if user.usertype != 2 %}
                     <li class="menu-item">
                         <a href="{% url 'payment' %}" class="menu-link">
                             <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
                             <div data-i18n="Dashboards">Payments</div>
                         </a>
                     </li>
+                    {% endif %}
                     <li class="menu-item">
                         <a href="{% url 'notification' %}" class="menu-link">
                             <i class="menu-icon tf-icons ri-mail-fill"></i>

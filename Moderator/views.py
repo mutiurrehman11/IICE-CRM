@@ -474,3 +474,48 @@ def Payments(request):
     }
     return render(request, 'Moderator/Payments.html', context)
 
+def Profile(request):
+    if 'user_id' not in request.session:
+        return redirect('home')
+    user_id = request.session.get('user_id')  # Get the logged-in user ID from the session
+    user = User.objects.get(id=user_id)  # Fetch the user object
+
+    if request.method == 'POST':
+        form = UserForm(request.POST, request.FILES, instance=user)
+
+        if form.is_valid():
+            # Handle profile photo
+            if 'profile_photo' in request.FILES:
+                if user.profile_photo:
+                    print(user.profile_photo.path)
+                    # Delete old photo if it exists
+                    if os.path.exists(user.profile_photo.path):
+                        os.remove(user.profile_photo.path)
+
+                # Save the new photo
+                user.profile_photo = request.FILES['profile_photo']
+
+            # Save user changes
+            form.save()
+            return redirect('Moderator_Profile')  # Redirect to avoid form resubmission
+
+    else:
+        form = UserForm(instance=user)  # Pre-populate form with user data
+
+    return render(request, 'Admin/Profile.html', {'form': form, 'user': user})
+def Payments(request):
+    if 'user_id' not in request.session:
+        return redirect('home')
+
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)  # Logged-in user
+
+    from Moderator import models as mod_models
+    student_fees = mod_models.StudentFee.objects.select_related('student').prefetch_related('installments').all()
+
+    context = {
+        'user': user,
+        'student_fees': student_fees,
+    }
+    return render(request, 'Admin/Payments.html', context)
+

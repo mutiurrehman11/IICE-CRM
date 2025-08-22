@@ -24,7 +24,7 @@ def Login_Page(request):
                 if user.usertype == 1:
                     return redirect('Admin_Dashboard')
                 elif user.usertype == 2:
-                    return redirect('mod_notification')
+                    return redirect('Admin_Dashboard')  # Moderators use Admin dashboard with restrictions
                 elif user.usertype == 3:
                     return redirect('tec_select_course')
             else:

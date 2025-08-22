@@ -8,18 +8,8 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-<!doctype html>
 
-<html
-  lang="en"
-  class="light-style layout-menu-fixed layout-compact">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>Admin Dashboard</title>
+    <title>Leads - IQRA ACADEMY</title>
 
     <meta name="description" content="" />
 
@@ -30,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet" />
 
     <link rel="stylesheet" href="/static/assets/vendor/fonts/remixicon/remixicon.css" />
@@ -54,45 +44,316 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/static/assets/js/config.js"></script>
-      <style>
-    /* Bold font for header and table text */
-    #user-table th,
-    #user-table td {
-        font-weight: normal;
-    }
-
-    /* Custom button hover style */
-    .btn-custom:hover {
-        background-color: #8bd8ff !important; /* Change to your preferred hover color */
-        color: white !important;
-    }
-
-    /* Styling the search bar to add some padding */
-    .dataTables_filter {
-        margin-bottom: 15px;
-        margin-right: 10px;
-        border-radius: 50px;
-    }
-
-    /* Styling for pagination buttons */
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin: 2px;
-        color: #333;
-        font-weight: bold;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-        background-color: #6c63ff; /* Hover color */
-        color: white;
-    }
-
-    /* Center-align table and add padding */
-    .dataTables_wrapper {
-        padding: 20px;
-    }
-</style>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    
+    <style>
+        /* Enhanced Animation Framework */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Page Container */
+        .content-wrapper {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        /* Enhanced Header Section */
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s infinite;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 0 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Enhanced Card Styling */
+        .card {
+            animation: fadeInUp 0.6s ease-out;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.6), transparent);
+            transition: left 0.6s;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        /* Enhanced Add Button */
+        .btn-add {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            animation: bounceIn 1s ease-out 0.5s both;
+        }
+        
+        .btn-add::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .btn-add:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-add:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* Enhanced Table Styling */
+        .table-container {
+            padding: 1.5rem;
+        }
+        
+        #leads-table {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: none;
+        }
+        
+        #leads-table thead th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+        
+        #leads-table tbody tr {
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        #leads-table tbody tr:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            transform: scale(1.01);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #leads-table tbody td {
+            padding: 1.2rem 1rem;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            vertical-align: middle;
+        }
+        
+        /* Enhanced DataTable Controls */
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 1.5rem;
+        }
+        
+        .dataTables_wrapper .dataTables_filter input {
+            border: 2px solid #e7e7ff;
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .dataTables_wrapper .dataTables_filter input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+            transform: translateY(-1px);
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border: none;
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            color: #667eea;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Inquiry Badge Styling */
+        .inquiry-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .inquiry-call {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        .inquiry-message {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+        
+        .inquiry-visit {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            color: white;
+        }
+        
+        /* Statistics Cards */
+        .stats-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-label {
+            color: #666;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+    </style>
   </head>
 
   <body>
@@ -129,7 +390,6 @@
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">User Info</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
                 {% if user.usertype != 2 %}
@@ -155,7 +415,6 @@
               <a href="" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ri-book-fill"></i>
                 <div data-i18n="Dashboards">Sessions</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
                 <ul class="menu-sub">
                 <li class="menu-item">
@@ -175,14 +434,12 @@
               <a href="{% url 'Leads' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-group-line"></i>
                 <div data-i18n="Dashboards">Leads</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
             <li class="menu-item">
               <a href="{% url 'select_course' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-user-fill"></i>
                 <div data-i18n="Dashboards">Attendance</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
             {% if user.usertype != 2 %}
@@ -190,7 +447,6 @@
               <a href="{% url 'payment' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-wallet-2-fill"></i>
                 <div data-i18n="Dashboards">Payments</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
             {% endif %}
@@ -198,14 +454,12 @@
               <a href="{% url 'notification' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-mail-fill"></i>
                 <div data-i18n="Dashboards">Notifications</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
               <li class="menu-item">
               <a href="{% url 'EmailService' %}" class="menu-link">
                 <i class="menu-icon tf-icons ri-mail-send-fill"></i>
                 <div data-i18n="Dashboards">Email Service</div>
-{#                <div class="badge bg-danger rounded-pill ms-auto">5</div>#}
               </a>
             </li>
           </ul>
@@ -220,14 +474,15 @@
           <nav
             class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
             id="layout-navbar">
+            
+            <!-- Add this hamburger button for mobile -->
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0 d-xl-none">
               <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
                 <i class="ri-menu-fill ri-24px"></i>
               </a>
             </div>
-
+            
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
               <ul class="navbar-nav flex-row align-items-center ms-auto">
                 <!-- User -->
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -283,50 +538,117 @@
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
-            
             <div class="container-xxl flex-grow-1 container-p-y">
-            <a class="btn btn-primary" href="{% url 'AddLead' %}">
-                <span class="tf-icons ri-add-circle-fill ri-16px me-1_5"></span>Add
-            </a>
-            <br>
-            <br>
-              <div class="row gy-lg-8">             
-
+              <!-- Enhanced Page Header -->
+              <div class="page-header">
+                <h1><i class="ri-group-line me-3"></i>Leads Management</h1>
+                <p>Manage and view all lead information and inquiries</p>
+              </div>
+              
+              <!-- Statistics Cards -->
+              <div class="row mb-4">
+                <div class="col-md-3">
+                  <div class="stats-card">
+                    <div class="stats-number">{{ leads|length }}</div>
+                    <div class="stats-label">Total Leads</div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="stats-card">
+                    <div class="stats-number">{{ call_leads|length|default:0 }}</div>
+                    <div class="stats-label">Call Inquiries</div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="stats-card">
+                    <div class="stats-number">{{ message_leads|length|default:0 }}</div>
+                    <div class="stats-label">Message Inquiries</div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="stats-card">
+                    <div class="stats-number">{{ visit_leads|length|default:0 }}</div>
+                    <div class="stats-label">Physical Visits</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Enhanced Add Button -->
+              <div class="mb-4">
+                <a class="btn btn-add" href="{% url 'AddLead' %}">
+                  <span class="tf-icons ri-add-circle-fill ri-16px me-2"></span>
+                  Add New Lead
+                </a>
+              </div>
+              
+              <div class="row gy-lg-8">
                 <div class="col-12">
-                    <div class="card overflow-hidden">
-                        <div class="table-responsive">
-                            <table id="user-table" class="table table-sm table-hover table-striped align-middle mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-truncate">User</th>
-                                        <th class="text-truncate">Email</th>
-                                        <th class="text-truncate">Phone</th>
-                                        <th class="text-truncate">Session</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for lead in Leads %}
-                                    <tr>
-                                        <td>
-                                            <a href="{% url 'LeadView' lead.id %}" class="d-flex align-items-center" style="text-decoration: none; color: inherit;">
-                                                <div>
-                                                    <h6 class="mb-0 text-truncate">{{ lead.name }}</h6>
-                                                </div>
-                                            </a>
-                                        </td>
-                                        <td class="text-truncate">{{ lead.email }}</td>
-                                        <td class="text-truncate">{{ lead.mobile_no }}</td>
-                                        <td class="text-truncate">
-                                            {% if lead.session %}
-                                                {{ lead.session.session_name }}
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                  <div class="card">
+                    <div class="table-container">
+                      <table id="leads-table" class="table table-hover align-middle mb-0">
+                        <thead>
+                          <tr>
+                            <th class="text-truncate">Name</th>
+                            <th class="text-truncate">Email</th>
+                            <th class="text-truncate">Phone</th>
+                            <th class="text-truncate">Area</th>
+                            <th class="text-truncate">Session</th>
+                            <th class="text-truncate">Date</th>
+                            <th class="text-truncate">Inquiry Type</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for lead in leads %}
+                          <tr>
+                            <td class="text-truncate">
+                              <div class="d-flex align-items-center">
+                                <div class="avatar avatar-sm me-3">
+                                  <div class="avatar-initial bg-primary rounded-circle">
+                                    <i class="ri-user-line"></i>
+                                  </div>
+                                </div>
+                                <div>
+                                  <h6 class="mb-0">{{ lead.name }}</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="text-truncate">
+                              <i class="ri-mail-line me-2 text-primary"></i>
+                              {{ lead.email }}
+                            </td>
+                            <td class="text-truncate">
+                              <i class="ri-phone-line me-2 text-success"></i>
+                              {{ lead.mobile_no }}
+                            </td>
+                            <td class="text-truncate">
+                              <i class="ri-map-pin-line me-2 text-info"></i>
+                              {{ lead.area_of_residence|default:"-" }}
+                            </td>
+                            <td class="text-truncate">
+                              <i class="ri-book-line me-2 text-warning"></i>
+                              {{ lead.session.session_name|default:"-" }}
+                            </td>
+                            <td class="text-truncate">
+                              <i class="ri-calendar-line me-2 text-secondary"></i>
+                              {{ lead.date|date:"M d, Y"|default:"-" }}
+                            </td>
+                            <td>
+                              {% if lead.form_of_inquiry == "Call" %}
+                                <span class="inquiry-badge inquiry-call">{{ lead.form_of_inquiry }}</span>
+                              {% elif lead.form_of_inquiry == "Message" %}
+                                <span class="inquiry-badge inquiry-message">{{ lead.form_of_inquiry }}</span>
+                              {% elif lead.form_of_inquiry == "Physical Visit" %}
+                                <span class="inquiry-badge inquiry-visit">{{ lead.form_of_inquiry }}</span>
+                              {% else %}
+                                <span class="inquiry-badge" style="background: #6c757d; color: white;">{{ lead.form_of_inquiry|default:"-" }}</span>
+                              {% endif %}
+                            </td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -359,7 +681,7 @@
     <!-- / Layout wrapper -->
     
 
-<!-- Core JS -->
+    <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/static/assets/vendor/libs/popper/popper.js"></script>
@@ -367,29 +689,6 @@
     <script src="/static/assets/vendor/libs/node-waves/node-waves.js"></script>
     <script src="/static/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="/static/assets/vendor/js/menu.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <!-- DataTable Initialization Script -->
-<script>
-    $(document).ready(function() {
-        $('#user-table').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "pageLength": 5,
-            "lengthChange": false,
-            "language": {
-                "info": "Showing _START_ to _END_ of _TOTAL_ users",
-                "paginate": {
-                    "previous": "&laquo;", 
-                    "next": "&raquo;"       
-                }
-            },
-            "dom": '<"top"f>rt<"bottom"p><"clear">' 
-        });
-    });
-</script>
 
     <!-- endbuild -->
 
@@ -401,5 +700,34 @@
 
     <!-- Page JS -->
     <script src="/static/assets/js/dashboards-analytics.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#leads-table').DataTable({
+                "pageLength": 10,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "language": {
+                    "search": "Search leads:",
+                    "paginate": {
+                        "first": "First",
+                        "last": "Last",
+                        "next": "Next",
+                        "previous": "Previous"
+                    },
+                    "info": "Showing _START_ to _END_ of _TOTAL_ leads",
+                    "infoEmpty": "Showing 0 to 0 of 0 leads",
+                    "infoFiltered": "(filtered from _MAX_ total leads)"
+                }
+            });
+        });
+    </script>
   </body>
 </html>

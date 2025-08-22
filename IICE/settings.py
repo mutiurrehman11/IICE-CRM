@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,23 +28,37 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z5l&+t4sz@zdn3igmv7v)99=i6&0o&1^lu564y$hl4btnwqgy#'
+SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-z5l&+t4sz@zdn3igmv7v)99=i6&0o&1^lu564y$hl4btnwqgy#')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
+
 # Email Setup
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'callmemutiurrehman@gmail.com'
-EMAIL_HOST_PASSWORD = 'hccm gkqb iitx wyqo'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Modern Email Service Configuration (Choose one option below)
+
 
 ALLOWED_HOSTS = ['iice-crm-1-wm3w.onrender.com']
 CSRF_TRUSTED_ORIGINS = [
     "https://iice-crm-1-wm3w.onrender.com",
 ]
+
+# Option 1: SendGrid (Recommended - Free tier: 100 emails/day)
+# Free Gmail SMTP Configuration - No third-party services needed
+# Temporarily use console backend for testing (emails will print to console)
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Using SMTP backend for actual email sending
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'callmemutiurrehman@gmail.com'
+EMAIL_HOST_PASSWORD = 'hccm gkqb iitx wyqo'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 # Application definition
 
@@ -67,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'Admin.middleware.SessionStatusMiddleware',
 ]
 
 ROOT_URLCONF = 'IICE.urls'
@@ -94,7 +112,17 @@ WSGI_APPLICATION = 'IICE.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# Use environment variables for production database configuration
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'iice',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -110,12 +138,12 @@ WSGI_APPLICATION = 'IICE.wsgi.application'
 # }
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -159,9 +187,6 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# WhiteNoise configuration for production static files
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

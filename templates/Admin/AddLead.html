@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&ampdisplay=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet" />
 
     <link rel="stylesheet" href="/static/assets/vendor/fonts/remixicon/remixicon.css" />
@@ -44,6 +44,277 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="/static/assets/js/config.js"></script>
+    
+    <style>
+        /* Enhanced Animation Framework */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Page Container */
+        .content-wrapper {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        /* Enhanced Card Styling */
+        .card {
+            animation: fadeInUp 0.8s ease-out;
+            border: none;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.8), transparent);
+            transition: left 0.8s;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        /* Enhanced Card Header */
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s infinite;
+        }
+        
+        .card-header h5 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card-header .btn {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 15px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .card-header .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        /* Enhanced Form Styling */
+        .card-body {
+            padding: 2.5rem;
+        }
+        
+        .form-floating-outline {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid #e7e7ff;
+            border-radius: 15px;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+            background: white;
+        }
+        
+        .form-floating-outline label {
+            color: #667eea;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .form-floating-outline .form-control:focus ~ label,
+        .form-floating-outline .form-select:focus ~ label {
+            color: #667eea;
+            transform: scale(0.9);
+        }
+        
+        /* Enhanced Submit Button */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 3rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            animation: bounceIn 1s ease-out 0.8s both;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-primary:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* Form Row Animation */
+        .row .col-md-6 {
+            animation: slideInRight 0.6s ease-out;
+        }
+        
+        .row .col-md-6:nth-child(even) {
+            animation-delay: 0.1s;
+        }
+        
+        .row .col-md-6:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+        
+        /* Input Icons */
+        .form-floating-outline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 1;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        
+        .form-floating-outline:focus-within::before {
+            opacity: 1;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .card-header {
+                padding: 1.5rem;
+            }
+            
+            .card-header h5 {
+                font-size: 1.5rem;
+            }
+            
+            .card-body {
+                padding: 1.5rem;
+            }
+            
+            .btn-primary {
+                padding: 0.875rem 2rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
   </head>
 
   <body>
@@ -252,30 +523,44 @@
                         {% csrf_token %}
                         <div class="row">
                           <!-- Name -->
-                          <div class="col-md-6 mb-3">
+          <div class="col-md-6 mb-3">
                             <div class="form-floating form-floating-outline">
-                              <input class="form-control" type="text" id="name" name="name" required />
-                              <label for="name">Lead Name</label>
+                              <input class="form-control" type="text" id="name" name="name" required placeholder=" " />
+                              <label for="name"><i class="ri-user-line me-2"></i>Lead Name</label>
                             </div>
                           </div>
                           
                           <!-- Email -->
                           <div class="col-md-6 mb-3">
                             <div class="form-floating form-floating-outline">
-                              <input class="form-control" type="email" id="email" name="email" required />
-                              <label for="email">Email</label>
+                              <input class="form-control" type="email" id="email" name="email" required placeholder=" " />
+                              <label for="email"><i class="ri-mail-line me-2"></i>Email Address</label>
                             </div>
                           </div>
                           
                           <!-- Phone Number -->
                           <div class="col-md-6 mb-3">
                             <div class="form-floating form-floating-outline">
-                              <input class="form-control" type="text" id="mobile_no" name="mobile_no" required />
-                              <label for="mobile_no">Phone Number</label>
+                              <input class="form-control" type="text" id="mobile_no" name="mobile_no" required placeholder=" " />
+                              <label for="mobile_no"><i class="ri-phone-line me-2"></i>Phone Number</label>
                             </div>
                           </div>
                           
+                          <!-- Area of Residence (Optional) -->
+                          <div class="col-md-6 mb-3">
+                            <div class="form-floating form-floating-outline">
+                              <input class="form-control" type="text" id="area_of_residence" name="area_of_residence" placeholder=" " />
+                              <label for="area_of_residence"><i class="ri-map-pin-line me-2"></i>Area of Residence (Optional)</label>
+                            </div>
+                          </div>
                           
+                          <!-- Date -->
+                          <div class="col-md-6 mb-3">
+                            <div class="form-floating form-floating-outline">
+                              <input class="form-control" type="date" id="date" name="date" required />
+                              <label for="date"><i class="ri-calendar-line me-2"></i>Date</label>
+                            </div>
+                          </div>
                           
                           <!-- Session -->
                           <div class="col-md-6 mb-3">
@@ -286,7 +571,7 @@
                                   <option value="{{ session.id }}">{{ session.session_name }}</option>
                                 {% endfor %}
                               </select>
-                              <label for="session">Session</label>
+                              <label for="session"><i class="ri-book-line me-2"></i>Session</label>
                             </div>
                           </div>
                           
@@ -294,17 +579,21 @@
                           <div class="col-md-6 mb-3">
                             <div class="form-floating form-floating-outline">
                               <select class="form-select" id="form_of_inquiry" name="form_of_inquiry" required>
-                                <option value="Call">Call</option>
-                                <option value="Message">Message</option>
-                                <option value="Physical Visit">Physical Visit</option>
+                                <option value="">Select inquiry type</option>
+                                <option value="Call">📞 Call</option>
+                                <option value="Message">💬 Message</option>
+                                <option value="Physical Visit">🏢 Physical Visit</option>
                               </select>
-                              <label for="form_of_inquiry">Form of Inquiry</label>
+                              <label for="form_of_inquiry"><i class="ri-question-line me-2"></i>Form of Inquiry</label>
                             </div>
                           </div>
                         </div>
                         
-                        <div class="mt-4">
-                          <button type="submit" class="btn btn-primary">Add Lead</button>
+                        <div class="mt-4 text-center">
+                          <button type="submit" class="btn btn-primary">
+                            <i class="ri-add-circle-line me-2"></i>
+                            Add New Lead
+                          </button>
                         </div>
                       </form>
                     </div>
