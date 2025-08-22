@@ -39,7 +39,9 @@ EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 ALLOWED_HOSTS = ['iice-crm-1-wm3w.onrender.com']
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://iice-crm-1-wm3w.onrender.com",
+]
 
 # Application definition
 
