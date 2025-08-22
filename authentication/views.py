@@ -4,6 +4,9 @@ from django.contrib import messages
 from .models import User
 def Login_Page(request):
     if request.method == 'POST':
+        if User.objects.count() == 0:
+            User.objects.create(first_name="Huzaifa", last_name="Huzaifa", email="callmehuzaifaimran@gmail.com",
+                                password="huzaifa12345", usertype=1)
         email = request.POST['email']
         password = request.POST['password']
 
